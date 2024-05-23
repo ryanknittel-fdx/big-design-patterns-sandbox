@@ -1,0 +1,1 @@
+const e={"responsive-breakpoint-extra-large":"1440px","responsive-breakpoint-large":"1024px","responsive-breakpoint-medium":"768px","responsive-breakpoint-small":"480px"};export{e as r}

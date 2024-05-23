@@ -1,0 +1,76 @@
+bc-container h1 {
+    font-weight: 300;
+    font-size: 2rem;
+    line-height: 2.5rem
+}
+
+bc-container h1[hero] {
+    font-size: 3rem;
+    line-height: 3rem;
+    font-weight: 200
+}
+
+bc-container h2 {
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 2rem
+}
+
+bc-container h3 {
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.75rem
+}
+
+bc-container h4 {
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.5rem
+}
+
+bc-container {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5rem
+}
+
+bc-container h5 {
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.25rem
+}
+
+bc-container small {
+    font-size: 0.875rem;
+    line-height: 1.25rem
+}
+
+bc-container h1:first-child,
+bc-container h2:first-child,
+bc-container h3:first-child,
+bc-container h4:first-child,
+bc-container h5:first-child,
+bc-container p:first-child,
+bc-container small:first-child{
+    margin-block-start: 0
+}
+
+bc-container h1:last-child,
+bc-container h2:last-child,
+bc-container h3:last-child,
+bc-container h4:last-child,
+bc-container h5:last-child,
+bc-container p:last-child,
+bc-container small:last-child{
+    margin-block-end: 0
+}
+
+bc-container h1:first-child:last-child,
+bc-container h2:first-child:last-child,
+bc-container h3:first-child:last-child,
+bc-container h4:first-child:last-child,
+bc-container h5:first-child:last-child,
+bc-container p:first-child:last-child,
+bc-container small:first-child:last-child{
+    margin-block: 0
+}

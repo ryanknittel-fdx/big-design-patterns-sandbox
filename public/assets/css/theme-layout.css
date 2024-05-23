@@ -1,0 +1,9 @@
+hr {
+    margin: 0;
+    padding: 0;
+    height: 0;
+    border-block-start: 1px solid var(--bc-color-dividers);
+    border-radius: 0;
+    border-block-end: transparent;
+    border-inline: transparent;
+}

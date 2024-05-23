@@ -1,0 +1,85 @@
+/*
+*  RESET
+*/
+
+input {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal;
+    background: none;
+    line-height: 1;
+
+    /* Browsers have different default form fonts */
+    font-size: inherit;
+    font-family: inherit;
+}
+
+/* Remove the stupid outer glow in Webkit */
+input:focus {
+    outline: 0;
+}
+
+/* Box Sizing Reset
+-----------------------------------------------*/
+
+/* All of our custom controls should be what we expect them to be */
+input {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+/* Search Input
+-----------------------------------------------*/
+
+/* Make webkit render the search input like a normal text field */
+input[type="search"] {
+    -webkit-appearance: textfield;
+    -webkit-box-sizing: content-box;
+}
+
+/* Turn off the recent search for webkit. It adds about 15px padding on the left */
+::-webkit-search-decoration {
+    display: none;
+}
+
+
+
+/**
+ *  INPUTS
+ */
+input:active{
+    border-color: var(--bc-color-input-border-selected);
+}
+
+@media(hover:hover) {
+    input:hover{
+        border-color: var(--bc-color-input-border-selected);
+    }
+}
+
+input,
+select{
+    background-color: var(--bc-color-grayscale-max);
+    color: var(--bc-color-grayscale-25);
+    padding: 0.5rem 0;
+    height: 2.125rem;
+    margin: 0;
+    font-weight: 400;
+    font-size: 1rem;
+    border-color: var(--bc-color-input-border-idle);
+    border-width: var(--bc-elements-input-border-width);
+    border-style: var(--bc-elements-input-border-style);
+    border-radius: var(--bc-border-radius);
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    text-indent: 0.5rem;
+    /* box-sizing: border-box;
+    overflow: visible;
+    outline: none; */
+}
