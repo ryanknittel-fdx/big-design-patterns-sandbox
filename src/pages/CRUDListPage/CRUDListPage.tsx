@@ -331,14 +331,13 @@ const PageCRUDList: FunctionComponent = () => {
         ]}
         closeOnClickOutside={false}
         closeOnEscKey={true}
-        header="Dialog title"
+        header="Delete item"
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         variant="dialog"
       >
         <Text>
-          Ea tempor sunt amet labore proident dolor proident commodo in
-          exercitation ea nulla sunt pariatur.
+          You are about to delete the item with SKU: {itemToDelete}. This action can't be undone
         </Text>
       </Modal>
     </>
