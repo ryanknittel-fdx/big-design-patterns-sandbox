@@ -8,6 +8,9 @@ import PageInfoIllustration from "./pages/InfoIllustrationPage/InfoIllustrationP
 import PageFeatureTags from "./pages/FeatureTagPage/FeatureTagPage";
 import PageFeaturedContent from "./pages/FeaturedContentPage/FeaturedContentPage";
 import SelectPage from "./pages/SelectPage/SelectPage";
+import { AlertsManager, createAlertsManager } from "@bigcommerce/big-design";
+
+export const alertsManager = createAlertsManager();
 
 const RouteFC = () => {
   let routes = useRoutes([
@@ -25,9 +28,12 @@ const RouteFC = () => {
 
 const App: FunctionComponent = () => {
   return (
+    <>
+    <AlertsManager manager={alertsManager} />
     <Router>
       <RouteFC />
     </Router>
+    </>
   );
 };
 
