@@ -9,6 +9,7 @@ import PageFeatureTags from "./pages/FeatureTagPage/FeatureTagPage";
 import PageFeaturedContent from "./pages/FeaturedContentPage/FeaturedContentPage";
 import SelectPage from "./pages/SelectPage/SelectPage";
 import { AlertsManager, createAlertsManager } from "@bigcommerce/big-design";
+import PageCRUDList from "./pages/CRUDListPage/CRUDListPage";
 
 export const alertsManager = createAlertsManager();
 
@@ -22,6 +23,7 @@ const RouteFC = () => {
     { path: "/info-illustration", element: <PageInfoIllustration /> },
     { path: "/feature-tag", element: <PageFeatureTags /> },
     { path: "/select-sample", element: <SelectPage />},
+    { path: "/page-crud-list", element: <PageCRUDList />}
   ]);
   return routes;
 };

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { H2, H3 } from "@bigcommerce/big-design";
+import { H2, H3, Text } from "@bigcommerce/big-design";
 import Page from "../../components/page/Page";
 import { Link } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const PageHome: FunctionComponent = () => {
       headerTitle="BigDesign pattern library"
       pageDescription={<>Code samples for our commonly used patterns.</>}
     >
-      <H2>Page Patterns</H2>
+      <H2>Single Page Patterns</H2>
       <ul>
         <li>
           <Link to={"/page-list"}>List Page</Link>
@@ -19,6 +19,12 @@ const PageHome: FunctionComponent = () => {
         </li>
         <li>
           <Link to={"/page-form"}>Form Page</Link>
+        </li>
+      </ul>
+      <H2>Sample Flows</H2>
+      <ul>
+        <li>
+        <Link to={"/page-crud-list"}>CRUD flow (Page)</Link>
         </li>
       </ul>
       <H2>Pattern Components</H2>
