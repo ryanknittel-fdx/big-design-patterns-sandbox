@@ -40,3 +40,13 @@ export const StyledProductImage = styled.div<BoxProps>`
 `;
 
 StyledProductImage.defaultProps = { theme: defaultTheme };
+
+
+export const StyledBulkActions = styled.div<BoxProps>`
+display: block;
+@media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
+  min-width: 300px;
+}
+`;
+
+StyledBulkActions.defaultProps = { theme: defaultTheme };

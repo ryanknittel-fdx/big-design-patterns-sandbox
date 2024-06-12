@@ -1,124 +1,33 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 import {
   Flex,
   FlexItem,
+  Box,
   Button,
+  ButtonGroup,
   Panel,
+  Search,
   Table,
   TableItem,
   Text,
   Dropdown,
   Modal,
-  AlertProps, 
+  AlertProps,
 } from "@bigcommerce/big-design";
 import Page from "../../components/page/Page";
 import { AddIcon, MoreHorizIcon } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
 import { alertsManager } from "../../App";
-import { StyledPanelContents, StyledProductImage } from "./CRUDListPage.styled";
+import { StyledPanelContents, StyledProductImage, StyledBulkActions } from "./CRUDListPage.styled";
+import InfoIllustration from "../../components/InfoIllustration/InfoIllustration";
 
-/**
- * Interface for defining the structure of an item in the table.
- */
-interface Item extends TableItem {
-  sku: string;
-  name: string;
-  stock: number;
-  image: string;
-  categories: string;
-  price: string;
-}
+import { DummyItem, dummyProducts as data } from "../../data/dummyProducts";
 
 /**
  * Mock data for the items to be displayed in the table.
  */
-var data: Item[] = [
-  // Sample data for items
-  {
-    sku: "649C853EC78E9",
-    image:
-      "unisex-tri-blend-t-shirt-athletic-grey-triblend-front-649c8533a9535__28840.jpg",
-    name: "US H1 2023 Hackathon T-Shirt",
-    categories: "Shirts, Shop all",
-    stock: 10,
-    price: "$27.00",
-  },
-  {
-    sku: "63F7E833D2F85",
-    image:
-      "unisex-tri-blend-t-shirt-charcoal-black-triblend-back-63f7e82d1ec00__11413.jpg",
-    name: "Built For Growth T-Shirt",
-    categories: "Shirts, Shop all",
-    stock: 77,
-    price: "$36.00",
-  },
-  {
-    sku: "63F6D66B58B96",
-    image: "stainless-steel-tumbler-white-front-63f6d6648c6bb__16236.jpg",
-    name: "City Pattern Tumbler",
-    categories: "New, Shop all",
-    stock: 6,
-    price: "$23.00",
-  },
-  {
-    sku: "63F6D301C5F1C",
-    image: "stainless-steel-tumbler-black-front-63f6d2fb75b9e__30788.jpg",
-    name: "Logo Tumbler",
-    categories: "New, Shop all",
-    stock: 3,
-    price: "$21.00",
-  },
-  {
-    sku: "63F6D0B2ADA7B",
-    image: "stainless-steel-tumbler-white-front-63f6d0ac552b9__33511.jpg",
-    name: "Patterned Tumbler",
-    categories: "New, Shop all",
-    stock: 0,
-    price: "$23.00",
-  },
-  {
-    sku: "63F6D0B2ADA7C",
-    image: "tie-dye-hat-cotton-candy-front-6283b883884fa__86520.jpg",
-    name: `Community Tie Dye Hat "Celebrity"`,
-    categories: "Baseball caps, S...",
-    stock: 0,
-    price: "$18.00",
-  },
-  {
-    sku: "626C6BABE588D",
-    image:
-      "unisex-tri-blend-t-shirt-white-fleck-triblend-front-626c6ba2622f1__53288.jpg",
-    name: "I Love Small Businesses Unisex T-Shirt",
-    categories: "Shirts, Shop All",
-    stock: 21,
-    price: "$29.00",
-  },
-  {
-    sku: "626C6AB917066",
-    image: "kiss-cut-stickers-3x3-default-626c6ab65721c__69931.jpg",
-    name: "I Love Small Businesses 3x3 Sticker",
-    categories: "Stickers, Acces...",
-    stock: 31,
-    price: "$5.00",
-  },
-  {
-    sku: "626C6A762DEF3",
-    image: "white-glossy-mug-15oz-handle-on-left-626c6a735697e__28707.webp",
-    name: "I Love Small Businesses 15 oz Mug",
-    categories: "Mugs, Accesso...",
-    stock: 23,
-    price: "$18.00",
-  },
-  {
-    sku: "621E68891BB26",
-    image: "unisex-heavy-blend-hoodie-black-front-621e6e5255811__14735.jpg",
-    name: "Team on a Mission Unisex Hoodie",
-    categories: "Hoodies, Shop...",
-    stock: 8,
-    price: "$45.00",
-  },
-];
+interface Item extends DummyItem, TableItem {}
 
 /**
  * Column definitions for the table.
@@ -167,14 +76,19 @@ const PageHeaderCTAs = (
  * PageList component - Displays a page with a list of items in a table.
  */
 const PageCRUDList: FunctionComponent = () => {
+  // NAVIGATION
   const navigate = useNavigate();
-
   const backButtonClickHandler = () => {
     navigate("/");
   };
 
+  // DATA INSTANTIATION
+  const [items, setItems] = useState(data);
+
+  // BULK ACTIONS
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
 
+  // TABLE HEADERS
   const columns = [
     {
       header: "Name",
@@ -190,22 +104,31 @@ const PageCRUDList: FunctionComponent = () => {
           </Flex>
         );
       },
+      isSortable: true,
     },
-    { header: "Sku", hash: "sku", render: ({ sku }: { sku: string }) => sku },
+    {
+      header: "Sku",
+      hash: "sku",
+      render: ({ sku }: { sku: string }) => sku,
+      isSortable: true,
+    },
     {
       header: "Categories",
       hash: "categories",
       render: ({ categories }: { categories: string }) => categories,
+      isSortable: true,
     },
     {
       header: "Stock",
       hash: "stock",
       render: ({ stock }: { stock: number }) => stock,
+      isSortable: true,
     },
     {
       header: "Price",
       hash: "price",
       render: ({ price }: { price: string }) => price,
+      isSortable: true,
     },
     {
       header: null,
@@ -221,7 +144,7 @@ const PageCRUDList: FunctionComponent = () => {
               },
               {
                 content: "Delete",
-                onItemClick: () => deleteItem(sku),
+                onItemClick: () => deleteItems([sku]),
                 hash: "delete",
                 actionType: "destructive",
               },
@@ -234,22 +157,137 @@ const PageCRUDList: FunctionComponent = () => {
           />
         );
       },
+      isSortable: true,
     },
   ];
 
-  // let's add the mock data to a state variable
-  const [items, setItems] = useState(data);
+  // DATA HANDLING
+  const [currentItems, setCurrentItems] = useState<Item[]>(items);
 
-  // let's add the delete item function
-  const deleteItem = (sku: string) => {
-    // lets fire up an alert to confirm the destructive action
-    setItemToDelete(sku);
-    setModalOpen(true);
+  const setTableItems = (themItems: any) => {
+    const maxItems = currentPage * itemsPerPage;
+    const lastItem = Math.min(maxItems, themItems.length);
+    const firstItem = Math.max(0, maxItems - itemsPerPage);
+
+    setCurrentItems(themItems.slice(firstItem, lastItem));
   };
 
+  // PAGINATION
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPageOptions] = useState([10, 20, 30]);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  const onItemsPerPageChange = (newRange: number) => {
+    setCurrentPage(1);
+    setItemsPerPage(newRange);
+  };
+  useEffect(() => {
+    setTableItems(data);
+  }, [currentPage, itemsPerPage]);
+
+  // SORTING
+  const [columnHash, setColumnHash] = useState("");
+  const [direction, setDirection] = useState<"ASC" | "DESC">("ASC");
+  const onSort = (newColumnHash: string, newDirection: "ASC" | "DESC") => {
+    setColumnHash(newColumnHash);
+    setDirection(newDirection);
+    const orderedItems = sort(items, newColumnHash, newDirection);
+    setTableItems(orderedItems);
+  };
+
+  // SEARCH
+  const [searchValue, setSearchValue] = useState("");
+  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+
+    // let's reset the items to the original data if the search value is empty
+    if (!event.target.value) {
+      setTableItems(data);
+    }
+  };
+
+  const onSearchSubmit = () => {
+    setCurrentItems(() => {
+      if (searchValue) {
+        // let's do lowercase search
+        return items.filter((item) =>
+          item.name.toLowerCase().includes(searchValue.toLowerCase())
+        );
+      }
+      return data;
+    });
+  };
+
+  // TABLE ACTIONS (DELETE ITEM)
+  const deleteItems = (skus: string[]) => {
+    // lets fire up an alert to confirm the destructive action
+    setItemsToDelete(skus);
+    setModalOpen(true);
+  };
+  // delete cofirmation modal
   const [modalOpen, setModalOpen] = useState(false);
   // let's set the item to delete in a state variable
-  const [itemToDelete, setItemToDelete] = useState('');
+  const emptySkus: string[] = [];
+  const [itemsToDelete, setItemsToDelete] = useState(emptySkus);
+
+  const deleteConfimatonHandler = () => {
+    // let's delete the item
+    setTableItems(items.filter((item) => !itemsToDelete.includes(item.sku)));
+    // empty selected items
+    setSelectedItems([]);
+    // close the modal
+    setModalOpen(false);
+
+    // let's fire up an alert of successful deletion
+    const successAlert: AlertProps = {
+      messages: [
+        {
+          text:
+            itemsToDelete.length > 1
+              ? `Items with SKUs ${itemsToDelete.join(
+                  ", "
+                )} deleted successfully`
+              : `Item with SKU ${itemsToDelete} deleted successfully`,
+        },
+      ],
+      type: "success",
+      onClose: () => null,
+    };
+
+    alertsManager.add(successAlert);
+  };
+
+  // EMPTY STATE
+  const EmptyState = (
+    <Flex
+      justifyContent="center"
+      paddingVertical="xxxLarge"
+      marginBottom="xxxLarge"
+    >
+      <InfoIllustration icon="empty">
+        <Text color="secondary60">
+          No products were found for query “{searchValue}”
+        </Text>
+      </InfoIllustration>
+    </Flex>
+  );
+
+  //BULK ACTIONS
+  const BulkActionButtons = (
+    <StyledBulkActions>
+      {selectedItems.length > 0 ? 
+      <ButtonGroup
+        actions={[
+          { text: "Delete", onClick: () => {
+            return deleteItems(selectedItems.map((item) => item.sku));
+          } },
+          { text: "Action 2" },
+          { text: "Action 3" },
+        ]}
+      />
+      : null}
+    </StyledBulkActions>
+  );
 
   return (
     <>
@@ -267,31 +305,56 @@ const PageCRUDList: FunctionComponent = () => {
       >
         <Flex flexDirection="column" flexGap={theme.spacing.xLarge}>
           <FlexItem>
-            {/**
-             * The most common way of organizing information within the BigDesign patterns is with the use of panels.
-             * In this case we only have one panel, but you can have multiple panels within a page.
-             **/}
+            {
+              //The most common way of organizing information within the BigDesign patterns is with the use of panels.
+              //In this case we only have one panel, but you can have multiple panels within a page.
+            }
             <Panel
               header="Items list"
               description="Common actions you'll create within a page"
             >
+              {
+                //search
+              }
+              <Box marginBottom="medium">
+                <Search
+                  onChange={onSearchChange}
+                  onSubmit={onSearchSubmit}
+                  value={searchValue}
+                />
+              </Box>
               <StyledPanelContents>
-                {/**
-                 * The Table component is used to display tabular data.
-                 * It allows you to display a list of items in a table format.
-                 * The table can be customized with different columns and actions.
-                 * The table also allows you to select items and perform actions on them.
-                 * In this case, the table is displaying a list of products.
-                 **/}
+                {
+                  //The Table component is used to display tabular data.
+                  //It allows you to display a list of items in a table format.
+                  //The table can be customized with different columns and actions.
+                  //The table also allows you to select items and perform actions on them.
+                  //In this case, the table is displaying a list of products.
+                }
                 <Table
                   columns={columns}
                   itemName="Products"
-                  items={items}
+                  items={currentItems}
                   keyField="sku"
+                  pagination={{
+                    currentPage,
+                    totalItems: data.length,
+                    onPageChange: setCurrentPage,
+                    itemsPerPageOptions,
+                    onItemsPerPageChange,
+                    itemsPerPage,
+                  }}
                   selectable={{
                     selectedItems,
                     onSelectionChange: setSelectedItems,
                   }}
+                  sortable={{
+                    columnHash,
+                    direction,
+                    onSort,
+                  }}
+                  emptyComponent={EmptyState}
+                  actions={BulkActionButtons}
                 />
               </StyledPanelContents>
             </Panel>
@@ -307,25 +370,7 @@ const PageCRUDList: FunctionComponent = () => {
           },
           {
             text: "Delete",
-            onClick: () => {
-              // let's delete the item
-              setItems(items.filter((item) => item.sku !== itemToDelete));
-              setModalOpen(false);
-              // let's fire up an alert of successful deletion
-
-              const successAlert: AlertProps = {
-                messages: [
-                  {
-                    text: `Item with SKU ${itemToDelete} deleted successfully`,
-                  },
-                ],
-                type: "success",
-                onClose: () => null,
-              };
-
-              alertsManager.add(successAlert);
-
-            },
+            onClick: deleteConfimatonHandler,
             actionType: "destructive",
           },
         ]}
@@ -337,7 +382,11 @@ const PageCRUDList: FunctionComponent = () => {
         variant="dialog"
       >
         <Text>
-          You are about to delete the item with SKU: {itemToDelete}. This action can't be undone
+          You are about to delete
+          {itemsToDelete.length > 1
+            ? ` items with SKUs ${itemsToDelete.join(", ")}. `
+            : ` the item with SKU ${itemsToDelete}. `}
+          This action can't be undone
         </Text>
       </Modal>
     </>
