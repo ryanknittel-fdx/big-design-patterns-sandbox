@@ -17,9 +17,14 @@ import {
 import Page from "../../components/page/Page";
 import { AddIcon, MoreHorizIcon } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 import { theme } from "@bigcommerce/big-design-theme";
 import { alertsManager } from "../../App";
-import { StyledPanelContents, StyledProductImage, StyledBulkActions } from "./CRUDListPage.styled";
+import {
+  StyledPanelContents,
+  StyledProductImage,
+  StyledBulkActions,
+} from "./CRUDListPage.styled";
 import InfoIllustration from "../../components/InfoIllustration/InfoIllustration";
 
 import { DummyItem, dummyProducts as data } from "../../data/dummyProducts";
@@ -55,28 +60,12 @@ const sort = (items: Item[], columnHash: string, direction: string) => {
 };
 
 /**
- * Page header call-to-actions (CTAs) component.
- */
-const PageHeaderCTAs = (
-  <>
-    <Button
-      iconLeft={<AddIcon />}
-      variant="primary"
-      mobileWidth="100%"
-      onClick={() => {
-        window.alert("Add item clicked");
-      }}
-    >
-      Add Item
-    </Button>
-  </>
-);
-
-/**
  * PageList component - Displays a page with a list of items in a table.
  */
 const PageCRUDList: FunctionComponent = () => {
   // NAVIGATION
+  const location = useLocation();
+
   const navigate = useNavigate();
   const backButtonClickHandler = () => {
     navigate("/");
@@ -181,9 +170,6 @@ const PageCRUDList: FunctionComponent = () => {
     setCurrentPage(1);
     setItemsPerPage(newRange);
   };
-  useEffect(() => {
-    setTableItems(data);
-  }, [currentPage, itemsPerPage]);
 
   // SORTING
   const [columnHash, setColumnHash] = useState("");
@@ -199,13 +185,12 @@ const PageCRUDList: FunctionComponent = () => {
   const [searchValue, setSearchValue] = useState("");
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
-
     // let's reset the items to the original data if the search value is empty
     if (!event.target.value) {
       setTableItems(data);
     }
   };
-
+  // search submission handler
   const onSearchSubmit = () => {
     setCurrentItems(() => {
       if (searchValue) {
@@ -257,6 +242,25 @@ const PageCRUDList: FunctionComponent = () => {
     alertsManager.add(successAlert);
   };
 
+  // ADD PRODUCT
+  const addProductHandler = () => {
+    navigate("/page-crud-add");
+  };
+
+  //HEADER CTAs
+  const PageHeaderCTAs = (
+    <>
+      <Button
+        iconLeft={<AddIcon />}
+        variant="primary"
+        mobileWidth="100%"
+        onClick={addProductHandler}
+      >
+        Add Item
+      </Button>
+    </>
+  );
+
   // EMPTY STATE
   const EmptyState = (
     <Flex
@@ -264,7 +268,13 @@ const PageCRUDList: FunctionComponent = () => {
       paddingVertical="xxxLarge"
       marginBottom="xxxLarge"
     >
-      <InfoIllustration icon="empty">
+      <InfoIllustration
+        icon="empty"
+        actionSecondary={{
+          text: "Add item",
+          onClick: addProductHandler,
+        }}
+      >
         <Text color="secondary60">
           No products were found for query “{searchValue}”
         </Text>
@@ -275,19 +285,36 @@ const PageCRUDList: FunctionComponent = () => {
   //BULK ACTIONS
   const BulkActionButtons = (
     <StyledBulkActions>
-      {selectedItems.length > 0 ? 
-      <ButtonGroup
-        actions={[
-          { text: "Delete", onClick: () => {
-            return deleteItems(selectedItems.map((item) => item.sku));
-          } },
-          { text: "Action 2" },
-          { text: "Action 3" },
-        ]}
-      />
-      : null}
+      {selectedItems.length > 0 ? (
+        <ButtonGroup
+          actions={[
+            {
+              text: "Delete",
+              onClick: () => {
+                return deleteItems(selectedItems.map((item) => item.sku));
+              },
+            },
+            { text: "Action 2" },
+            { text: "Action 3" },
+          ]}
+        />
+      ) : null}
     </StyledBulkActions>
   );
+
+  // EFFECTS
+
+  useEffect(() => {
+    // pagination
+    setTableItems(data);
+    console.log("pagination effect");
+  }, [currentPage, itemsPerPage]);
+  useEffect(() => {
+    // alerts
+    console.log("alerts effect");
+    const alert = location.state?.alert;
+    alert && alertsManager.add(alert);
+  }, [location]);
 
   return (
     <>

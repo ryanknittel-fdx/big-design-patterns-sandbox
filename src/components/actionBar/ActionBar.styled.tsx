@@ -18,6 +18,7 @@ export const StyledActionBar = styled.div<BoxProps>`
   inset-block-end: 0;
   background-color: ${({ theme }) => theme.colors.white};
   border-block-start: ${({ theme }) => theme.border.box};
+  z-index: ${({ theme }) => theme.zIndex.fixed};
 `;
 
 // Provides default theme props to ensure consistent styling if not provided externally

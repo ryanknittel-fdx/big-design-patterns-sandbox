@@ -101,10 +101,10 @@ const InfoIllustration: FunctionComponent<InfoImageProps> = ({
         {(actionPrimary || actionSecondary) && (
           <Flex justifyContent="center">
             {actionSecondary && (
-              <Button variant="secondary">{actionSecondary.text}</Button>
+              <Button variant="secondary" {...actionSecondary}>{actionSecondary.text}</Button>
             )}
             {actionPrimary && (
-              <Button variant="primary">{actionPrimary.text}</Button>
+              <Button variant="primary"{...actionPrimary}>{actionPrimary.text}</Button>
             )}
           </Flex>
         )}
