@@ -122,18 +122,20 @@ const PageCRUDList: FunctionComponent = () => {
     {
       header: null,
       hash: "actions",
-      render: ({ sku }: { sku: string }) => {
+      render: ({ id, url }: { id: number; url: string }) => {
         return (
           <Dropdown
             items={[
               {
                 content: "Edit",
-                onItemClick: (item) => item,
+                onItemClick: (item) => {
+                  navigate(`/page-crud-edit/${url}`);
+                },
                 hash: "edit",
               },
               {
                 content: "Delete",
-                onItemClick: () => deleteItems([sku]),
+                onItemClick: () => deleteItems([id]),
                 hash: "delete",
                 actionType: "destructive",
               },
@@ -204,20 +206,20 @@ const PageCRUDList: FunctionComponent = () => {
   };
 
   // TABLE ACTIONS (DELETE ITEM)
-  const deleteItems = (skus: string[]) => {
+  const deleteItems = (ids: number[]) => {
     // lets fire up an alert to confirm the destructive action
-    setItemsToDelete(skus);
+    setItemsToDelete(ids);
     setModalOpen(true);
   };
   // delete cofirmation modal
   const [modalOpen, setModalOpen] = useState(false);
   // let's set the item to delete in a state variable
-  const emptySkus: string[] = [];
-  const [itemsToDelete, setItemsToDelete] = useState(emptySkus);
+  const emptyIds: number[] = [];
+  const [itemsToDelete, setItemsToDelete] = useState(emptyIds);
 
   const deleteConfimatonHandler = () => {
     // let's delete the item
-    setTableItems(items.filter((item) => !itemsToDelete.includes(item.sku)));
+    setTableItems(items.filter((item) => !itemsToDelete.includes(item.id)));
     // empty selected items
     setSelectedItems([]);
     // close the modal
@@ -229,10 +231,12 @@ const PageCRUDList: FunctionComponent = () => {
         {
           text:
             itemsToDelete.length > 1
-              ? `Items with SKUs ${itemsToDelete.join(
-                  ", "
-                )} deleted successfully`
-              : `Item with SKU ${itemsToDelete} deleted successfully`,
+              ? `Items ${itemsToDelete
+                .map((id) => items.filter((item) => item.id === id)[0].name)
+                .join(", ")} deleted successfully`
+              : `Item ${itemsToDelete
+                .map((id) => items.filter((item) => item.id === id)[0].name)
+                .join(", ")} deleted successfully`,
         },
       ],
       type: "success",
@@ -291,7 +295,7 @@ const PageCRUDList: FunctionComponent = () => {
             {
               text: "Delete",
               onClick: () => {
-                return deleteItems(selectedItems.map((item) => item.sku));
+                return deleteItems(selectedItems.map((item) => item.id));
               },
             },
             { text: "Action 2" },
@@ -307,11 +311,9 @@ const PageCRUDList: FunctionComponent = () => {
   useEffect(() => {
     // pagination
     setTableItems(data);
-    console.log("pagination effect");
   }, [currentPage, itemsPerPage]);
   useEffect(() => {
     // alerts
-    console.log("alerts effect");
     const alert = location.state?.alert;
     alert && alertsManager.add(alert);
   }, [location]);
@@ -411,8 +413,12 @@ const PageCRUDList: FunctionComponent = () => {
         <Text>
           You are about to delete
           {itemsToDelete.length > 1
-            ? ` items with SKUs ${itemsToDelete.join(", ")}. `
-            : ` the item with SKU ${itemsToDelete}. `}
+            ? ` items ${itemsToDelete
+                .map((id) => items.filter((item) => item.id === id)[0].name)
+                .join(", ")}. `
+            : ` item ${itemsToDelete
+                .map((id) => items.filter((item) => item.id === id)[0].name)
+                .join(", ")}. `}
           This action can't be undone
         </Text>
       </Modal>

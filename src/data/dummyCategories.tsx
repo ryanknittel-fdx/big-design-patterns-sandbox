@@ -1,4 +1,10 @@
-export default [
+export interface Category {
+  id: string;
+  value: number;
+  label: string;
+  children?: Category[];
+}
+const Categories: Category[] =  [
     {
       id: '0',
       value: 0,
@@ -57,3 +63,4 @@ export default [
     },
   ];
   
+  export default Categories;

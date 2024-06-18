@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -15,11 +15,19 @@ import {
   StatefulTree,
   Text,
   Grid,
+  ProgressCircle,
 } from "@bigcommerce/big-design";
 import Page from "../../components/page/Page";
+import Scroller from "../../components/scroller/Scroller";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 import { theme } from "@bigcommerce/big-design-theme";
-import Categories from "../../data/dummyCategories";
+
+// let's import categories trhough the service instead
+import { Category } from "../../data/dummyCategories";
+import { getCategories, storeProduct, getProductByUrl } from "../../data/services";
+
+import { DummyItem } from "../../data/dummyProducts";
 
 interface DescriptionLink {
   text: string;
@@ -41,6 +49,32 @@ const CRUDAddEditPage: FunctionComponent = () => {
   const backToListingHandler = () => {
     navigate("/page-crud-list");
   };
+
+  // URL PARAMS
+  const location = useLocation();
+  const skuParam = location.pathname.split("/").pop();
+  useEffect(() => {
+    if (skuParam && skuParam!=="page-crud-add") {
+      // fetch item data from database
+      getProductByUrl(skuParam).then((data:any) => {
+        // set form data
+        // data.name && setName(data.name);
+        // data.sku && setSku(data.sku);
+        // data.categorise && setCategories(data.categories);
+        // data.stock && setStock(data.stock);
+        // data.price && setPrice(data.price);
+        
+      });
+    }
+  });
+
+  // CATEGORIES
+  const [productCats, setProductCats] = useState<Category[]>([]);
+  useEffect(() => {
+    getCategories().then((data) => {
+      setProductCats(data as Category[]);
+    });
+  }, []);
 
   // SET UP THE FORM DATA
   const [name, setName] = useState("");
@@ -195,11 +229,14 @@ const CRUDAddEditPage: FunctionComponent = () => {
 
   const storeItem = async () => {
     // store item in database
-    const fakeTiemeout = (ms = 1000) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-
-    // simulate storing item in database
-    await fakeTiemeout();
+    await storeProduct({
+      name: name,
+      sku: sku,
+      categories: categories,
+      stock: stock,
+      price: price,
+      images: images,
+    });
     if (serverError) {
       // let's simulate a server error
       return false;
@@ -218,7 +255,6 @@ const CRUDAddEditPage: FunctionComponent = () => {
 
     // let's check for form validity first
     const fv = validateForm();
-    console.log('handleSubmit', fv);
     if (fv) {
       // then submit the form
 
@@ -244,17 +280,18 @@ const CRUDAddEditPage: FunctionComponent = () => {
                   text: `Item ${name} added successfully.`,
                 },
               ],
-              type: 'success'
-            }
+              type: "success",
+            },
           },
         });
       }
 
       // let's enable action buttons
       setIsSubmitting(false);
-    } else {
-      // let's simulate a server error
-      console.log('woot')
+    }
+
+    // let's handle if we should show a server error
+    if (serverError) {
       setServerErrorVisibility(true);
     }
   };
@@ -266,10 +303,12 @@ const CRUDAddEditPage: FunctionComponent = () => {
         variant="secondary"
         onClick={backToListingHandler}
         disabled={isSubmitting}
+        mobileWidth="auto"
       >
         Cancel
       </Button>
       <Button
+        mobileWidth="auto"
         variant="primary"
         onClick={handleSubmit}
         disabled={isSubmitting}
@@ -349,14 +388,25 @@ const CRUDAddEditPage: FunctionComponent = () => {
                   >
                     Categories
                   </Text>
-                  <Box border="box" borderRadius="normal">
-                    <StatefulTree
-                      nodes={Categories}
-                      selectable="multi"
-                      iconless
-                      onSelectionChange={handleCategoriesChange}
-                    />
-                  </Box>
+                  <Scroller border="box" borderRadius="normal" width={{mobile:"100%", tablet:"415px"}} height="320px">
+                    {productCats.length > 0 && (
+                      <StatefulTree
+                        nodes={productCats}
+                        selectable="multi"
+                        iconless
+                        onSelectionChange={handleCategoriesChange}
+                      />
+                    )}
+                    {productCats.length === 0 && (
+                      <Flex
+                        alignItems="center"
+                        justifyContent="center"
+                        paddingVertical="xLarge"
+                      >
+                        <ProgressCircle size="small" />
+                      </Flex>
+                    )}
+                  </Scroller>
                 </Box>
                 <a id="priceFG"></a>
                 <FormGroup>

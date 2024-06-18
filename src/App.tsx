@@ -10,7 +10,7 @@ import PageFeaturedContent from "./pages/FeaturedContentPage/FeaturedContentPage
 import SelectPage from "./pages/SelectPage/SelectPage";
 import { AlertsManager, createAlertsManager } from "@bigcommerce/big-design";
 import PageCRUDList from "./pages/CRUDListPage/CRUDListPage";
-import PageCRUDAdd from "./pages/CRUDAddEditPage/CRUDAddEditPage";
+import PageCRUDAddEdit from "./pages/CRUDAddEditPage/CRUDAddEditPage";
 
 export const alertsManager = createAlertsManager();
 
@@ -23,9 +23,10 @@ const RouteFC = () => {
     { path: "/header", element: <PageHeader /> },
     { path: "/info-illustration", element: <PageInfoIllustration /> },
     { path: "/feature-tag", element: <PageFeatureTags /> },
-    { path: "/select-sample", element: <SelectPage />},
-    { path: "/page-crud-list", element: <PageCRUDList />},
-    { path: "/page-crud-add", element: <PageCRUDAdd />}
+    { path: "/select-sample", element: <SelectPage /> },
+    { path: "/page-crud-list", element: <PageCRUDList /> },
+    { path: "/page-crud-add", element: <PageCRUDAddEdit /> },
+    { path: "/page-crud-edit/:sku", element: <PageCRUDAddEdit /> },
   ]);
   return routes;
 };
@@ -33,10 +34,10 @@ const RouteFC = () => {
 const App: FunctionComponent = () => {
   return (
     <>
-    <AlertsManager manager={alertsManager} />
-    <Router>
-      <RouteFC />
-    </Router>
+      <AlertsManager manager={alertsManager} />
+      <Router>
+        <RouteFC />
+      </Router>
     </>
   );
 };
