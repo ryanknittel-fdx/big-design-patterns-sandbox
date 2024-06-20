@@ -1,4 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
 import {
   Box,
   Flex,
@@ -16,6 +22,7 @@ import {
   Text,
   Grid,
   ProgressCircle,
+  TreeNodeProps,
 } from "@bigcommerce/big-design";
 import Page from "../../components/page/Page";
 import Scroller from "../../components/scroller/Scroller";
@@ -23,11 +30,16 @@ import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { theme } from "@bigcommerce/big-design-theme";
 
+import { alertsManager } from "../../App";
+
 // let's import categories trhough the service instead
 import { Category } from "../../data/dummyCategories";
-import { getCategories, storeProduct, getProductByUrl } from "../../data/services";
-
-import { DummyItem } from "../../data/dummyProducts";
+import {
+  getCategories,
+  storeProduct,
+  updateProduct,
+  getProductByUrl,
+} from "../../data/services";
 
 interface DescriptionLink {
   text: string;
@@ -52,52 +64,49 @@ const CRUDAddEditPage: FunctionComponent = () => {
 
   // URL PARAMS
   const location = useLocation();
-  const skuParam = location.pathname.split("/").pop();
-  useEffect(() => {
-    if (skuParam && skuParam!=="page-crud-add") {
-      // fetch item data from database
-      getProductByUrl(skuParam).then((data:any) => {
-        // set form data
-        // data.name && setName(data.name);
-        // data.sku && setSku(data.sku);
-        // data.categorise && setCategories(data.categories);
-        // data.stock && setStock(data.stock);
-        // data.price && setPrice(data.price);
-        
-      });
-    }
-  });
+  const nameParam = location.pathname.split("/").pop();
+  const isEditPage = nameParam && nameParam !== "page-crud-add";
 
   // CATEGORIES
   const [productCats, setProductCats] = useState<Category[]>([]);
   useEffect(() => {
-    getCategories().then((data) => {
+    const fetchCategories = async () => {
+      const data = await getCategories();
       setProductCats(data as Category[]);
-    });
+    };
+    fetchCategories();
   }, []);
+
+  // fetch products
+  useEffect(() => {
+    if (isEditPage) {
+      // fetch item data from database
+      getProductByUrl(nameParam).then((data: any) => {
+        // set form data
+        data.name && setName(data.name);
+        data.sku && setSku(data.sku);
+        isEditPage &&
+          data.categories.length > 0 &&
+          setInitialCategories(data.categories);
+        data.stock && setStock(data.stock);
+        data.price && setPrice(data.price);
+      });
+    }
+  }, [nameParam]);
 
   // SET UP THE FORM DATA
   const [name, setName] = useState("");
   const [sku, setSku] = useState("");
+  const [initialCategories, setInitialCategories] = useState<Category[]>([]);
   const [categories, setCategories] = useState([]);
   const [stock, setStock] = useState(0);
   const [price, setPrice] = useState(0);
   const [images, setImages] = useState<File[]>([]);
-  const resetForm = () => {
-    setName("");
-    setSku("");
-    setCategories([]);
-    setStock(0);
-    setPrice(0.0);
-    setImages([]);
-  };
 
   // CHANGE HANDLERS
   const nameChangeHandler = (event: any) => {
     const name = event.target.value.trim();
-    if (name.length > 0) {
-      setNameError("");
-    }
+    name.length > 0 && setNameError("");
     setName(name);
   };
   const skuChangeHandler = (event: any) => {
@@ -162,7 +171,6 @@ const CRUDAddEditPage: FunctionComponent = () => {
   const [formErrorMessages, setFormErrorMessages] = useState<DescriptionLink[]>(
     []
   );
-
   const validateForm = () => {
     const nameIsValid = validateName();
     const priceIsValid = validatePrice();
@@ -228,8 +236,9 @@ const CRUDAddEditPage: FunctionComponent = () => {
   };
 
   const storeItem = async () => {
+    const storeMethod = isEditPage ? updateProduct : storeProduct;
     // store item in database
-    await storeProduct({
+    await storeMethod({
       name: name,
       sku: sku,
       categories: categories,
@@ -264,26 +273,37 @@ const CRUDAddEditPage: FunctionComponent = () => {
       // let's simulate a form submission to the server
       const stored = await storeItem();
       if (stored) {
-        // let's reset the form
-        resetForm();
-        // let's reset the form submitted state
+        // let's set the form submitted state
         setFormSubmitted(false);
         // let's enable action buttons
         setIsSubmitting(false);
 
         // navigate to listing page and trigger alert
-        return navigate("/page-crud-list", {
-          state: {
-            alert: {
-              messages: [
-                {
-                  text: `Item ${name} added successfully.`,
-                },
-              ],
-              type: "success",
+        if (isEditPage) {
+          // if it's an edit page we stay and fire up a success alert
+          return alertsManager.add({
+            messages: [
+              {
+                text: `Your changes have been saved.`,
+              },
+            ],
+            type: "success",
+          });
+        } else {
+          // if it's an add page we navigate to listing page and fire up a success alert
+          return navigate("/page-crud-list", {
+            state: {
+              alert: {
+                messages: [
+                  {
+                    text: `Item ${name} added successfully.`,
+                  },
+                ],
+                type: "success",
+              },
             },
-          },
-        });
+          });
+        }
       }
 
       // let's enable action buttons
@@ -319,9 +339,20 @@ const CRUDAddEditPage: FunctionComponent = () => {
     </>
   );
 
+  // StatefulTree props
+  const statefulTreeProps: any = useMemo(() => {
+    return {
+      nodes: productCats as any,
+      selectable: "multi",
+      iconless: true,
+      onSelectionChange: handleCategoriesChange,
+      defaultSelected: isEditPage ? initialCategories : [],
+    };
+  }, [productCats, initialCategories, handleCategoriesChange]);
+
   return (
     <Page
-      headerTitle="Add item"
+      headerTitle={isEditPage ? name : "Add item"}
       headerBackButtonLabel="Back to items list"
       onHeaderBackButtonClick={backToListingHandler}
       pageDescription={<>Description of what's going to be added.</>}
@@ -388,24 +419,36 @@ const CRUDAddEditPage: FunctionComponent = () => {
                   >
                     Categories
                   </Text>
-                  <Scroller border="box" borderRadius="normal" width={{mobile:"100%", tablet:"415px"}} height="320px">
-                    {productCats.length > 0 && (
-                      <StatefulTree
-                        nodes={productCats}
-                        selectable="multi"
-                        iconless
-                        onSelectionChange={handleCategoriesChange}
-                      />
-                    )}
-                    {productCats.length === 0 && (
-                      <Flex
-                        alignItems="center"
-                        justifyContent="center"
-                        paddingVertical="xLarge"
-                      >
-                        <ProgressCircle size="small" />
-                      </Flex>
-                    )}
+                  <Scroller
+                    border="box"
+                    borderRadius="normal"
+                    width={{ mobile: "100%", tablet: "415px" }}
+                    height="320px"
+                  >
+                    {
+                      // the category tree
+                      productCats.length > 0 && (
+                        <StatefulTree
+                          nodes={productCats as any}
+                          selectable="multi"
+                          iconless={true}
+                          onSelectionChange={handleCategoriesChange}
+                          defaultSelected={initialCategories as any}
+                        />
+                      )
+                    }
+                    {
+                      // let's show a loader while fetching categories
+                      productCats.length === 0 && (
+                        <Flex
+                          alignItems="center"
+                          justifyContent="center"
+                          paddingVertical="xLarge"
+                        >
+                          <ProgressCircle size="small" />
+                        </Flex>
+                      )
+                    }
                   </Scroller>
                 </Box>
                 <a id="priceFG"></a>

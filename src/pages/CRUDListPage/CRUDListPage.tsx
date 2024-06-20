@@ -13,6 +13,7 @@ import {
   Dropdown,
   Modal,
   AlertProps,
+  ProgressCircle,
 } from "@bigcommerce/big-design";
 import Page from "../../components/page/Page";
 import { AddIcon, MoreHorizIcon } from "@bigcommerce/big-design-icons";
@@ -27,7 +28,11 @@ import {
 } from "./CRUDListPage.styled";
 import InfoIllustration from "../../components/InfoIllustration/InfoIllustration";
 
-import { DummyItem, dummyProducts as data } from "../../data/dummyProducts";
+import { DummyItem } from "../../data/dummyProducts";
+import { getCategories, getProducts } from "../../data/services";
+import { Category } from "../../data/dummyCategories";
+import { findCategoryById } from "../../helpers/categories";
+import { formatPrice } from "../../helpers/price";
 
 /**
  * Mock data for the items to be displayed in the table.
@@ -71,9 +76,6 @@ const PageCRUDList: FunctionComponent = () => {
     navigate("/");
   };
 
-  // DATA INSTANTIATION
-  const [items, setItems] = useState(data);
-
   // BULK ACTIONS
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
 
@@ -104,8 +106,15 @@ const PageCRUDList: FunctionComponent = () => {
     {
       header: "Categories",
       hash: "categories",
-      render: ({ categories }: { categories: string }) => categories,
-      isSortable: true,
+      render: ({ categories }: { categories: number[] }) => {
+        // get category labels from a deep object and join them
+        return categories
+          .map((categoryId) => {
+            const category = findCategoryById(productCats, categoryId);
+            return category ? category.label : "";
+          })
+          .join(", ");
+      },
     },
     {
       header: "Stock",
@@ -116,7 +125,7 @@ const PageCRUDList: FunctionComponent = () => {
     {
       header: "Price",
       hash: "price",
-      render: ({ price }: { price: string }) => price,
+      render: ({ price }: { price: number }) => formatPrice(price),
       isSortable: true,
     },
     {
@@ -153,7 +162,7 @@ const PageCRUDList: FunctionComponent = () => {
   ];
 
   // DATA HANDLING
-  const [currentItems, setCurrentItems] = useState<Item[]>(items);
+  const [currentItems, setCurrentItems] = useState<Item[]>([]);
 
   const setTableItems = (themItems: any) => {
     const maxItems = currentPage * itemsPerPage;
@@ -189,20 +198,19 @@ const PageCRUDList: FunctionComponent = () => {
     setSearchValue(event.target.value);
     // let's reset the items to the original data if the search value is empty
     if (!event.target.value) {
-      setTableItems(data);
+      setTableItems(items);
     }
   };
   // search submission handler
   const onSearchSubmit = () => {
-    setCurrentItems(() => {
-      if (searchValue) {
-        // let's do lowercase search
-        return items.filter((item) =>
-          item.name.toLowerCase().includes(searchValue.toLowerCase())
-        );
-      }
-      return data;
-    });
+    if (searchValue) {
+      // let's find the items
+      const foundItems = items.filter((item) =>
+        item.name.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      // set the items
+      setCurrentItems(foundItems);
+    }
   };
 
   // TABLE ACTIONS (DELETE ITEM)
@@ -219,7 +227,9 @@ const PageCRUDList: FunctionComponent = () => {
 
   const deleteConfimatonHandler = () => {
     // let's delete the item
-    setTableItems(items.filter((item) => !itemsToDelete.includes(item.id)));
+    setTableItems(
+      items.filter((item) => !itemsToDelete.includes(item.productId))
+    );
     // empty selected items
     setSelectedItems([]);
     // close the modal
@@ -232,11 +242,17 @@ const PageCRUDList: FunctionComponent = () => {
           text:
             itemsToDelete.length > 1
               ? `Items ${itemsToDelete
-                .map((id) => items.filter((item) => item.id === id)[0].name)
-                .join(", ")} deleted successfully`
+                  .map(
+                    (id) =>
+                      items.filter((item) => item.productId === id)[0].name
+                  )
+                  .join(", ")} deleted successfully`
               : `Item ${itemsToDelete
-                .map((id) => items.filter((item) => item.id === id)[0].name)
-                .join(", ")} deleted successfully`,
+                  .map(
+                    (id) =>
+                      items.filter((item) => item.productId === id)[0].name
+                  )
+                  .join(", ")} deleted successfully`,
         },
       ],
       type: "success",
@@ -251,7 +267,85 @@ const PageCRUDList: FunctionComponent = () => {
     navigate("/page-crud-add");
   };
 
-  //HEADER CTAs
+  // EFFECTS
+
+  // fetch categories and product all at once
+
+  const [productCats, setProductCats] = useState<Category[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
+  useEffect(() => {
+    Promise.all([getCategories(), getProducts()]).then(
+      ([categories, products]) => {
+        setProductCats(categories as Category[]);
+        setItems(products as Item[]);
+        setTableItems(products as Item[]);
+      }
+    );
+  }, []);
+
+  // alerts
+  useEffect(() => {
+    const alert = location.state?.alert;
+    alert && alertsManager.add(alert);
+  }, [location]);
+
+  // PAGE ELEMENTS
+
+  // Empty state
+  const EmptyState = (
+    <Flex
+      justifyContent="center"
+      paddingVertical="xxxLarge"
+      marginBottom="xxxLarge"
+    >
+      {
+        items.length < 1 ? (
+          // if products havent been loaded, let's show a loader
+          <ProgressCircle size="large" />
+        ) : (
+          // if products have been loaded, let's show the empty
+          <InfoIllustration
+            icon="empty"
+            actionSecondary={{
+              text: "Add item",
+              onClick: addProductHandler,
+            }}
+          >
+            <Text color="secondary60">
+              {
+                // differentiate from empty search or empty products and show a loader element if the data is being fetched
+                searchValue
+                  ? `No products were found for query “${searchValue}”`
+                  : "You have no products yet."
+              }
+            </Text>
+          </InfoIllustration>
+        )
+      }
+    </Flex>
+  );
+
+  // Bulk actions
+  const BulkActionButtons = (
+    <StyledBulkActions>
+      {selectedItems.length > 0 ? (
+        <ButtonGroup
+          actions={[
+            {
+              text: "Delete",
+              onClick: () => {
+                return deleteItems(selectedItems.map((item) => item.productId));
+              },
+            },
+            { text: "Action 2" },
+            { text: "Action 3" },
+          ]}
+        />
+      ) : null}
+    </StyledBulkActions>
+  );
+
+  //header CTAs
   const PageHeaderCTAs = (
     <>
       <Button
@@ -264,59 +358,6 @@ const PageCRUDList: FunctionComponent = () => {
       </Button>
     </>
   );
-
-  // EMPTY STATE
-  const EmptyState = (
-    <Flex
-      justifyContent="center"
-      paddingVertical="xxxLarge"
-      marginBottom="xxxLarge"
-    >
-      <InfoIllustration
-        icon="empty"
-        actionSecondary={{
-          text: "Add item",
-          onClick: addProductHandler,
-        }}
-      >
-        <Text color="secondary60">
-          No products were found for query “{searchValue}”
-        </Text>
-      </InfoIllustration>
-    </Flex>
-  );
-
-  //BULK ACTIONS
-  const BulkActionButtons = (
-    <StyledBulkActions>
-      {selectedItems.length > 0 ? (
-        <ButtonGroup
-          actions={[
-            {
-              text: "Delete",
-              onClick: () => {
-                return deleteItems(selectedItems.map((item) => item.id));
-              },
-            },
-            { text: "Action 2" },
-            { text: "Action 3" },
-          ]}
-        />
-      ) : null}
-    </StyledBulkActions>
-  );
-
-  // EFFECTS
-
-  useEffect(() => {
-    // pagination
-    setTableItems(data);
-  }, [currentPage, itemsPerPage]);
-  useEffect(() => {
-    // alerts
-    const alert = location.state?.alert;
-    alert && alertsManager.add(alert);
-  }, [location]);
 
   return (
     <>
@@ -361,13 +402,13 @@ const PageCRUDList: FunctionComponent = () => {
                   //In this case, the table is displaying a list of products.
                 }
                 <Table
-                  columns={columns}
+                  columns={columns as any}
                   itemName="Products"
                   items={currentItems}
                   keyField="sku"
                   pagination={{
                     currentPage,
-                    totalItems: data.length,
+                    totalItems: items.length,
                     onPageChange: setCurrentPage,
                     itemsPerPageOptions,
                     onItemsPerPageChange,
@@ -414,10 +455,14 @@ const PageCRUDList: FunctionComponent = () => {
           You are about to delete
           {itemsToDelete.length > 1
             ? ` items ${itemsToDelete
-                .map((id) => items.filter((item) => item.id === id)[0].name)
+                .map(
+                  (id) => items.filter((item) => item.productId === id)[0].name
+                )
                 .join(", ")}. `
             : ` item ${itemsToDelete
-                .map((id) => items.filter((item) => item.id === id)[0].name)
+                .map(
+                  (id) => items.filter((item) => item.productId === id)[0].name
+                )
                 .join(", ")}. `}
           This action can't be undone
         </Text>
