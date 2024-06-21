@@ -1,8 +1,11 @@
 import { dummyProducts } from "./dummyProducts";
 import dummyCategories from "./dummyCategories";
 
+/**
+ * Dummy API calls, change them with your own real API calls
+ */
+
 export const getCategories = () => {
-  // fake async api call
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(dummyCategories);
@@ -47,4 +50,4 @@ export const getProductByUrl = (url: string | undefined) => {
       resolve(dummyProducts.find((product) => product.url === url));
     }, 200);
   });
-}
+};

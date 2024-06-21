@@ -1,9 +1,7 @@
 import React, {
   FunctionComponent,
   useEffect,
-  useMemo,
   useState,
-  useCallback,
 } from "react";
 import {
   Box,
@@ -22,7 +20,6 @@ import {
   Text,
   Grid,
   ProgressCircle,
-  TreeNodeProps,
 } from "@bigcommerce/big-design";
 import Page from "../../components/page/Page";
 import Scroller from "../../components/scroller/Scroller";
@@ -67,7 +64,7 @@ const CRUDAddEditPage: FunctionComponent = () => {
   const nameParam = location.pathname.split("/").pop();
   const isEditPage = nameParam && nameParam !== "page-crud-add";
 
-  // CATEGORIES
+  // FETCH CATEGORE TREE
   const [productCats, setProductCats] = useState<Category[]>([]);
   useEffect(() => {
     const fetchCategories = async () => {
@@ -77,10 +74,19 @@ const CRUDAddEditPage: FunctionComponent = () => {
     fetchCategories();
   }, []);
 
-  // fetch products
+  // STATE FOR FORM FIELDS
+  const [name, setName] = useState("");
+  const [sku, setSku] = useState("");
+  const [initialCategories, setInitialCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState([]);
+  const [stock, setStock] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [images, setImages] = useState<File[]>([]);
+
+  // IF EDIT PAGE, FETCH ITEM DATA
   useEffect(() => {
     if (isEditPage) {
-      // fetch item data from database
+      // fetch item data from dummy service
       getProductByUrl(nameParam).then((data: any) => {
         // set form data
         data.name && setName(data.name);
@@ -94,16 +100,7 @@ const CRUDAddEditPage: FunctionComponent = () => {
     }
   }, [nameParam]);
 
-  // SET UP THE FORM DATA
-  const [name, setName] = useState("");
-  const [sku, setSku] = useState("");
-  const [initialCategories, setInitialCategories] = useState<Category[]>([]);
-  const [categories, setCategories] = useState([]);
-  const [stock, setStock] = useState(0);
-  const [price, setPrice] = useState(0);
-  const [images, setImages] = useState<File[]>([]);
-
-  // CHANGE HANDLERS
+  // INPUT CHANGE HANDLERS
   const nameChangeHandler = (event: any) => {
     const name = event.target.value.trim();
     name.length > 0 && setNameError("");
@@ -123,7 +120,7 @@ const CRUDAddEditPage: FunctionComponent = () => {
     setImages(files);
   };
 
-  // VALIDATION
+  // INPUT VALIDATION
 
   //name
   const [nameError, setNameError] = useState("");
@@ -167,10 +164,28 @@ const CRUDAddEditPage: FunctionComponent = () => {
   };
 
   // FORM
+
+  // state to store if the form has been submitted
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  // state to handle buttons disabled state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  // state to handle fake server error
+  const [serverError, setServerError] = useState(false);
+  // state to show server error alert
+  const [showServerError, setServerErrorVisibility] = useState(false);
+  // state to store form validity
   const [formValid, setFormValid] = useState(false);
+  // state to store form error messages
   const [formErrorMessages, setFormErrorMessages] = useState<DescriptionLink[]>(
     []
   );
+
+  // handler to set simulated server error state
+  const setupServerError = (event: any) => {
+    setServerError(event.target.checked);
+  };
+
+  // form validation function
   const validateForm = () => {
     const nameIsValid = validateName();
     const priceIsValid = validatePrice();
@@ -181,7 +196,8 @@ const CRUDAddEditPage: FunctionComponent = () => {
 
     const fv = nameIsValid && priceIsValid && filesAreValid;
 
-    if (!fv) {
+    if (!fv) { // if form is not valid
+      // set the form error messages
       const errorMessages: DescriptionLink[] = [
         { text: "Please correct the form errors before submitting." },
       ];
@@ -214,30 +230,24 @@ const CRUDAddEditPage: FunctionComponent = () => {
       }
 
       setFormErrorMessages(errorMessages);
-    } else {
+    } else { // if form is valid
+      // clear form error messages
       setFormErrorMessages([]);
     }
+
+    // set form validity state
     setFormValid(fv);
+
+    // return form validity
     return fv;
   };
 
-  // state to store if the form has been submitted
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  // state to handle buttons disabled state
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // state to handle fake server error
-  const [serverError, setServerError] = useState(false);
-  // state to show server error alert
-  const [showServerError, setServerErrorVisibility] = useState(false);
-
-  const setupServerError = (event: any) => {
-    setServerError(event.target.checked);
-  };
-
+  // store item through service
   const storeItem = async () => {
+
+    // let's get the store method based on the page type
     const storeMethod = isEditPage ? updateProduct : storeProduct;
-    // store item in database
+
     await storeMethod({
       name: name,
       sku: sku,
@@ -254,6 +264,7 @@ const CRUDAddEditPage: FunctionComponent = () => {
     }
   };
 
+  // handle form submission
   const handleSubmit = async () => {
     // set server error visibiity to false
     setServerErrorVisibility(false);
@@ -338,17 +349,6 @@ const CRUDAddEditPage: FunctionComponent = () => {
       </Button>
     </>
   );
-
-  // StatefulTree props
-  const statefulTreeProps: any = useMemo(() => {
-    return {
-      nodes: productCats as any,
-      selectable: "multi",
-      iconless: true,
-      onSelectionChange: handleCategoriesChange,
-      defaultSelected: isEditPage ? initialCategories : [],
-    };
-  }, [productCats, initialCategories, handleCategoriesChange]);
 
   return (
     <Page
