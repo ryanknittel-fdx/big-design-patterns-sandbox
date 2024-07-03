@@ -11,6 +11,7 @@ import SelectPage from "./pages/SelectPage/SelectPage";
 import { AlertsManager, createAlertsManager } from "@bigcommerce/big-design";
 import PageCRUDList from "./pages/CRUDListPage/CRUDListPage";
 import PageCRUDAddEdit from "./pages/CRUDAddEditPage/CRUDAddEditPage";
+import PageAnchorNav from "./pages/AnchorNavPage/AnchorNavPage";
 
 export const alertsManager = createAlertsManager();
 
@@ -27,6 +28,7 @@ const RouteFC = () => {
     { path: "/page-crud-list", element: <PageCRUDList /> },
     { path: "/page-crud-add", element: <PageCRUDAddEdit /> },
     { path: "/page-crud-edit/:sku", element: <PageCRUDAddEdit /> },
+    { path: "/page-anchor-nav", element: <PageAnchorNav />}
   ]);
   return routes;
 };

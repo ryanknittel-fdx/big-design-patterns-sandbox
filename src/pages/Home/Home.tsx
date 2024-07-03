@@ -9,6 +9,12 @@ const PageHome: FunctionComponent = () => {
       headerTitle="BigDesign pattern library"
       pageDescription={<>Code samples for our commonly used patterns.</>}
     >
+      <H2>Sample Flows</H2>
+      <ul>
+        <li>
+          <Link to={"/page-crud-list"}>CRUD flow (Page)</Link>
+        </li>
+      </ul>
       <H2>Single Page Patterns</H2>
       <ul>
         <li>
@@ -20,11 +26,8 @@ const PageHome: FunctionComponent = () => {
         <li>
           <Link to={"/page-form"}>Form Page</Link>
         </li>
-      </ul>
-      <H2>Sample Flows</H2>
-      <ul>
         <li>
-        <Link to={"/page-crud-list"}>CRUD flow (Page)</Link>
+          <Link to={"/page-anchor-nav"}>Anchor Navigation Page</Link>
         </li>
       </ul>
       <H2>Pattern Components</H2>
