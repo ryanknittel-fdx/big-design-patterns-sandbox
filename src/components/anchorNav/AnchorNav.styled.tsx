@@ -21,6 +21,12 @@ position relative;
         inset-block-start: 0;
         width: ${anchorNavWidth};
         float: inline-start;
+        display:none;
+
+        @media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
+            display: block;
+            margin-inline-end: ${defaultTheme.spacing.xLarge};
+        }
 
         & > ul {
             list-style-type: none;
@@ -57,9 +63,11 @@ position relative;
         }
     
     }
-
-    &__element {
-        padding-inline-start: calc( ${anchorNavWidth} + ${defaultTheme.spacing.xLarge} );
+    
+    &__elements {
+        display:flex;
+        flex-direction: column;
+        gap: ${defaultTheme.spacing.xLarge};
     }
 }
 `;
