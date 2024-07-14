@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Flex, FlexItem, Text, Table } from "@bigcommerce/big-design";
-import { InfoIllustration, AdvancedPanel as Panel, Page } from "@bigcommerce-labs/patterns-sandbox";
+import { InfoIllustration, AdvancedPanel as Panel, Page } from "bigcommerce-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
 import { CopyBlock, nord as codecolor } from "react-code-blocks";

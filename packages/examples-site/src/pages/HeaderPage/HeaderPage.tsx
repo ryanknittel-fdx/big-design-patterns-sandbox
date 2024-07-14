@@ -8,7 +8,7 @@ import {
   Button,
   Table,
 } from "@bigcommerce/big-design";
-import { AdvancedPanel ,Header, Page } from "@bigcommerce-labs/patterns-sandbox";
+import { AdvancedPanel ,Header, Page } from "bigcommerce-design-patterns";
 import { AddIcon } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
 import { CopyBlock, nord as codecolor } from "react-code-blocks";

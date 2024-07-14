@@ -16,7 +16,7 @@
       "react-router": "^6.15.0",
       "react-router-dom": "^6.15.0",
       "styled-components": "^5.3.11",
-      "@bigcommerce-labs/patterns-sandbox": "workspace:*"
+      "bigcommerce-design-patterns": "workspace:*"
     },
     "devDependencies": {
       "@types/react": "^18.0.0",

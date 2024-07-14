@@ -12,7 +12,7 @@ import {
   Message,
   Checkbox,
 } from "@bigcommerce/big-design";
-import { Page } from "@bigcommerce-labs/patterns-sandbox";
+import { Page } from "bigcommerce-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
 import { alertsManager } from "../../App";

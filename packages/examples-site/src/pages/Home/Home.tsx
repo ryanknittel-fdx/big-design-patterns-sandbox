@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { H2, H3, Text } from "@bigcommerce/big-design";
-import { Page } from "@bigcommerce-labs/patterns-sandbox";
+import { Page } from "bigcommerce-design-patterns";
 import { Link } from "react-router-dom";
 
 const PageHome: FunctionComponent = () => {

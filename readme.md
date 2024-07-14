@@ -4,7 +4,7 @@ This monorepo is a sandbox environment for developing and testing BigDesign Patt
 - `examples-site` is a lighweight site that showcases usage of the patterns
 - `patterns` contains the components
 
-The patterns are published on npm under `@bigcommerce-labs/patterns-sandbox` so they can be more easily stress tested in apps before being added into the main BigDesign library.
+The patterns are published on npm under `bigcommerce-design-patterns` so they can be more easily stress tested in apps before being added into the main BigDesign library.
 
 ## Developing
 
@@ -21,4 +21,4 @@ Run the example site in dev mode by:
 pnpm run dev
 ```
 
-In dev mode, editing the components within the `patterns` package will hot-reload the example site, as the site uses the workspace to reference the `@bigcommerce-labs/patterns-sandbox` dependency.
+In dev mode, editing the components within the `patterns` package will hot-reload the example site, as the site uses the workspace to reference the `bigcommerce-design-patterns` dependency.

@@ -8,7 +8,7 @@ import {
   Panel,
   Text,
 } from "@bigcommerce/big-design";
-import { AdvancedPanel, ContextSelector, Page } from "@bigcommerce-labs/patterns-sandbox";
+import { AdvancedPanel, ContextSelector, Page } from "bigcommerce-design-patterns";
 import { AddIcon, SettingsIcon } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";

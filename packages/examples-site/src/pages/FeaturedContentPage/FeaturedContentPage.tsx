@@ -9,7 +9,7 @@ import {
   FlexItem,
   Grid,
 } from "@bigcommerce/big-design";
-import { Hero, Page } from "@bigcommerce-labs/patterns-sandbox";
+import { Hero, Page } from "bigcommerce-design-patterns";
 import { useNavigate } from "react-router";
 
 import { theme } from "@bigcommerce/big-design-theme";

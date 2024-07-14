@@ -15,7 +15,7 @@ import {
   AlertProps,
   ProgressCircle,
 } from "@bigcommerce/big-design";
-import { InfoIllustration, Page } from "@bigcommerce-labs/patterns-sandbox";
+import { InfoIllustration, Page } from "bigcommerce-design-patterns";
 import { AddIcon, MoreHorizIcon } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";

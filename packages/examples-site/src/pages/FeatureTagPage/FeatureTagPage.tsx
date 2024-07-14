@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Flex, FlexItem, Text, HR, Table } from "@bigcommerce/big-design";
-import { FeatureTag, MagicIcon, Page, AdvancedPanel as Panel } from "@bigcommerce-labs/patterns-sandbox";
+import { FeatureTag, MagicIcon, Page, AdvancedPanel as Panel } from "bigcommerce-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
 

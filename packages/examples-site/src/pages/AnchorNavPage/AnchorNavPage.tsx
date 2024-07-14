@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Panel, Text, Box } from "@bigcommerce/big-design";
-import { AnchorNav, Page } from "@bigcommerce-labs/patterns-sandbox"
+import { AnchorNav, Page } from "bigcommerce-design-patterns"
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
 

@@ -5,7 +5,7 @@ import {
   Select,
   ProgressCircle,
 } from "@bigcommerce/big-design";
-import { Page } from "@bigcommerce-labs/patterns-sandbox";
+import { Page } from "bigcommerce-design-patterns";
 
 const SmallLoader: FunctionComponent = () => {
   return <ProgressCircle size="xxSmall" />;

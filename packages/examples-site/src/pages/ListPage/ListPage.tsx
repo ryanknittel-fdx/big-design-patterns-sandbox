@@ -11,7 +11,7 @@ import {
   Text,
   Dropdown,
 } from "@bigcommerce/big-design";
-import { ContextSelector, Page } from "@bigcommerce-labs/patterns-sandbox";
+import { ContextSelector, Page } from "bigcommerce-design-patterns";
 import {
   AddIcon,
   SettingsIcon,

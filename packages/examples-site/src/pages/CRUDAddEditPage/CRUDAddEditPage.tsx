@@ -21,7 +21,7 @@ import {
   Grid,
   ProgressCircle,
 } from "@bigcommerce/big-design";
-import { Page, Scroller } from "@bigcommerce-labs/patterns-sandbox";
+import { Page, Scroller } from "bigcommerce-design-patterns";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { theme } from "@bigcommerce/big-design-theme";
