@@ -1,7 +1,7 @@
 {
   "name": "bigcommerce-design-patterns",
   "description": "Sandbox for Patterns",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "main": "./dist/cjs/index.js",
   "module": "./dist/es/index.js",
   "types": "./dist/index.d.ts",
@@ -12,8 +12,14 @@
     "build": "pnpm run build:cjs && pnpm run build:es && pnpm run build:dt",
     "build:cjs": "NODE_ENV=production BABEL_ENV=cjs babel --extensions \".ts,.tsx\" ./src --out-dir ./dist/cjs",
     "build:es": "NODE_ENV=production BABEL_ENV=es babel --extensions \".ts,.tsx\" ./src --out-dir ./dist/es",
-    "build:dt": "tsc -p tsconfig.declarations.json --emitDeclarationOnly",
-    "tsc-trace": "tsc --traceResolution"
+    "build:dt": "tsc -p tsconfig.declarations.json --emitDeclarationOnly"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/es/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public",
