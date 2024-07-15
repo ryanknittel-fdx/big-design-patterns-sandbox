@@ -81,6 +81,9 @@ importers:
       react:
         specifier: ^18.0.0
         version: 18.3.1
+      react-loading-skeleton:
+        specifier: ^3.4.0
+        version: 3.4.0(react@18.3.1)
       styled-components:
         specifier: ^5.3.11
         version: 5.3.11(@babel/core@7.24.8)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)
@@ -3162,6 +3165,11 @@ packages:
 
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
+
+  react-loading-skeleton@3.4.0:
+    resolution: {integrity: sha512-1oJEBc9+wn7BbkQQk7YodlYEIjgeR+GrRjD+QXkVjwZN7LGIcAFHrx4NhT7UHGBxNY1+zax3c+Fo6XQM4R7CgA==}
+    peerDependencies:
+      react: '>=16.8.0'
 
   react-onclickoutside@6.13.1:
     resolution: {integrity: sha512-LdrrxK/Yh9zbBQdFbMTXPp3dTSN9B+9YJQucdDu3JNKRrbdU+H+/TVONJoWtOwy4II8Sqf1y/DTI6w/vGPYW0w==}
@@ -7480,6 +7488,10 @@ snapshots:
   react-is@18.2.0: {}
 
   react-is@18.3.1: {}
+
+  react-loading-skeleton@3.4.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   react-onclickoutside@6.13.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:

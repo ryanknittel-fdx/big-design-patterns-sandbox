@@ -41,6 +41,9 @@ const PageHome: FunctionComponent = () => {
         <li>
           <Link to={"/info-illustration"}>Info Illustrations</Link>
         </li>
+        <li>
+          <Link to={"/cardgrid"}>Card Grid</Link>
+        </li>
       </ul>
     </Page>
   );
