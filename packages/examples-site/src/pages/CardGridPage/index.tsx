@@ -230,48 +230,82 @@ const CardGridPage: FunctionComponent = () => {
           </Flex>
         </Panel>
 
-        <Panel headerTitle="Props" contentsPadding={false}>
-          <Table
-            columns={[
-              {
-                header: "Prop Name",
-                hash: "propName",
-                render: ({ propName }) => propName,
-              },
-              {
-                header: "Type",
-                hash: "type",
-                render: ({ type }) => type,
-              },
-              {
-                header: "Default",
-                hash: "default",
-                render: ({ default: defaultValue }) => defaultValue.toString(),
-              },
-              {
-                header: "Description",
-                hash: "description",
-                render: ({ description }) => description,
-              },
-              {
-                header: "Required",
-                hash: "required",
-                render: ({ required }) => (required ? "Yes" : "No"),
-              },
-            ]}
-            items={[
-              {
-                propName: "items",
-                type: "array",
-                default: "-",
-                description:
-                  "Array of entries for content or actions. See above for examples for each. If you don't include the items prop, a loading skeleton will render.",
-                required: false,
-              },
-            ]}
-            stickyHeader
-          />
-        </Panel>
+        <Panel headerTitle="CardGridItem Props" contentsPadding={false}>
+  <Table
+    columns={[
+      { header: "Prop Name", hash: "propName", render: ({ propName }) => propName },
+      { header: "Type", hash: "type", render: ({ type }) => type },
+      { header: "Default", hash: "default", render: ({ default: defaultValue }) => defaultValue.toString() },
+      { header: "Description", hash: "description", render: ({ description }) => description },
+      { header: "Required", hash: "required", render: ({ required }) => (required ? "Yes" : "No") },
+    ]}
+    items={[
+      { propName: "button", type: "CardGridButtonProps", default: "-", description: "Button props for the card grid item.", required: false },
+      { propName: "heading", type: "React.ReactNode", default: "-", description: "Heading content for the card grid item.", required: false },
+      { propName: "description", type: "string", default: "-", description: "Description content for the card grid item.", required: false },
+      { propName: "format", type: "'action' | 'content'", default: "content", description: "Defines the format of the card grid item, either 'action' or 'content'.", required: false },
+      { propName: "href", type: "string", default: "-", description: "URL to navigate to when the item is clicked.", required: false },
+      { propName: "hrefTarget", type: "string", default: "_self", description: "Target attribute for the link.", required: false },
+      { propName: "onClick", type: "() => void", default: "-", description: "Function to call when the item is clicked.", required: false },
+      { propName: "icon", type: "React.ReactNode", default: "-", description: "Icon displayed in the card grid item.", required: false },
+      { propName: "skeleton", type: "CardGridSkeletonItem", default: "-", description: "Defines skeleton placeholders for loading state.", required: false },
+    ]}
+    stickyHeader
+  />
+</Panel>
+
+<Panel headerTitle="CardGridSkeletonItem" contentsPadding={false}>
+  <Table
+    columns={[
+      { header: "Prop Name", hash: "propName", render: ({ propName }) => propName },
+      { header: "Type", hash: "type", render: ({ type }) => type },
+      { header: "Default", hash: "default", render: ({ default: defaultValue }) => defaultValue.toString() },
+      { header: "Description", hash: "description", render: ({ description }) => description },
+      { header: "Required", hash: "required", render: ({ required }) => (required ? "Yes" : "No") },
+    ]}
+    items={[
+      { propName: "heading", type: "boolean", default: "false", description: "Whether to show a skeleton for the heading.", required: false },
+      { propName: "description", type: "boolean", default: "false", description: "Whether to show a skeleton for the description.", required: false },
+      { propName: "button", type: "boolean", default: "false", description: "Whether to show a skeleton for the button.", required: false },
+      { propName: "icon", type: "boolean", default: "false", description: "Whether to show a skeleton for the icon.", required: false },
+    ]}
+    stickyHeader
+  />
+</Panel>
+
+<Panel headerTitle="CardGridButtonProps" contentsPadding={false}>
+  <Table
+    columns={[
+      { header: "Prop Name", hash: "propName", render: ({ propName }) => propName },
+      { header: "Type", hash: "type", render: ({ type }) => type },
+      { header: "Default", hash: "default", render: ({ default: defaultValue }) => defaultValue.toString() },
+      { header: "Description", hash: "description", render: ({ description }) => description },
+      { header: "Required", hash: "required", render: ({ required }) => (required ? "Yes" : "No") },
+    ]}
+    items={[
+      { propName: "text", type: "string", default: "-", description: "Text to display on the button.", required: true },
+      // Include other ButtonProps if needed
+    ]}
+    stickyHeader
+  />
+</Panel>
+
+<Panel headerTitle="CardGrid Props" contentsPadding={false}>
+  <Table
+    columns={[
+      { header: "Prop Name", hash: "propName", render: ({ propName }) => propName },
+      { header: "Type", hash: "type", render: ({ type }) => type },
+      { header: "Default", hash: "default", render: ({ default: defaultValue }) => defaultValue.toString() },
+      { header: "Description", hash: "description", render: ({ description }) => description },
+      { header: "Required", hash: "required", render: ({ required }) => (required ? "Yes" : "No") },
+    ]}
+    items={[
+      { propName: "items", type: "CardGridItem[]", default: "-", description: "Array of card grid items to display.", required: false },
+      { propName: "format", type: "'action' | 'content'", default: "-", description: "Defines the format of all card grid items, either 'action' or 'content'.", required: false },
+    ]}
+    stickyHeader
+  />
+</Panel>
       </Flex>
     </Page>
   );
