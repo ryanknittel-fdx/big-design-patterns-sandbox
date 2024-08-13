@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Flex, FlexItem, Text, HR, Table } from "@bigcommerce/big-design";
+import { Flex, FlexItem, Text, HR, Table, H4 } from "@bigcommerce/big-design";
 import {
   CardGrid,
   Page,
@@ -32,8 +32,8 @@ const CardGridPage: FunctionComponent = () => {
       onHeaderBackButtonClick={() => navigate("/")}
       pageDescription={
         <Text color="secondary60">
-          Card grids are used to showcase relevant resources or actions in a condensed,
-          organized manner.
+          Card grids are used to showcase relevant resources or actions in a
+          condensed, organized manner.
         </Text>
       }
     >
@@ -44,13 +44,13 @@ const CardGridPage: FunctionComponent = () => {
               <CardGrid
                 items={[
                   {
-                    name: "Helpful resource one",
+                    heading: <H4>Helpful resource one</H4>,
                     description:
                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
                     href: "https://developer.bigcommerce.com",
                   },
                   {
-                    name: "Helpful resource two",
+                    heading: <H4>Helpful resource two</H4>,
                     description:
                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
                     href: "https://developer.bigcommerce.com",
@@ -68,13 +68,13 @@ const CardGridPage: FunctionComponent = () => {
 
 <CardGrid items={[
   {
-    name: "Helpful resource one",
+    heading: <H4>Helpful resource one</H4>,
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
     href: "https://developer.bigcommerce.com",
   },
   {
-    name: "Helpful resource two",
+    heading: <H4>>Helpful resource two<H4>,
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
     href: "https://developer.bigcommerce.com",
@@ -91,12 +91,11 @@ const CardGridPage: FunctionComponent = () => {
               <CardGrid
                 items={[
                   {
-                    name: "Grid Item 1",
-                    description:
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.",
+                    heading: <H4>Grid Item 1</H4>,
+                    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.`,
                     button: {
-                      variant: "primary",
                       text: "Connect",
+                      onClick: () => alert("Connected!"),
                     },
                     icon: (
                       <img
@@ -108,12 +107,11 @@ const CardGridPage: FunctionComponent = () => {
                     format: "action",
                   },
                   {
-                    name: "Grid Item 2",
-                    description:
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.",
+                    heading: <H4>Grid Item 2</H4>,
+                    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.`,
                     button: {
-                      variant: "primary",
                       text: "Connect",
+                      onClick: () => alert("Connected!"),
                     },
                     icon: (
                       <img
@@ -135,42 +133,46 @@ const CardGridPage: FunctionComponent = () => {
                 {...copyBlockProps}
                 text={`import { CardGrid } from "bigcommerce-design-patterns";
 
-<CardGrid items={[
-{
-    name: "Grid Item 1",
-    description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.",
-    button: {
-        variant: "primary",
+<CardGrid
+  items={[
+    {
+      heading: <H4>Grid Item 1</H4>,
+      description: \`Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.\`,
+      button: {
         text: "Connect",
-    },
-    icon: (
+        onClick: () => alert("Connected!"),
+      },
+      icon: (
         <img
-            src="https://storage.googleapis.com/bigcommerce-developers/logos/bigcommerce-dx.svg"
-            height="45"
-            width="45"
+          src=
+            "https://storage.googleapis.com/bigcommerce-developers/images/bigc-dev/bigc-inverted-black.svg"
+          height="45"
+          width="45"
         />
-    ),
-    format: "action",
-},
-{
-    name: "Grid Item 2",
-    description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.",
-    button: {
-        variant: "primary",
+      ),
+      format: "action",
+    },
+    {
+      heading: <H4>Grid Item 2</H4>,
+      description: \`Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.\`,
+      button: {
         text: "Connect",
-    },
-    icon: (
+        onClick: () => alert("Connected!"),
+      },
+      icon: (
         <img
-            src="https://storage.googleapis.com/bigcommerce-developers/logos/bigcommerce-dx.svg"
-            height="45"
-            width="45"
+          src=
+            "https://storage.googleapis.com/bigcommerce-developers/images/bigc-dev/bigc-inverted-black.svg"
+          height="45"
+          width="45"
         />
-    ),
-    format: "action",
-},
-]} />`}
+      ),
+      format: "action",
+    },
+  ]}
+/>`}
               />
             </FlexItem>
           </Flex>
@@ -178,7 +180,24 @@ const CardGridPage: FunctionComponent = () => {
         <Panel headerTitle="Example: Skeleton">
           <Flex flexDirection="column" flexGap={theme.spacing.medium}>
             <FlexItem>
-              <CardGrid />
+              <CardGrid
+                items={[
+                  {
+                    skeleton: {
+                      heading: true,
+                      description: true,
+                      button: true,
+                      icon: true,
+                    },
+                  },
+                  {
+                    skeleton: {
+                      heading: true,
+                      description: true,
+                    },
+                  },
+                ]}
+              />
             </FlexItem>
             <FlexItem>
               <HR />
@@ -188,7 +207,24 @@ const CardGridPage: FunctionComponent = () => {
                 {...copyBlockProps}
                 text={`import { CardGrid } from "bigcommerce-design-patterns";
 
-<CardGrid />`}
+<CardGrid
+  items={[
+    {
+      skeleton: {
+        heading: true,
+        description: true,
+        button: true,
+        icon: true,
+      }
+    },
+    {
+      skeleton: {
+        heading: true,
+        description: true,
+      }
+    }
+  ]}
+/>`}
               />
             </FlexItem>
           </Flex>
@@ -228,7 +264,8 @@ const CardGridPage: FunctionComponent = () => {
                 propName: "items",
                 type: "array",
                 default: "-",
-                description: "Array of entries for content or actions. See above for examples for each. If you don't include the items prop, a loading skeleton will render.",
+                description:
+                  "Array of entries for content or actions. See above for examples for each. If you don't include the items prop, a loading skeleton will render.",
                 required: false,
               },
             ]}
