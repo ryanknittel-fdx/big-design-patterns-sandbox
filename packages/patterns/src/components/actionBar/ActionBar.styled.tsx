@@ -1,7 +1,17 @@
 import { theme as defaultTheme } from "@bigcommerce/big-design-theme";
 import styled from "styled-components";
 import { BoxProps } from "@bigcommerce/big-design";
-import { pageMaxWidth } from "../../big-design-theme-extras/StyleDefinitions";
+import { pageMaxWidth, pageWideMaxWidth } from "../../big-design-theme-extras/StyleDefinitions";
+
+// add the wide breakpoint definition to the theme
+const moddedTheme = {
+  ...defaultTheme,
+  breakpoints: {
+    ...defaultTheme.breakpoints,
+    wide: "1500px",
+  },
+};
+
 
 /**
  * Styled component for the action bar.
@@ -46,6 +56,10 @@ export const StyledActionBarContents = styled.div<BoxProps>`
 
   @media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
     padding-inline: ${({ theme }) => theme.spacing.xxLarge};
+  }
+  
+  @media (min-width: ${moddedTheme.breakpoints.wide}) {
+    max-width: ${pageWideMaxWidth};
   }
 `;
 
