@@ -1,7 +1,16 @@
 import { theme as defaultTheme } from "@bigcommerce/big-design-theme";
 import styled from "styled-components";
 import { BoxProps } from "@bigcommerce/big-design";
-import { pageMaxWidth } from "../../big-design-theme-extras/StyleDefinitions";
+import { pageMaxWidth, pageWideMaxWidth } from "../../big-design-theme-extras/StyleDefinitions";
+
+// add the wide breakpoint definition to the theme
+const moddedTheme = {
+  ...defaultTheme,
+  breakpoints: {
+    ...defaultTheme.breakpoints,
+    wide: "1500px",
+  },
+};
 
 export const StyledPage = styled.div<BoxProps>`
   /* We use the global font definitions */
@@ -33,6 +42,9 @@ export const StyledPage = styled.div<BoxProps>`
     @media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
       padding: ${({ theme }) => theme.spacing.xxLarge};
     }
+    @media (min-width: ${moddedTheme.breakpoints.wide}) {
+      max-width: ${pageWideMaxWidth};
+    }
   }
 
   /* when creating a page for a featured hero content, we set the page background color to transparent, as it ill be taken care of by a svg asset that a page wrapper will provide */
@@ -47,4 +59,4 @@ export const StyledPage = styled.div<BoxProps>`
   }
 `;
 
-StyledPage.defaultProps = { theme: defaultTheme };
+StyledPage.defaultProps = { theme: moddedTheme };
