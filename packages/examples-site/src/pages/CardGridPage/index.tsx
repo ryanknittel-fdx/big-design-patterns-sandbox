@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Flex, FlexItem, Text, HR, Table, H4 } from "@bigcommerce/big-design";
+import { Flex, FlexItem, Text, HR, Table, H4, H3 } from "@bigcommerce/big-design";
 import {
   CardGrid,
   Page,
@@ -179,25 +179,13 @@ const CardGridPage: FunctionComponent = () => {
         </Panel>
         <Panel headerTitle="Example: Skeleton">
           <Flex flexDirection="column" flexGap={theme.spacing.medium}>
+            <H3>Default</H3>
             <FlexItem>
-              <CardGrid
-                items={[
-                  {
-                    skeleton: {
-                      heading: true,
-                      description: true,
-                      button: true,
-                      icon: true,
-                    },
-                  },
-                  {
-                    skeleton: {
-                      heading: true,
-                      description: true,
-                    },
-                  },
-                ]}
-              />
+              <CardGrid />
+            </FlexItem>
+            <H3>Content and action cards</H3>
+            <FlexItem>
+              <CardGrid items={[{format:"content"},{format:"action"}]}/>
             </FlexItem>
             <FlexItem>
               <HR />
@@ -207,24 +195,11 @@ const CardGridPage: FunctionComponent = () => {
                 {...copyBlockProps}
                 text={`import { CardGrid } from "bigcommerce-design-patterns";
 
-<CardGrid
-  items={[
-    {
-      skeleton: {
-        heading: true,
-        description: true,
-        button: true,
-        icon: true,
-      }
-    },
-    {
-      skeleton: {
-        heading: true,
-        description: true,
-      }
-    }
-  ]}
-/>`}
+// Default
+<CardGrid />
+
+// Content and action cards
+<CardGrid items={[{format:"content"},{format:"action"}]}/>`}
               />
             </FlexItem>
           </Flex>
@@ -248,26 +223,6 @@ const CardGridPage: FunctionComponent = () => {
       { propName: "hrefTarget", type: "string", default: "_self", description: "Target attribute for the link.", required: false },
       { propName: "onClick", type: "() => void", default: "-", description: "Function to call when the item is clicked.", required: false },
       { propName: "icon", type: "React.ReactNode", default: "-", description: "Icon displayed in the card grid item.", required: false },
-      { propName: "skeleton", type: "CardGridSkeletonItem", default: "-", description: "Defines skeleton placeholders for loading state.", required: false },
-    ]}
-    stickyHeader
-  />
-</Panel>
-
-<Panel headerTitle="CardGridSkeletonItem" contentsPadding={false}>
-  <Table
-    columns={[
-      { header: "Prop Name", hash: "propName", render: ({ propName }) => propName },
-      { header: "Type", hash: "type", render: ({ type }) => type },
-      { header: "Default", hash: "default", render: ({ default: defaultValue }) => defaultValue.toString() },
-      { header: "Description", hash: "description", render: ({ description }) => description },
-      { header: "Required", hash: "required", render: ({ required }) => (required ? "Yes" : "No") },
-    ]}
-    items={[
-      { propName: "heading", type: "boolean", default: "false", description: "Whether to show a skeleton for the heading.", required: false },
-      { propName: "description", type: "boolean", default: "false", description: "Whether to show a skeleton for the description.", required: false },
-      { propName: "button", type: "boolean", default: "false", description: "Whether to show a skeleton for the button.", required: false },
-      { propName: "icon", type: "boolean", default: "false", description: "Whether to show a skeleton for the icon.", required: false },
     ]}
     stickyHeader
   />
