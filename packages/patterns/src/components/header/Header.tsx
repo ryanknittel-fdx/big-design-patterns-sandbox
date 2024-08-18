@@ -20,7 +20,7 @@ export interface BackButtonProps {
  * BackButton component, used for navigating back.
  * @param {BackButtonProps} props - Props for the BackButton component.
  */
-const BackButton: FunctionComponent<BackButtonProps> = ({
+export const BackButton: FunctionComponent<BackButtonProps> = ({
   onBackButtonClick,
   backButtonLabel = "Back",
 }) => {

@@ -11,7 +11,7 @@ import { StyledFeatureTag } from "./FeatureTag.styled";
  */
 export interface FeatureTagProps {
   label: string;
-  icon: ReactNode;
+  icon?: ReactNode;
   tabIndex?: number;
   isActive?: boolean;
 }

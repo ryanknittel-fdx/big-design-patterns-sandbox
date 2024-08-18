@@ -13,6 +13,7 @@ import PageCRUDList from "./pages/CRUDListPage/CRUDListPage";
 import PageCRUDAddEdit from "./pages/CRUDAddEditPage/CRUDAddEditPage";
 import PageAnchorNav from "./pages/AnchorNavPage/AnchorNavPage";
 import CardGridPage from "./pages/CardGridPage";
+import InstallScreenPage from "./pages/InstallScreenPage";
 
 export const alertsManager = createAlertsManager();
 
@@ -30,7 +31,8 @@ const RouteFC = () => {
     { path: "/page-crud-add", element: <PageCRUDAddEdit /> },
     { path: "/page-crud-edit/:sku", element: <PageCRUDAddEdit /> },
     { path: "/page-anchor-nav", element: <PageAnchorNav />},
-    { path: "/cardgrid", element: <CardGridPage />}
+    { path: "/card-grid", element: <CardGridPage />},
+    { path: "/install-screen", element: <InstallScreenPage />}
   ]);
   return routes;
 };

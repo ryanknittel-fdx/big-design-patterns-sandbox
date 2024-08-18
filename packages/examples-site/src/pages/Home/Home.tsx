@@ -42,7 +42,10 @@ const PageHome: FunctionComponent = () => {
           <Link to={"/info-illustration"}>Info Illustrations</Link>
         </li>
         <li>
-          <Link to={"/cardgrid"}>Card Grid</Link>
+          <Link to={"/card-grid"}>Card Grid</Link>
+        </li>
+        <li>
+          <Link to={"/install-screen"}>Install Screen</Link>
         </li>
       </ul>
     </Page>

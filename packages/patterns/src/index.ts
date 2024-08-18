@@ -9,6 +9,7 @@ export * from './components/featureTag/FeatureTag';
 export * from './components/header/Header';
 export * from './components/hero/Hero';
 export * from './components/InfoIllustration/InfoIllustration';
+export * from './components/InstallScreen';
 export * from './components/MagicIcon/MagicIcon';
 export * from './components/page/Page';
 export * from './components/pageBackground/PageBackground';
