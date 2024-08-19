@@ -1,5 +1,13 @@
 import React, { FunctionComponent } from "react";
-import { Flex, FlexItem, Text, HR, Table, H4, H3 } from "@bigcommerce/big-design";
+import {
+  Flex,
+  FlexItem,
+  Text,
+  HR,
+  Table,
+  H4,
+  H3,
+} from "@bigcommerce/big-design";
 import {
   CardGrid,
   Page,
@@ -89,6 +97,7 @@ const CardGridPage: FunctionComponent = () => {
           <Flex flexDirection="column" flexGap={theme.spacing.medium}>
             <FlexItem>
               <CardGrid
+                format="action"
                 items={[
                   {
                     heading: <H4>Grid Item 1</H4>,
@@ -104,7 +113,6 @@ const CardGridPage: FunctionComponent = () => {
                         width="45"
                       />
                     ),
-                    format: "action",
                   },
                   {
                     heading: <H4>Grid Item 2</H4>,
@@ -120,7 +128,6 @@ const CardGridPage: FunctionComponent = () => {
                         width="45"
                       />
                     ),
-                    format: "action",
                   },
                 ]}
               />
@@ -134,6 +141,7 @@ const CardGridPage: FunctionComponent = () => {
                 text={`import { CardGrid } from "bigcommerce-design-patterns";
 
 <CardGrid
+  format="action"
   items={[
     {
       heading: <H4>Grid Item 1</H4>,
@@ -151,7 +159,6 @@ const CardGridPage: FunctionComponent = () => {
           width="45"
         />
       ),
-      format: "action",
     },
     {
       heading: <H4>Grid Item 2</H4>,
@@ -169,7 +176,6 @@ const CardGridPage: FunctionComponent = () => {
           width="45"
         />
       ),
-      format: "action",
     },
   ]}
 />`}
@@ -179,13 +185,15 @@ const CardGridPage: FunctionComponent = () => {
         </Panel>
         <Panel headerTitle="Example: Skeleton">
           <Flex flexDirection="column" flexGap={theme.spacing.medium}>
-            <H3>Default</H3>
+            <H3>Content skeleton</H3>
             <FlexItem>
               <CardGrid />
             </FlexItem>
-            <H3>Content and action cards</H3>
+            <H3>Action skeleton</H3>
             <FlexItem>
-              <CardGrid items={[{format:"content"},{format:"action"}]}/>
+              <CardGrid
+                format="action"
+              />
             </FlexItem>
             <FlexItem>
               <HR />
@@ -195,72 +203,188 @@ const CardGridPage: FunctionComponent = () => {
                 {...copyBlockProps}
                 text={`import { CardGrid } from "bigcommerce-design-patterns";
 
-// Default
+// Content skeletons
 <CardGrid />
 
-// Content and action cards
-<CardGrid items={[{format:"content"},{format:"action"}]}/>`}
+// Action skeletons
+<CardGrid format="action"/>`}
               />
             </FlexItem>
           </Flex>
         </Panel>
 
         <Panel headerTitle="CardGridItem Props" contentsPadding={false}>
-  <Table
-    columns={[
-      { header: "Prop Name", hash: "propName", render: ({ propName }) => propName },
-      { header: "Type", hash: "type", render: ({ type }) => type },
-      { header: "Default", hash: "default", render: ({ default: defaultValue }) => defaultValue.toString() },
-      { header: "Description", hash: "description", render: ({ description }) => description },
-      { header: "Required", hash: "required", render: ({ required }) => (required ? "Yes" : "No") },
-    ]}
-    items={[
-      { propName: "button", type: "CardGridButtonProps", default: "-", description: "Button props for the card grid item.", required: false },
-      { propName: "heading", type: "React.ReactNode", default: "-", description: "Heading content for the card grid item.", required: false },
-      { propName: "description", type: "string", default: "-", description: "Description content for the card grid item.", required: false },
-      { propName: "format", type: "'action' | 'content'", default: "content", description: "Defines the format of the card grid item, either 'action' or 'content'.", required: false },
-      { propName: "href", type: "string", default: "-", description: "URL to navigate to when the item is clicked.", required: false },
-      { propName: "hrefTarget", type: "string", default: "_self", description: "Target attribute for the link.", required: false },
-      { propName: "onClick", type: "() => void", default: "-", description: "Function to call when the item is clicked.", required: false },
-      { propName: "icon", type: "React.ReactNode", default: "-", description: "Icon displayed in the card grid item.", required: false },
-    ]}
-    stickyHeader
-  />
-</Panel>
+          <Table
+            columns={[
+              {
+                header: "Prop Name",
+                hash: "propName",
+                render: ({ propName }) => propName,
+              },
+              { header: "Type", hash: "type", render: ({ type }) => type },
+              {
+                header: "Default",
+                hash: "default",
+                render: ({ default: defaultValue }) => defaultValue.toString(),
+              },
+              {
+                header: "Description",
+                hash: "description",
+                render: ({ description }) => description,
+              },
+              {
+                header: "Required",
+                hash: "required",
+                render: ({ required }) => (required ? "Yes" : "No"),
+              },
+            ]}
+            items={[
+              {
+                propName: "button",
+                type: "CardGridButtonProps",
+                default: "-",
+                description: "Button props for the card grid item.",
+                required: false,
+              },
+              {
+                propName: "heading",
+                type: "React.ReactNode",
+                default: "-",
+                description: "Heading content for the card grid item.",
+                required: false,
+              },
+              {
+                propName: "description",
+                type: "string",
+                default: "-",
+                description: "Description content for the card grid item.",
+                required: false,
+              },
+              {
+                propName: "format",
+                type: "'action' | 'content'",
+                default: "content",
+                description:
+                  "Defines the format of the card grid item, either 'action' or 'content'.",
+                required: false,
+              },
+              {
+                propName: "href",
+                type: "string",
+                default: "-",
+                description: "URL to navigate to when the item is clicked.",
+                required: false,
+              },
+              {
+                propName: "hrefTarget",
+                type: "string",
+                default: "_self",
+                description: "Target attribute for the link.",
+                required: false,
+              },
+              {
+                propName: "onClick",
+                type: "() => void",
+                default: "-",
+                description: "Function to call when the item is clicked.",
+                required: false,
+              },
+              {
+                propName: "icon",
+                type: "React.ReactNode",
+                default: "-",
+                description: "Icon displayed in the card grid item.",
+                required: false,
+              },
+            ]}
+            stickyHeader
+          />
+        </Panel>
 
-<Panel headerTitle="CardGridButtonProps" contentsPadding={false}>
-  <Table
-    columns={[
-      { header: "Prop Name", hash: "propName", render: ({ propName }) => propName },
-      { header: "Type", hash: "type", render: ({ type }) => type },
-      { header: "Default", hash: "default", render: ({ default: defaultValue }) => defaultValue.toString() },
-      { header: "Description", hash: "description", render: ({ description }) => description },
-      { header: "Required", hash: "required", render: ({ required }) => (required ? "Yes" : "No") },
-    ]}
-    items={[
-      { propName: "text", type: "string", default: "-", description: "Text to display on the button.", required: true },
-      // Include other ButtonProps if needed
-    ]}
-    stickyHeader
-  />
-</Panel>
+        <Panel headerTitle="CardGridButtonProps" contentsPadding={false}>
+          <Table
+            columns={[
+              {
+                header: "Prop Name",
+                hash: "propName",
+                render: ({ propName }) => propName,
+              },
+              { header: "Type", hash: "type", render: ({ type }) => type },
+              {
+                header: "Default",
+                hash: "default",
+                render: ({ default: defaultValue }) => defaultValue.toString(),
+              },
+              {
+                header: "Description",
+                hash: "description",
+                render: ({ description }) => description,
+              },
+              {
+                header: "Required",
+                hash: "required",
+                render: ({ required }) => (required ? "Yes" : "No"),
+              },
+            ]}
+            items={[
+              {
+                propName: "text",
+                type: "string",
+                default: "-",
+                description: "Text to display on the button.",
+                required: true,
+              },
+              // Include other ButtonProps if needed
+            ]}
+            stickyHeader
+          />
+        </Panel>
 
-<Panel headerTitle="CardGrid Props" contentsPadding={false}>
-  <Table
-    columns={[
-      { header: "Prop Name", hash: "propName", render: ({ propName }) => propName },
-      { header: "Type", hash: "type", render: ({ type }) => type },
-      { header: "Default", hash: "default", render: ({ default: defaultValue }) => defaultValue.toString() },
-      { header: "Description", hash: "description", render: ({ description }) => description },
-      { header: "Required", hash: "required", render: ({ required }) => (required ? "Yes" : "No") },
-    ]}
-    items={[
-      { propName: "items", type: "CardGridItem[]", default: "-", description: "Array of card grid items to display.", required: false },
-      { propName: "format", type: "'action' | 'content'", default: "-", description: "Defines the format of all card grid items, either 'action' or 'content'.", required: false },
-    ]}
-    stickyHeader
-  />
-</Panel>
+        <Panel headerTitle="CardGrid Props" contentsPadding={false}>
+          <Table
+            columns={[
+              {
+                header: "Prop Name",
+                hash: "propName",
+                render: ({ propName }) => propName,
+              },
+              { header: "Type", hash: "type", render: ({ type }) => type },
+              {
+                header: "Default",
+                hash: "default",
+                render: ({ default: defaultValue }) => defaultValue.toString(),
+              },
+              {
+                header: "Description",
+                hash: "description",
+                render: ({ description }) => description,
+              },
+              {
+                header: "Required",
+                hash: "required",
+                render: ({ required }) => (required ? "Yes" : "No"),
+              },
+            ]}
+            items={[
+              {
+                propName: "items",
+                type: "CardGridItem[]",
+                default: "[{},{}]",
+                description: "Array of card grid items to display. Defaults to two empty objects for skeleton rendering",
+                required: false,
+              },
+              {
+                propName: "format",
+                type: "'action' | 'content'",
+                default: "content",
+                description:
+                  "Defines the format of all card grid items, either 'action' or 'content'.",
+                required: false,
+              },
+            ]}
+            stickyHeader
+          />
+        </Panel>
       </Flex>
     </Page>
   );

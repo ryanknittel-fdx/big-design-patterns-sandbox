@@ -5,22 +5,46 @@ import { GridProps, GridItemProps, ButtonProps } from "@bigcommerce/big-design";
 import { ChevronRightIcon } from "@bigcommerce/big-design-icons";
 import { StyledCardGridItem } from "./styled";
 
+/**
+ * Interface for button props used within the CardGridItem component.
+ * Extends BigDesign's ButtonProps.
+ */
 export interface CardGridButtonProps extends ButtonProps {
+  /** Text to be displayed inside the button */
   text: string;
 }
 
-export interface CardGridItem extends GridItemProps {
+/**
+ * Interface for props used in the CardGridItem component.
+ * Extends BigDesign's GridItemProps.
+ */
+export interface CardGridItemProps extends GridItemProps {
+  /** Optional button configuration */
   button?: CardGridButtonProps;
+  /** Heading content, can be a string or React node */
   heading?: React.ReactNode;
+  /** Description text */
   description?: string;
+  /** Format of the item, either 'action' or 'content' */
   format?: "action" | "content";
+  /** Optional hyperlink URL */
   href?: string;
+  /** Target attribute for the hyperlink */
   hrefTarget?: string;
+  /** Click handler for the item */
   onClick?: () => void;
+  /** Optional icon to be displayed */
   icon?: React.ReactNode;
 }
 
-export function CardGridItem({
+/**
+ * CardGridItem component renders an individual item within a grid.
+ * It can be formatted as either an "action" or "content" item with optional loading states.
+ *
+ * @param {CardGridItemProps} props - The props for the CardGridItem component.
+ * @returns {JSX.Element} The rendered CardGridItem component.
+ */
+export const CardGridItem: React.FC<CardGridItemProps> = ({
   button,
   heading,
   description,
@@ -30,24 +54,18 @@ export function CardGridItem({
   onClick,
   icon,
   ...gridItemProps
-}: CardGridItem) {
-  // let's define the html structure of the contents first
-  let contents = null;
+}) => {
+  let contents: React.ReactNode = null;
 
-  // let's define the default button props if any
-  let buttonProps = {};
+  const buttonProps = button
+    ? {
+        variant: "secondary",
+        ...button,
+      }
+    : {};
 
-  if (button) {
-    buttonProps = {
-      variant: "secondary",
-      ...button,
-    };
-  }
-
-  // define if it's still in loading state, by checking if any of the item content props are not defined
   const isLoading = !heading && !description && !button && !icon;
 
-  // THE CARD CONTENTS
   const theIcon = isLoading ? (
     <Skeleton width={45} height={45} />
   ) : (
@@ -81,8 +99,6 @@ export function CardGridItem({
   );
 
   if (format === "action") {
-    // AN ACTION CARD
-
     contents = (
       <>
         <Flex flexGap="16px" flexDirection="row">
@@ -94,9 +110,6 @@ export function CardGridItem({
       </>
     );
   } else {
-    // A CONTENT CARD
-
-    // let's prepare the contents
     const theChevron = isLoading ? (
       <Skeleton width={24} height={24} />
     ) : (
@@ -115,7 +128,6 @@ export function CardGridItem({
       </>
     );
 
-    // determine if it's a link to render the hyperlink tag, otherwise render a div
     contents = href ? (
       <a
         className="card-grid__item-link"
@@ -130,7 +142,6 @@ export function CardGridItem({
     );
   }
 
-  // render
   return (
     <StyledCardGridItem
       className={`card-grid__item${href ? "--link" : ""}`}
@@ -142,30 +153,48 @@ export function CardGridItem({
       {contents}
     </StyledCardGridItem>
   );
-}
+};
 
-// define an interface for the CardGrid component
+/**
+ * Interface for props used in the CardGrid component.
+ * Extends BigDesign's GridProps.
+ */
 export interface CardGridProps extends GridProps {
-  items?: CardGridItem[];
+  /** Array of items to be rendered within the grid */
+  items?: CardGridItemProps[];
+  /** Format of all grid items, either 'content' or 'action' */
   format?: "content" | "action";
 }
 
-export function CardGrid({ items = [{}], format, ...gridProps }: CardGridProps) {
-  // define if the colums have been set from the frid props and if not apply the default values
+/**
+ * CardGrid component renders a grid of items, each formatted as either 'action' or 'content'.
+ * It also manages default grid settings for columns and gaps.
+ *
+ * @param {CardGridProps} props - The props for the CardGrid component.
+ * @returns {JSX.Element} The rendered CardGrid component.
+ */
+export const CardGrid: React.FC<CardGridProps> = ({
+  items = [{}, {}],
+  format = "content",
+  ...gridProps
+}) => {
   const gridColumns = gridProps.gridColumns || {
     mobile: "repeat(1, 1fr)",
     tablet: "repeat(2, 1fr)",
   };
-  // define if the gap has been set from the frid props and if not apply the default values
+
   const gridGap = gridProps.gridGap || "16px";
-  gridProps = { ...gridProps, gridColumns: gridColumns, gridGap: gridGap };
+
+  gridProps = { ...gridProps, gridColumns, gridGap };
+
   return (
     items && (
       <Grid {...gridProps}>
-        {items.map((item, i) => (
-          <CardGridItem key={i} format={format} {...item} />
-        ))}
+        {items.map((item, i) => {
+          item.format = format;
+          return <CardGridItem key={i} format={format} {...item} />;
+        })}
       </Grid>
     )
   );
-}
+};
