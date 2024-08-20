@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import {
   Box,
   Flex,
@@ -24,8 +24,9 @@ interface SlideData {
 }
 
 interface InstallScreenProps {
-  backButtonLabel: string;
-  onBackButtonClick: () => void;
+  backButtonComponent?: ReactNode;
+  backButtonLabel?: string;
+  onBackButtonClick?: () => void;
   logoUrl: string;
   headerTitle: string;
   headerLink: {
@@ -48,6 +49,7 @@ interface InstallScreenProps {
 }
 
 export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
+  backButtonComponent,
   backButtonLabel,
   onBackButtonClick,
   logoUrl,
@@ -68,12 +70,19 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
         gridGap="30px"
       >
         <GridItem>
-          <Box>
-            <BackButton
-              backButtonLabel={backButtonLabel}
-              onBackButtonClick={onBackButtonClick}
-            />
-          </Box>
+          {backButtonLabel && (
+            <Box>
+              <BackButton
+                backButtonLabel={backButtonLabel}
+                onBackButtonClick={onBackButtonClick}
+              />
+            </Box>
+          )}
+          {backButtonComponent && (
+            <Box>
+              {backButtonComponent}
+            </Box>
+          )}
           <Flex flexGap="20px" marginTop="small">
             <FlexItem>
               <Box

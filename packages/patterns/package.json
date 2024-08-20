@@ -1,7 +1,7 @@
 {
   "name": "bigcommerce-design-patterns",
   "description": "Sandbox for Patterns",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "main": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "files": [
@@ -26,7 +26,7 @@
     "@bigcommerce/big-design-theme": "^0.19.2",
     "embla-carousel": "8.1.8",
     "embla-carousel-react": "^8.1.8",
-    "react": "^18.0.0",
+    "react": "^18.3.1",
     "react-loading-skeleton": "^3.4.0",
     "styled-components": "^5.3.11"
   },
@@ -37,7 +37,7 @@
     "@babel/preset-env": "^7.24.4",
     "@babel/preset-react": "^7.12.1",
     "@babel/preset-typescript": "^7.15.0",
-    "@types/react": "^18.0.0",
+    "@types/react": "^18.3.1",
     "@types/styled-components": "^5.1.26",
     "babel-jest": "^29.0.2",
     "babel-plugin-styled-components": "^2.0.7",
