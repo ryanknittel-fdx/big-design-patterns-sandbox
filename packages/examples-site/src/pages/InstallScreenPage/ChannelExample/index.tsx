@@ -9,29 +9,30 @@ export const InstallScreenChannelExample = () => {
       onBackButtonClick={() => {
         window.alert("Back button clicked");
       }}
-      logoUrl="https://placeholderurl.com/logo.png" // Replace with actual logo URL
-      headerTitle="Page Title"
+      logoUrl="/assets/images/icons/bigc-inverted-black.svg"
+      headerTitle="Catalyst"
       headerLink={{
         text: "BigCommerce",
         url: "#",
       }}
       headerDescription="Fully composable storefront using React components"
       featureTags={[
-        { label: "Storefront", icon: <MagicIcon /> },
-        { label: "Composable", icon: <MagicIcon /> },
+        { label: "Fully composable", icon: <MagicIcon /> },
+        { label: "High performance", icon: <MagicIcon /> },
+        { label: "Supported by BigCommerce", icon: <MagicIcon /> },
       ]}
       slideData={[
         {
-          text: "skyline",
-          img: "https://storage.googleapis.com/bigcommerce-developers/images/demo_images/catalyst-demo-screen.png",
+          alt: "skyline",
+          imageUrl: "/assets/images/demo/catalyst-demo-screen.png",
         },
         {
-          text: "r35",
-          img: "https://storage.googleapis.com/bigcommerce-developers/images/demo_images/makeswift-demo-screen.png",
+          alt: "r35",
+          imageUrl: "/assets/images/demo/makeswift-demo-screen.png",
         },
         {
-          text: "custom",
-          img: "https://storage.googleapis.com/bigcommerce-developers/images/demo_images/makeswift-demo-screen.png",
+          alt: "custom",
+          imageUrl: "/assets/images/demo/catalyst-demo-screen.png",
         },
       ]}
       about="Our newest storefront solution gives you more flexibility to build how you choose. Catalyst offers unparalleled scalability and performance, enabling swift global expansion with multi-lingual capabilities and research-backed shopper experiences optimized for high conversion rates. Its robust infrastructure ensures your e-commerce platform is always reliable, providing a seamless customer experience that drives growth and revenue."
@@ -47,15 +48,8 @@ export const InstallScreenChannelExample = () => {
             "Enhance your marketing efforts with Catalyst's integrated Makeswift visual editor, allowing you to create engaging content effortlessly & without touching code.",
         },
       ]}
-      tags={[
-        "Fully composable",
-        "Composable",
-        "Technical precision",
-        "React components",
-        "Next.js",
-      ]}
-      panelHeader="Your Panel Header" // Replace with actual panel header
-      panelContent={<ChannelCard />} // Replace with actual panel content
+      panelHeader="Create a new Catalyst Storefront"
+      panelContent={<ChannelCard />}
     />
   );
 };

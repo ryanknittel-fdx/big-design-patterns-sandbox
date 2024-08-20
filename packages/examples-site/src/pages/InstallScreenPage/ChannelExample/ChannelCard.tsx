@@ -3,12 +3,21 @@ import {
   Box,
   Button,
   Fieldset,
+  Form,
   FormGroup,
   Input,
   Radio,
   Select,
 } from "@bigcommerce/big-design";
-import { CheckIcon, CloseIcon } from "@bigcommerce/big-design-icons";
+import styled from "styled-components";
+
+const FullWidthButton = styled(Button)`
+  span,
+  button {
+    min-width: 100%;
+    background-color: white;
+  }
+`;
 
 const ChannelCard = () => {
   const [formData, setFormData] = useState({
@@ -40,70 +49,74 @@ const ChannelCard = () => {
 
   return (
     <>
-      <FormGroup>
-        <Input
-          name="storefrontName"
-          label="Storefront name"
-          onChange={handleInputChange}
-          onBlur={validateStorefrontName}
-          placeholder="Enter a name for your storefront"
-          type="text"
-          required
-          value={formData.storefrontName}
-          error={storefrontNameError}
-        />
-      </FormGroup>
-
-      <FormGroup>
-        <Select
-          name="storefrontLanguage"
-          description="Set the base language for shopper facing content."
-          filterable={true}
-          label="Language"
-          maxHeight={300}
-          onOptionChange={handleLanguageChange}
-          options={[
-            { value: "en-US", content: "English (en-US)" },
-            { value: "es-MX", content: "Spanish (en-MX)" },
-          ]}
-          placement="bottom-start"
-          required
-          value={formData.storefrontLanguage}
-        />
-      </FormGroup>
-
-      <Fieldset legend="Import product data">
+      <Form fullWidth onSubmit={(evt) => {evt.preventDefault()}}>
         <FormGroup>
-          <Radio
-            name="createSampleProducts"
-            radioGroup="createSampleProducts"
-            checked={formData.createSampleProducts === "sample-data"}
-            label="Use sample data"
+          <Input
+            name="storefrontName"
+            label="Storefront name"
             onChange={handleInputChange}
-            value="sample-data"
-          />
-          <Radio
-            name="createSampleProducts"
-            radioGroup="createSampleProducts"
-            checked={formData.createSampleProducts === "existing-channel"}
-            label="Import from existing channel"
-            onChange={handleInputChange}
-            value="existing-channel"
+            onBlur={validateStorefrontName}
+            placeholder="Enter a name for your storefront"
+            type="text"
+            required
+            value={formData.storefrontName}
+            error={storefrontNameError}
           />
         </FormGroup>
-      </Fieldset>
 
-      <Box marginTop="xxLarge">
-        <>
-          <Button
-            type="submit"
-            variant="primary"
-            isLoading={formData.isLoading}
-          >
-            Create
-          </Button>
-        </>
-      </Box>
+        <FormGroup>
+          <Select
+            name="storefrontLanguage"
+            description="Set the base language for shopper facing content."
+            filterable={true}
+            label="Language"
+            maxHeight={300}
+            onOptionChange={handleLanguageChange}
+            options={[
+              { value: "en-US", content: "English (en-US)" },
+              { value: "es-MX", content: "Spanish (en-MX)" },
+            ]}
+            placement="bottom-start"
+            required
+            value={formData.storefrontLanguage}
+          />
+        </FormGroup>
+
+        <Fieldset legend="Import product data">
+          <FormGroup>
+            <Radio
+              name="createSampleProducts"
+              radioGroup="createSampleProducts"
+              checked={formData.createSampleProducts === "sample-data"}
+              label="Use sample data"
+              onChange={handleInputChange}
+              value="sample-data"
+            />
+            <Radio
+              name="createSampleProducts"
+              radioGroup="createSampleProducts"
+              checked={formData.createSampleProducts === "existing-channel"}
+              label="Import from existing channel"
+              onChange={handleInputChange}
+              value="existing-channel"
+            />
+          </FormGroup>
+        </Fieldset>
+
+        <Box marginTop="xxLarge">
+          <>
+            <FormGroup>
+              <FullWidthButton
+                type="submit"
+                variant="primary"
+                isLoading={formData.isLoading}
+              >
+                Create
+              </FullWidthButton>
+            </FormGroup>
+          </>
+        </Box>
+      </Form>
     </>
   );
 };

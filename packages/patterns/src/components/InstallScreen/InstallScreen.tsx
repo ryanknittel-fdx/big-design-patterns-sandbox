@@ -16,18 +16,11 @@ import { Page } from "../page/Page";
 import { FeatureTag } from "../featureTag/FeatureTag";
 import { BackButton, Header } from "../header/Header";
 
-import EmblaCarousel from './Carousel'
-
-const slides = [
-  { imageUrl: "https://storage.googleapis.com/bigcommerce-developers/images/demo_images/makeswift-demo-screen.png", alt: "Description of image 1" },
-  { imageUrl: "https://storage.googleapis.com/bigcommerce-developers/images/demo_images/catalyst-demo-screen.png", alt: "Description of image 2" },
-  { imageUrl: "https://storage.googleapis.com/bigcommerce-developers/images/demo_images/makeswift-demo-screen.png", alt: "Description of image 3" },
-  // Add more slides as needed
-];
+import EmblaCarousel from "./Carousel";
 
 interface SlideData {
-  text: string;
-  img: string;
+  alt: string;
+  imageUrl: string;
 }
 
 interface InstallScreenProps {
@@ -50,7 +43,6 @@ interface InstallScreenProps {
     title: string;
     description: string;
   }>;
-  tags: string[];
   panelHeader: string;
   panelContent: ReactNode;
 }
@@ -66,14 +58,13 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
   slideData,
   about,
   benefits,
-  tags,
   panelHeader,
   panelContent,
 }) => {
   return (
     <Page featureBg={true}>
       <Grid
-        gridColumns={{ mobile: "1fr", tablet: "minmax(0, 4fr) 3fr" }}
+        gridColumns={{ mobile: "1fr", desktop: "minmax(0px, 4fr) 425px" }}
         gridGap="30px"
       >
         <GridItem>
@@ -87,12 +78,15 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
             <FlexItem>
               <Box
                 style={{
-                  background: "#FFF0BF",
-                  border: "1px dashed #E58F17",
+                  backgroundColor: "#FFFFFF",
                   width: "100px",
                   height: "100px",
+                  padding: "2rem",
                   backgroundImage: `url(${logoUrl})`,
-                  backgroundSize: "cover",
+                  backgroundSize: "60px",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  borderRadius: "6px",
                 }}
               ></Box>
             </FlexItem>
@@ -114,12 +108,16 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
           </Flex>
 
           <Flex flexDirection="column" flexGap="24px">
-            <Box>
-              <HR />
-            </Box>
-            <Box>
-            <EmblaCarousel slides={slides} options={{ loop: false }} />
-            </Box>
+            {slideData && (
+              <>
+                <Box>
+                  <HR />
+                </Box>
+                <Box>
+                  <EmblaCarousel slides={slideData} options={{ loop: false }} />
+                </Box>
+              </>
+            )}
             <Box>
               <HR />
             </Box>
@@ -136,11 +134,6 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                 </Text>
               ))}
             </Box>
-            <Flex flexGap="4px">
-              {tags.map((tag, index) => (
-                <FeatureTag key={index} label={tag} />
-              ))}
-            </Flex>
           </Flex>
         </GridItem>
         <Box>

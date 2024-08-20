@@ -7,8 +7,8 @@ export const StyledFeatureTag = styled.div<BoxProps>`
   gap: ${({ theme }) => theme.spacing.xxSmall};
   justify-content: center;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.secondary20};
-  color: ${({ theme }) => theme.colors.secondary60};
+  background-color: ${({ theme }) => theme.colors.primary20};
+  color: ${({ theme }) => theme.colors.primary};
   fill: ${({ theme }) => theme.colors.secondary60};
   padding-inline: ${({ theme }) => theme.spacing.xSmall};
   padding-block: calc(${({ theme }) => theme.spacing.xSmall} / 4);
@@ -28,7 +28,7 @@ export const StyledFeatureTag = styled.div<BoxProps>`
   &:hover {
     color: ${({ theme }) => theme.colors.primary60};
     fill: ${({ theme }) => theme.colors.primary40};
-    background-color: ${({ theme }) => theme.colors.primary20};
+    background-color: ${({ theme }) => theme.colors.secondary20};
   }
 
   &:focus {

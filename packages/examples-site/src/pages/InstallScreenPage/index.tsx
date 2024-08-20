@@ -87,8 +87,9 @@ export const InstallScreenAppExample = () => {
       }}
       headerDescription="Fully composable storefront using React components"
       featureTags={[
-        { label: "Storefront", icon: <MagicIcon /> },
-        { label: "Composable", icon: <MagicIcon /> },
+        { label: "Fully composable", icon: <MagicIcon /> },
+        { label: "High performance", icon: <MagicIcon /> },
+        { label: "Supported by BigCommerce", icon: <MagicIcon /> },
       ]}
       slideData={[
         {
@@ -116,13 +117,6 @@ export const InstallScreenAppExample = () => {
           description:
             "Enhance your marketing efforts with Catalyst's integrated Makeswift visual editor, allowing you to create engaging content effortlessly & without touching code.",
         },
-      ]}
-      tags={[
-        "Fully composable",
-        "Composable",
-        "Technical precision",
-        "React components",
-        "Next.js",
       ]}
       panelHeader="Your Panel Header" // Replace with actual panel header
       panelContent={<AppCard />} // Replace with actual panel content
