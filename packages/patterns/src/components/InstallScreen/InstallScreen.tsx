@@ -44,7 +44,7 @@ interface InstallScreenProps {
     title: string;
     description: string;
   }>;
-  panelHeader: string;
+  panelHeader?: string;
   panelContent: ReactNode;
 }
 
