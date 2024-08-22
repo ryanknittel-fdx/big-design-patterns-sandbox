@@ -8,7 +8,7 @@ import {
   Button,
   Table,
 } from "@bigcommerce/big-design";
-import { AdvancedPanel ,Header, Page } from "bigcommerce-design-patterns";
+import { AdvancedPanel, Header, Page } from "bigcommerce-design-patterns";
 import { AddIcon } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
 import { CopyBlock, nord as codecolor } from "react-code-blocks";
@@ -69,6 +69,75 @@ const PageHeader: FunctionComponent = () => {
 />`}
           />
         </FlexItem>
+
+        <FlexItem backgroundColor={"white"} shadow="raised" padding={"large"}>
+          <H3 marginBottom={"none"}>Header with badge</H3>
+          <Text>
+            To illustrate a specific characteristic or status of a page.
+          </Text>
+          <Box
+            border={"box"}
+            padding={"xxLarge"}
+            backgroundColor="secondary10"
+            marginBottom="xLarge"
+          >
+            {/* Sample start */}
+            <Header
+              headerTitle="Page Title"
+              headerBackButtonLabel="Back to listing"
+              onHeaderBackButtonClick={() => {
+                window.alert("Back button clicked");
+              }}
+              headerBadge={{ variant: "success", label: "New" }}
+            />
+            {/* Sample end */}
+          </Box>
+          <CopyBlock
+            {...copyBlockProps}
+            text={`<Header
+    headerTitle="Page Title"
+    headerBackButtonLabel="Back to listing"
+    onHeaderBackButtonClick={() => {
+        window.alert("Back button clicked");
+    }}
+    headerBadge={{ variant: "success", label: "New" }}
+/>`}
+          />
+        </FlexItem>
+
+        <FlexItem backgroundColor={"white"} shadow="raised" padding={"large"}>
+          <H3 marginBottom={"none"}>Header with icon</H3>
+          <Text>To add branding on headers, mainly for app integrations.</Text>
+          <Box
+            border={"box"}
+            padding={"xxLarge"}
+            backgroundColor="secondary10"
+            marginBottom="xLarge"
+          >
+            {/* Sample start */}
+            <Header
+              headerTitle="Page Title"
+              headerBackButtonLabel="Back to listing"
+              onHeaderBackButtonClick={() => {
+                window.alert("Back button clicked");
+              }}
+              headerIcon={<img src="./assets/images/bc-logo-mark.svg" />}
+            />
+            {/* Sample end */}
+          </Box>
+          <CopyBlock
+            {...copyBlockProps}
+            text={`<Header
+    headerTitle="Page Title"
+    headerBackButtonLabel="Back to listing"
+    onHeaderBackButtonClick={() => {
+        window.alert("Back button clicked");
+    }}
+    headerIcon={<img src="./assets/images/bc-logo-mark.svg" />}
+/>`}
+          />
+        </FlexItem>
+
         <FlexItem backgroundColor={"white"} shadow="raised" padding={"large"}>
           <H3 marginBottom={"none"}>Header with additional description</H3>
           <Text>
@@ -162,14 +231,9 @@ The header description
           />
         </FlexItem>
         <FlexItem>
-          <AdvancedPanel headerTitle="Props" contentsPadding={false}>
+          <AdvancedPanel headerTitle="Back button props" contentsPadding={false}>
             <Table
               columns={[
-                {
-                  header: "Component",
-                  hash: "component",
-                  render: ({ component }) => component,
-                },
                 {
                   header: "Prop Name",
                   hash: "propName",
@@ -199,7 +263,6 @@ The header description
               ]}
               items={[
                 {
-                  component: "BackButton",
                   propName: "children",
                   type: "ReactNode",
                   default: "-",
@@ -207,7 +270,6 @@ The header description
                   required: false,
                 },
                 {
-                  component: "BackButton",
                   propName: "backButtonLabel",
                   type: "string",
                   default: '"Back"',
@@ -215,23 +277,58 @@ The header description
                   required: false,
                 },
                 {
-                  component: "BackButton",
                   propName: "onBackButtonClick",
                   type: "Function",
                   default: "-",
                   description: "Callback triggered on back button click.",
                   required: false,
                 },
+              ]}
+              stickyHeader
+            />
+          </AdvancedPanel>
+        </FlexItem>
+
+        <FlexItem>
+          <AdvancedPanel headerTitle="Header props" contentsPadding={false}>
+            <Table
+              columns={[
                 {
-                  component: "Header",
+                  header: "Prop Name",
+                  hash: "propName",
+                  render: ({ propName }) => propName,
+                },
+                {
+                  header: "Type",
+                  hash: "type",
+                  render: ({ type }) => type,
+                },
+                {
+                  header: "Default",
+                  hash: "default",
+                  render: ({ default: defaultValue }) =>
+                    defaultValue ? defaultValue.toString() : "-",
+                },
+                {
+                  header: "Description",
+                  hash: "description",
+                  render: ({ description }) => description,
+                },
+                {
+                  header: "Required",
+                  hash: "required",
+                  render: ({ required }) => (required ? "Yes" : "No"),
+                },
+              ]}
+              items={[
+                {
                   propName: "headerTitle",
                   type: "string",
                   default: "-",
                   description: "Title displayed in the header.",
-                  required: true,
+                  required: false,
                 },
                 {
-                  component: "Header",
                   propName: "headerBackButtonLabel",
                   type: "string",
                   default: "-",
@@ -240,7 +337,6 @@ The header description
                   required: false,
                 },
                 {
-                  component: "Header",
                   propName: "onHeaderBackButtonClick",
                   type: "Function",
                   default: "-",
@@ -249,7 +345,6 @@ The header description
                   required: false,
                 },
                 {
-                  component: "Header",
                   propName: "headerCTAs",
                   type: "ReactNode",
                   default: "-",
@@ -258,7 +353,6 @@ The header description
                   required: false,
                 },
                 {
-                  component: "Header",
                   propName: "children",
                   type: "ReactNode",
                   default: "-",
@@ -267,12 +361,26 @@ The header description
                   required: false,
                 },
                 {
-                  component: "Header",
                   propName: "isMain",
                   type: "boolean",
                   default: "true",
                   description:
                     "Determines if the main header style should be applied.",
+                  required: false,
+                },
+                {
+                  propName: "headerBadge",
+                  type: "BadgeProps",
+                  default: "-",
+                  description:
+                    "Badge component props to be displayed next to the title.",
+                  required: false,
+                },
+                {
+                  propName: "headerIcon",
+                  type: "ReactNode",
+                  default: "-",
+                  description: "Icon to be displayed next to the header title.",
                   required: false,
                 },
               ]}
