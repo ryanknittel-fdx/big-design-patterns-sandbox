@@ -4,14 +4,15 @@ importers:
 
   .:
     specifiers:
-      lerna: ^8.1.6
+      lerna: ^8.1.7
     devDependencies:
       lerna: 8.1.7
 
   packages/examples-site:
     specifiers:
-      '@bigcommerce/big-design': ^1.0.0
+      '@bigcommerce/big-design': ^1.4.1
       '@bigcommerce/big-design-icons': ^0.24.0
+      '@bigcommerce/big-design-patterns': ^1.1.0
       '@bigcommerce/big-design-theme': ^0.19.2
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -27,8 +28,9 @@ importers:
       typescript: ^4.1.2
       vite: ^5.2.11
     dependencies:
-      '@bigcommerce/big-design': 1.2.0_6pyc7jrdjxurnikcrlwfthk3ny
+      '@bigcommerce/big-design': 1.4.1_6pyc7jrdjxurnikcrlwfthk3ny
       '@bigcommerce/big-design-icons': 0.24.0_dnjx7irwkcgzjrivfe23bb65te
+      '@bigcommerce/big-design-patterns': 1.1.0_jt44kkusaggemobyyfhxhrhzoa
       '@bigcommerce/big-design-theme': 0.19.2_dnjx7irwkcgzjrivfe23bb65te
       bigcommerce-design-patterns: link:../patterns
       react: 18.3.1
@@ -1551,20 +1553,6 @@ packages:
       styled-components: 5.3.11_di3tpremhdgh64qy2khc2omqwa
     dev: false
 
-  /@bigcommerce/big-design-icons/1.0.1_dnjx7irwkcgzjrivfe23bb65te:
-    resolution: {integrity: sha512-3Y4jRf0rqomiqKWLX1jkkG75q0ryuzoMXVej3UjwGMMF/HL9vXW+zj19UpdAFwQRMDCmSIfIYNgwUtGvgbFTFA==}
-    peerDependencies:
-      react: ^18.0.0
-      react-dom: ^18.0.0
-      styled-components: ^5.3.5
-    dependencies:
-      '@babel/runtime': 7.24.8
-      '@bigcommerce/big-design-theme': 1.0.1_dnjx7irwkcgzjrivfe23bb65te
-      react: 18.3.1
-      react-dom: 18.3.1_react@18.3.1
-      styled-components: 5.3.11_nnrd3gsncyragczmpvfhocinkq
-    dev: false
-
   /@bigcommerce/big-design-icons/1.0.1_g5nfolokmvb2kc2bvitj3hdp7m:
     resolution: {integrity: sha512-3Y4jRf0rqomiqKWLX1jkkG75q0ryuzoMXVej3UjwGMMF/HL9vXW+zj19UpdAFwQRMDCmSIfIYNgwUtGvgbFTFA==}
     peerDependencies:
@@ -1576,6 +1564,39 @@ packages:
       '@bigcommerce/big-design-theme': 1.0.1_g5nfolokmvb2kc2bvitj3hdp7m
       react: 18.3.1
       styled-components: 5.3.11_di3tpremhdgh64qy2khc2omqwa
+    dev: false
+
+  /@bigcommerce/big-design-icons/1.0.3_dnjx7irwkcgzjrivfe23bb65te:
+    resolution: {integrity: sha512-nfAGYrUy8Nj64HRx2OBi+uefX64Er3c+oLW0i3eZzXKPguAQz1MiTZcfTlKf3gcllxKdiIhOcxvAY386ka6NsA==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+      styled-components: ^5.3.5
+    dependencies:
+      '@babel/runtime': 7.24.8
+      '@bigcommerce/big-design-theme': 1.1.0_dnjx7irwkcgzjrivfe23bb65te
+      react: 18.3.1
+      react-dom: 18.3.1_react@18.3.1
+      styled-components: 5.3.11_nnrd3gsncyragczmpvfhocinkq
+    dev: false
+
+  /@bigcommerce/big-design-patterns/1.1.0_jt44kkusaggemobyyfhxhrhzoa:
+    resolution: {integrity: sha512-H+ecBzpJfHY1G+bDMtkgd66eOthC3vSZHmm7PtUsYgs+6iTvLsO84I5gMGKy2eM1FABPrl/TrJ19XqkI2OBhQA==}
+    peerDependencies:
+      '@bigcommerce/big-design': ^1.4.1
+      '@bigcommerce/big-design-icons': ^1.0.3
+      '@bigcommerce/big-design-theme': ^1.1.0
+      react: ^18.0.0
+      react-dom: ^18.0.0
+      styled-components: ^5.3.5
+    dependencies:
+      '@babel/runtime': 7.24.8
+      '@bigcommerce/big-design': 1.4.1_6pyc7jrdjxurnikcrlwfthk3ny
+      '@bigcommerce/big-design-icons': 0.24.0_dnjx7irwkcgzjrivfe23bb65te
+      '@bigcommerce/big-design-theme': 0.19.2_dnjx7irwkcgzjrivfe23bb65te
+      react: 18.3.1
+      react-dom: 18.3.1_react@18.3.1
+      styled-components: 5.3.11_nnrd3gsncyragczmpvfhocinkq
     dev: false
 
   /@bigcommerce/big-design-theme/0.19.2_dnjx7irwkcgzjrivfe23bb65te:
@@ -1605,20 +1626,6 @@ packages:
       styled-components: 5.3.11_di3tpremhdgh64qy2khc2omqwa
     dev: false
 
-  /@bigcommerce/big-design-theme/1.0.1_dnjx7irwkcgzjrivfe23bb65te:
-    resolution: {integrity: sha512-7cV6qaUYed2dcN14K6AmThGoBS4o7yFo8yc5+7dN8vu2fVK0A0N3Z6CXbB3o215JdFUk3J6EDLFIj6PaXyg5Ww==}
-    peerDependencies:
-      react: ^18.0.0
-      react-dom: ^18.0.0
-      styled-components: ^5.3.5
-    dependencies:
-      '@babel/runtime': 7.24.8
-      polished: 4.3.1
-      react: 18.3.1
-      react-dom: 18.3.1_react@18.3.1
-      styled-components: 5.3.11_nnrd3gsncyragczmpvfhocinkq
-    dev: false
-
   /@bigcommerce/big-design-theme/1.0.1_g5nfolokmvb2kc2bvitj3hdp7m:
     resolution: {integrity: sha512-7cV6qaUYed2dcN14K6AmThGoBS4o7yFo8yc5+7dN8vu2fVK0A0N3Z6CXbB3o215JdFUk3J6EDLFIj6PaXyg5Ww==}
     peerDependencies:
@@ -1632,33 +1639,18 @@ packages:
       styled-components: 5.3.11_di3tpremhdgh64qy2khc2omqwa
     dev: false
 
-  /@bigcommerce/big-design/1.2.0_6pyc7jrdjxurnikcrlwfthk3ny:
-    resolution: {integrity: sha512-7SQ6aDNbh3wHTiRkGQ+6ysMrkbcnK5X5MIEKd9VkZqown/uSoa5Tt58Tf4jL6bIQb1npygWWolUHrYEMQmEY0A==}
+  /@bigcommerce/big-design-theme/1.1.0_dnjx7irwkcgzjrivfe23bb65te:
+    resolution: {integrity: sha512-OYOe1wk1Rq+oBfPDZyduOvqJvJ5eviAdGWyZHq6q32Cpa23AAFeuxyrQe58LO0uop/IhckMJgi7t+OgH9RhReQ==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
       styled-components: ^5.3.5
     dependencies:
       '@babel/runtime': 7.24.8
-      '@bigcommerce/big-design-icons': 1.0.1_dnjx7irwkcgzjrivfe23bb65te
-      '@bigcommerce/big-design-theme': 1.0.1_dnjx7irwkcgzjrivfe23bb65te
-      '@popperjs/core': 2.11.8
-      '@types/react-datepicker': 6.2.0_nnrd3gsncyragczmpvfhocinkq
-      date-fns: 3.6.0
-      downshift: 9.0.6_react@18.3.1
-      focus-trap: 7.5.4
       polished: 4.3.1
       react: 18.3.1
-      react-beautiful-dnd: 13.1.1_nnrd3gsncyragczmpvfhocinkq
-      react-datepicker: 6.9.0_nnrd3gsncyragczmpvfhocinkq
       react-dom: 18.3.1_react@18.3.1
-      react-popper: 2.3.0_k46i3rdtqabbepls5b256fuiee
       styled-components: 5.3.11_nnrd3gsncyragczmpvfhocinkq
-      zustand: 4.5.4_3vdbhqr2ncalcx7opnshezpx3q
-    transitivePeerDependencies:
-      - '@types/react'
-      - immer
-      - react-native
     dev: false
 
   /@bigcommerce/big-design/1.2.0_tjfzkqeenh5xeevqi7q3j55oty:
@@ -1682,6 +1674,35 @@ packages:
       react-datepicker: 6.9.0_react@18.3.1
       react-popper: 2.3.0_u5vz6tveof5l46unymgmu4jyp4
       styled-components: 5.3.11_di3tpremhdgh64qy2khc2omqwa
+      zustand: 4.5.4_3vdbhqr2ncalcx7opnshezpx3q
+    transitivePeerDependencies:
+      - '@types/react'
+      - immer
+      - react-native
+    dev: false
+
+  /@bigcommerce/big-design/1.4.1_6pyc7jrdjxurnikcrlwfthk3ny:
+    resolution: {integrity: sha512-Pd2W0X/ZdTlI5fEAu2ZV482lIJLhef07kizE8IyL8ohs6GymI7AdGmwnEbkyOo4pm9EzWcwll5ieOvgug9nKxg==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+      styled-components: ^5.3.5
+    dependencies:
+      '@babel/runtime': 7.24.8
+      '@bigcommerce/big-design-icons': 1.0.3_dnjx7irwkcgzjrivfe23bb65te
+      '@bigcommerce/big-design-theme': 1.1.0_dnjx7irwkcgzjrivfe23bb65te
+      '@popperjs/core': 2.11.8
+      '@types/react-datepicker': 7.0.0_nnrd3gsncyragczmpvfhocinkq
+      date-fns: 3.6.0
+      downshift: 9.0.8_react@18.3.1
+      focus-trap: 7.5.4
+      polished: 4.3.1
+      react: 18.3.1
+      react-beautiful-dnd: 13.1.1_nnrd3gsncyragczmpvfhocinkq
+      react-datepicker: 7.3.0_nnrd3gsncyragczmpvfhocinkq
+      react-dom: 18.3.1_react@18.3.1
+      react-popper: 2.3.0_k46i3rdtqabbepls5b256fuiee
+      styled-components: 5.3.11_nnrd3gsncyragczmpvfhocinkq
       zustand: 4.5.4_3vdbhqr2ncalcx7opnshezpx3q
     transitivePeerDependencies:
       - '@types/react'
@@ -1949,6 +1970,19 @@ packages:
       '@floating-ui/utils': 0.2.5
     dev: false
 
+  /@floating-ui/core/1.6.7:
+    resolution: {integrity: sha512-yDzVT/Lm101nQ5TCVeK65LtdN7Tj4Qpr9RTXJ2vPFLqtLxwOrpoxAHAJI8J3yYWUc40J0BDBheaitK5SJmno2g==}
+    dependencies:
+      '@floating-ui/utils': 0.2.7
+    dev: false
+
+  /@floating-ui/dom/1.6.10:
+    resolution: {integrity: sha512-fskgCFv8J8OamCmyun8MfjB1Olfn+uZKjOKZ0vhYF3gRmEUXcGOjxWL8bBr7i4kIuPZ2KD2S3EUIOxnjC8kl2A==}
+    dependencies:
+      '@floating-ui/core': 1.6.7
+      '@floating-ui/utils': 0.2.7
+    dev: false
+
   /@floating-ui/dom/1.6.8:
     resolution: {integrity: sha512-kx62rP19VZ767Q653wsP1XZCGIirkE09E0QUGNYTM/ttbbQHqcGPdSfWFxUyyNLc/W6aoJRBajOSXhP6GXjC0Q==}
     dependencies:
@@ -1962,7 +1996,7 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@floating-ui/dom': 1.6.8
+      '@floating-ui/dom': 1.6.10
       react: 18.3.1
       react-dom: 18.3.1_react@18.3.1
     dev: false
@@ -1977,19 +2011,6 @@ packages:
       react: 18.3.1
     dev: false
 
-  /@floating-ui/react/0.26.20_nnrd3gsncyragczmpvfhocinkq:
-    resolution: {integrity: sha512-RixKJJG92fcIsVoqrFr4Onpzh7hlOx4U7NV4aLhMLmtvjZ5oTB/WzXaANYUZATKqXvvW7t9sCxtzejip26N5Ag==}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      '@floating-ui/react-dom': 2.1.1_nnrd3gsncyragczmpvfhocinkq
-      '@floating-ui/utils': 0.2.5
-      react: 18.3.1
-      react-dom: 18.3.1_react@18.3.1
-      tabbable: 6.2.0
-    dev: false
-
   /@floating-ui/react/0.26.20_react@18.3.1:
     resolution: {integrity: sha512-RixKJJG92fcIsVoqrFr4Onpzh7hlOx4U7NV4aLhMLmtvjZ5oTB/WzXaANYUZATKqXvvW7t9sCxtzejip26N5Ag==}
     peerDependencies:
@@ -2002,8 +2023,25 @@ packages:
       tabbable: 6.2.0
     dev: false
 
+  /@floating-ui/react/0.26.23_nnrd3gsncyragczmpvfhocinkq:
+    resolution: {integrity: sha512-9u3i62fV0CFF3nIegiWiRDwOs7OW/KhSUJDNx2MkQM3LbE5zQOY01sL3nelcVBXvX7Ovvo3A49I8ql+20Wg/Hw==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@floating-ui/react-dom': 2.1.1_nnrd3gsncyragczmpvfhocinkq
+      '@floating-ui/utils': 0.2.7
+      react: 18.3.1
+      react-dom: 18.3.1_react@18.3.1
+      tabbable: 6.2.0
+    dev: false
+
   /@floating-ui/utils/0.2.5:
     resolution: {integrity: sha512-sTcG+QZ6fdEUObICavU+aB3Mp8HY4n14wYHdxK4fXjPmv3PXZZeY5RaguJmGyeH/CJQhX3fqKUtS4qc1LoHwhQ==}
+    dev: false
+
+  /@floating-ui/utils/0.2.7:
+    resolution: {integrity: sha512-X8R8Oj771YRl/w+c1HqAC1szL8zWQRwFvgDwT129k9ACdBoud/+/rX9V0qiMl6LWUdP9voC2nDVZYPMQQsb6eA==}
     dev: false
 
   /@hutson/parse-repository-url/3.0.2:
@@ -2965,10 +3003,10 @@ packages:
   /@types/prop-types/15.7.12:
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
 
-  /@types/react-datepicker/6.2.0_nnrd3gsncyragczmpvfhocinkq:
+  /@types/react-datepicker/6.2.0_react@18.3.1:
     resolution: {integrity: sha512-+JtO4Fm97WLkJTH8j8/v3Ldh7JCNRwjMYjRaKh4KHH0M3jJoXtwiD3JBCsdlg3tsFIw9eQSqyAPeVDN2H2oM9Q==}
     dependencies:
-      '@floating-ui/react': 0.26.20_nnrd3gsncyragczmpvfhocinkq
+      '@floating-ui/react': 0.26.20_react@18.3.1
       '@types/react': 18.3.3
       date-fns: 3.6.0
     transitivePeerDependencies:
@@ -2976,12 +3014,11 @@ packages:
       - react-dom
     dev: false
 
-  /@types/react-datepicker/6.2.0_react@18.3.1:
-    resolution: {integrity: sha512-+JtO4Fm97WLkJTH8j8/v3Ldh7JCNRwjMYjRaKh4KHH0M3jJoXtwiD3JBCsdlg3tsFIw9eQSqyAPeVDN2H2oM9Q==}
+  /@types/react-datepicker/7.0.0_nnrd3gsncyragczmpvfhocinkq:
+    resolution: {integrity: sha512-4tWwOUq589tozyQPBVEqGNng5DaZkomx5IVNuur868yYdgjH6RaL373/HKiVt1IDoNNXYiTGspm1F7kjrarM8Q==}
+    deprecated: This is a stub types definition. react-datepicker provides its own type definitions, so you do not need this installed.
     dependencies:
-      '@floating-ui/react': 0.26.20_react@18.3.1
-      '@types/react': 18.3.3
-      date-fns: 3.6.0
+      react-datepicker: 7.3.0_nnrd3gsncyragczmpvfhocinkq
     transitivePeerDependencies:
       - react
       - react-dom
@@ -3986,6 +4023,19 @@ packages:
       tslib: 2.6.3
     dev: false
 
+  /downshift/9.0.8_react@18.3.1:
+    resolution: {integrity: sha512-59BWD7+hSUQIM1DeNPLirNNnZIO9qMdIK5GQ/Uo8q34gT4B78RBlb9dhzgnh0HfQTJj4T/JKYD8KoLAlMWnTsA==}
+    peerDependencies:
+      react: '>=16.12.0'
+    dependencies:
+      '@babel/runtime': 7.24.8
+      compute-scroll-into-view: 3.1.0
+      prop-types: 15.8.1
+      react: 18.3.1
+      react-is: 18.2.0
+      tslib: 2.7.0
+    dev: false
+
   /duplexer/0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
     dev: true
@@ -4460,7 +4510,7 @@ packages:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.19.0
+      uglify-js: 3.19.3
     dev: true
 
   /hard-rejection/2.1.0:
@@ -6236,21 +6286,6 @@ packages:
       - react-dom
     dev: false
 
-  /react-datepicker/6.9.0_nnrd3gsncyragczmpvfhocinkq:
-    resolution: {integrity: sha512-QTxuzeem7BUfVFWv+g5WuvzT0c5BPo+XTCNbMTZKSZQLU+cMMwSUHwspaxuIcDlwNcOH0tiJ+bh1fJ2yxOGYWA==}
-    peerDependencies:
-      react: ^16.9.0 || ^17 || ^18
-      react-dom: ^16.9.0 || ^17 || ^18
-    dependencies:
-      '@floating-ui/react': 0.26.20_nnrd3gsncyragczmpvfhocinkq
-      clsx: 2.1.1
-      date-fns: 3.6.0
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-dom: 18.3.1_react@18.3.1
-      react-onclickoutside: 6.13.1_nnrd3gsncyragczmpvfhocinkq
-    dev: false
-
   /react-datepicker/6.9.0_react@18.3.1:
     resolution: {integrity: sha512-QTxuzeem7BUfVFWv+g5WuvzT0c5BPo+XTCNbMTZKSZQLU+cMMwSUHwspaxuIcDlwNcOH0tiJ+bh1fJ2yxOGYWA==}
     peerDependencies:
@@ -6263,6 +6298,21 @@ packages:
       prop-types: 15.8.1
       react: 18.3.1
       react-onclickoutside: 6.13.1_react@18.3.1
+    dev: false
+
+  /react-datepicker/7.3.0_nnrd3gsncyragczmpvfhocinkq:
+    resolution: {integrity: sha512-EqRKLAtLZUTztiq6a+tjSjQX9ES0Xd229JPckAtyZZ4GoY3rtvNWAzkYZnQUf6zTWT50Ki0+t+W9VRQIkSJLfg==}
+    peerDependencies:
+      react: ^16.9.0 || ^17 || ^18
+      react-dom: ^16.9.0 || ^17 || ^18
+    dependencies:
+      '@floating-ui/react': 0.26.23_nnrd3gsncyragczmpvfhocinkq
+      clsx: 2.1.1
+      date-fns: 3.6.0
+      prop-types: 15.8.1
+      react: 18.3.1
+      react-dom: 18.3.1_react@18.3.1
+      react-onclickoutside: 6.13.1_nnrd3gsncyragczmpvfhocinkq
     dev: false
 
   /react-dom/18.3.1_react@18.3.1:
@@ -6681,7 +6731,7 @@ packages:
   /rxjs/7.8.1:
     resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.7.0
     dev: true
 
   /safe-buffer/5.1.2:
@@ -7158,6 +7208,9 @@ packages:
   /tslib/2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
 
+  /tslib/2.7.0:
+    resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
+
   /tuf-js/2.2.1:
     resolution: {integrity: sha512-GwIJau9XaA8nLVbUXsN3IlFi7WmQ48gBUrl3FTkkL/XLu/POhBzfmX9hd33FNMX1qAsfl6ozO1iMmW9NC8YniA==}
     engines: {node: ^16.14.0 || >=18.0.0}
@@ -7210,8 +7263,8 @@ packages:
     hasBin: true
     dev: true
 
-  /uglify-js/3.19.0:
-    resolution: {integrity: sha512-wNKHUY2hYYkf6oSFfhwwiHo4WCHzHmzcXsqXYTN9ja3iApYIFbb2U6ics9hBcYLHcYGQoAlwnZlTrf3oF+BL/Q==}
+  /uglify-js/3.19.3:
+    resolution: {integrity: sha512-v3Xu+yuwBXisp6QYTcH4UbH+xYJXqnq2m/LtQVWKWzYc1iehYnLixoQDN9FH6/j9/oybfd6W9Ghwkl8+UMKTKQ==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true

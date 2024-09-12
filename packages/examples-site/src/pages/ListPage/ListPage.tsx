@@ -11,7 +11,8 @@ import {
   Text,
   Dropdown,
 } from "@bigcommerce/big-design";
-import { ContextSelector, Page } from "bigcommerce-design-patterns";
+import { ContextSelector } from "bigcommerce-design-patterns";
+import { Header, Page } from "@bigcommerce/big-design-patterns";
 import {
   AddIcon,
   SettingsIcon,
@@ -143,9 +144,21 @@ const columns = [
     },
   },
   { header: "Sku", hash: "sku", render: ({ sku }: { sku: string }) => sku },
-  { header: "Categories", hash: "categories", render: ({ categories }: { categories: string }) => categories },
-  { header: "Stock", hash: "stock", render: ({ stock }: { stock: number }) => stock },
-  { header: "Price", hash: "price", render: ({ price }: { price: string }) => price },
+  {
+    header: "Categories",
+    hash: "categories",
+    render: ({ categories }: { categories: string }) => categories,
+  },
+  {
+    header: "Stock",
+    hash: "stock",
+    render: ({ stock }: { stock: number }) => stock,
+  },
+  {
+    header: "Price",
+    hash: "price",
+    render: ({ price }: { price: string }) => price,
+  },
   {
     header: "",
     hash: "actions",
@@ -197,28 +210,24 @@ const sort = (items: Item[], columnHash: string, direction: string) => {
           ? 1
           : -1
         : a[columnHash] <= b[columnHash]
-          ? 1
-          : -1,
+        ? 1
+        : -1
     );
 };
 
 /**
  * Page header call-to-actions (CTAs) component.
  */
-const PageHeaderCTAs = (
-  <>
-    <Button
-      iconLeft={<AddIcon />}
-      variant="primary"
-      mobileWidth="100%"
-      onClick={() => {
-        window.alert("Add item clicked");
-      }}
-    >
-      Add Item
-    </Button>
-  </>
-);
+const PageHeaderCTAs = [
+  {
+    text: "Add Item",
+    iconLeft: <AddIcon />,
+    onClick: () => {
+      window.alert("Add item clicked");
+    },
+    mobileWidth: "100%",
+  },
+];
 
 /**
  * PageList component - Displays a page with a list of items in a table.
@@ -238,25 +247,27 @@ const PageList: FunctionComponent = () => {
 
   return (
     <Page
-      headerCTAs={PageHeaderCTAs}
-      headerTitle="List Page"
-      headerBackButtonLabel="Back to patterns"
-      onHeaderBackButtonClick={backButtonClickHandler}
-      pageDescription={
-        <>
-          List pages are the bread and butter of an application, where you
-          present a number of items to act upon
-        </>
+      header={
+        <Header
+          actions={PageHeaderCTAs}
+          description="List pages are the bread and butter of an application, where you present a number of items to act upon."
+          title="List Page"
+          backLink={{
+            text: "Back to patterns",
+            onClick: backButtonClickHandler,
+            href: "#",
+          }}
+        ></Header>
       }
     >
       <Flex flexDirection="column" flexGap={theme.spacing.xLarge}>
         <FlexItem>
-          {/** 
+          {/**
            * ContextSelector component to allow users to switch between different contexts.
            * The ContextSelector component is a custom component that is not part of the BigDesign library.
            * It is used when you have to change the context of the data shown below.
            * Usually it is used within the BigCommerce control panel to define the storefront for which the data applies
-          */}
+           */}
           <ContextSelector>
             <Flex justifyContent="space-between">
               <Select
@@ -291,8 +302,7 @@ const PageList: FunctionComponent = () => {
          * Messages can be varied in type (info, success, warning, error) and can contain a header and a list of messages.
          * It's usually used to provide initial information or changes that the user needs to be aware of.
          * It's mostly used to provide validation messages when the user has submitted data and gets an error response from the server. In that case the type changes to error.
-         * */ 
-        }
+         * */}
         <FlexItem>
           <Message
             type="info"
@@ -311,14 +321,14 @@ const PageList: FunctionComponent = () => {
         <FlexItem>
           {/**
            * The most common way of organizing information within the BigDesign patterns is with the use of panels.
-           * In this case we only have one panel, but you can have multiple panels within a page. 
+           * In this case we only have one panel, but you can have multiple panels within a page.
            **/}
           <Panel
             header="Items list"
             description="Common actions you'll create within a page"
           >
             <StyledPanelContents>
-              {/** 
+              {/**
                * The Table component is used to display tabular data.
                * It allows you to display a list of items in a table format.
                * The table can be customized with different columns and actions.

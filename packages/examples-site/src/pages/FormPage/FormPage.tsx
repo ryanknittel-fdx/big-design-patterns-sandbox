@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 import {
-  AlertProps, 
+  AlertProps,
   Flex,
   FlexItem,
   Button,
@@ -12,7 +12,7 @@ import {
   Message,
   Checkbox,
 } from "@bigcommerce/big-design";
-import { Page } from "bigcommerce-design-patterns";
+import { Header, Page, ActionBar } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
 import { alertsManager } from "../../App";
@@ -107,9 +107,9 @@ const PageForm: FunctionComponent = () => {
     return formValid;
   };
 
-  const setupServerError = (event:any) => {
+  const setupServerError = (event: any) => {
     setServerError(event.target.checked);
-  }
+  };
 
   const handleSubmit = () => {
     // set server error visibiity to false
@@ -144,7 +144,7 @@ const PageForm: FunctionComponent = () => {
           setFormSubmitted(false);
           // let's enable action buttons
           setIsSubmitting(false);
-          
+
           // show success alert
           alertsManager.add(successAlert);
         }
@@ -156,28 +156,39 @@ const PageForm: FunctionComponent = () => {
   };
 
   // Action bar buttons with event handlers for cancel and save operations.
-  const ActionBarButtons = (
-    <>
-      <Button
-        variant="secondary"
-        onClick={() => window.alert("Cancel clicked")}
-        disabled={isSubmitting}
-      >
-        Cancel
-      </Button>
-      <Button variant="primary" onClick={handleSubmit} disabled={isSubmitting} isLoading={isSubmitting}>
-        Save
-      </Button>
-    </>
+  const FormActions = (
+    <ActionBar
+      actions={[
+        {
+          variant: "secondary",
+          onClick: () => window.alert("Cancel clicked"),
+          disabled: isSubmitting,
+          text: "Cancel",
+        },
+        {
+          variant: "primary",
+          onClick: handleSubmit,
+          disabled: isSubmitting,
+          text: "Save",
+        },
+      ]}
+    />
   );
 
   return (
     <Page
-      headerTitle="Form Page"
-      headerBackButtonLabel="Back to patterns"
-      onHeaderBackButtonClick={() => navigate("/")}
-      pageDescription={<>Description of the overall form.</>}
-      actionBar={ActionBarButtons}
+      header={
+        <Header
+          title="Form Page"
+          description="Description of the overall form."
+          backLink={{
+            text: "Back to patterns",
+            onClick: () => navigate("/"),
+            href: "#",
+          }}
+        ></Header>
+      }
+      actionBar={FormActions}
     >
       <Flex flexDirection="column" flexGap={theme.spacing.xLarge}>
         {formSubmitted && !formValid && (
@@ -190,18 +201,16 @@ const PageForm: FunctionComponent = () => {
             ]}
           ></Message>
         )}
-        {
-          showServerError && (
-            <Message
-              type="error"
-              messages={[
-                {
-                  text: "An error occurred while submitting the form. Please try again.",
-                },
-              ]}
-            ></Message>
-          )
-        }
+        {showServerError && (
+          <Message
+            type="error"
+            messages={[
+              {
+                text: "An error occurred while submitting the form. Please try again.",
+              },
+            ]}
+          ></Message>
+        )}
         <FlexItem>
           <Panel
             header="Form heading"
@@ -268,7 +277,11 @@ const PageForm: FunctionComponent = () => {
                 />
               </FormGroup>
               <FormGroup>
-                <Checkbox onChange={setupServerError} label="Simulate server error on submission" checked={serverError}></Checkbox>
+                <Checkbox
+                  onChange={setupServerError}
+                  label="Simulate server error on submission"
+                  checked={serverError}
+                ></Checkbox>
               </FormGroup>
             </Form>
           </Panel>

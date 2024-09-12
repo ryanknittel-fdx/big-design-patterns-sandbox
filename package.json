@@ -9,7 +9,6 @@
     "publish": "pnpm publish packages/patterns"
   },
   "devDependencies": {
-    "lerna": "^8.1.6"
-  },
-  "dependencies": {}
+    "lerna": "^8.1.7"
+  }
 }
