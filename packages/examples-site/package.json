@@ -7,14 +7,16 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@babel/core": "^7.0.0-0",
     "@bigcommerce/big-design": "^1.4.1",
-    "@bigcommerce/big-design-icons": "^0.24.0",
+    "@bigcommerce/big-design-icons": "^1.0.3",
     "@bigcommerce/big-design-patterns": "^1.1.0",
-    "@bigcommerce/big-design-theme": "^0.19.2",
+    "@bigcommerce/big-design-theme": "^1.1.0",
     "bigcommerce-design-patterns": "workspace:*",
     "react": "^18.0.0",
     "react-code-blocks": "^0.1.6",
     "react-dom": "^18.0.0",
+    "react-is": "^18.3.1",
     "react-router": "^6.15.0",
     "react-router-dom": "^6.15.0",
     "styled-components": "^5.3.11"
