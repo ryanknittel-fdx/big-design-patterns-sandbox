@@ -13,7 +13,7 @@ importers:
       '@babel/core': ^7.0.0-0
       '@bigcommerce/big-design': ^1.4.1
       '@bigcommerce/big-design-icons': ^1.0.3
-      '@bigcommerce/big-design-patterns': ^1.1.0
+      '@bigcommerce/big-design-patterns': ^1.1.1
       '@bigcommerce/big-design-theme': ^1.1.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -33,7 +33,7 @@ importers:
       '@babel/core': 7.24.9
       '@bigcommerce/big-design': 1.4.1_6pyc7jrdjxurnikcrlwfthk3ny
       '@bigcommerce/big-design-icons': 1.0.3_dnjx7irwkcgzjrivfe23bb65te
-      '@bigcommerce/big-design-patterns': 1.1.0_qyg5lj5txlg4oxk7irm6f54qp4
+      '@bigcommerce/big-design-patterns': 1.1.1_qyg5lj5txlg4oxk7irm6f54qp4
       '@bigcommerce/big-design-theme': 1.1.0_dnjx7irwkcgzjrivfe23bb65te
       bigcommerce-design-patterns: link:../patterns
       react: 18.3.1
@@ -62,7 +62,7 @@ importers:
       '@babel/runtime': ^7.24.4
       '@bigcommerce/big-design': ^1.4.1
       '@bigcommerce/big-design-icons': ^1.0.3
-      '@bigcommerce/big-design-patterns': ^1.1.0
+      '@bigcommerce/big-design-patterns': ^1.1.1
       '@bigcommerce/big-design-theme': ^1.1.0
       '@types/react': ^18.0.0
       '@types/styled-components': ^5.1.26
@@ -78,7 +78,7 @@ importers:
       '@babel/runtime': 7.24.8
       '@bigcommerce/big-design': 1.4.1_6pyc7jrdjxurnikcrlwfthk3ny
       '@bigcommerce/big-design-icons': 1.0.3_dnjx7irwkcgzjrivfe23bb65te
-      '@bigcommerce/big-design-patterns': 1.1.0_qyg5lj5txlg4oxk7irm6f54qp4
+      '@bigcommerce/big-design-patterns': 1.1.1_qyg5lj5txlg4oxk7irm6f54qp4
       '@bigcommerce/big-design-theme': 1.1.0_dnjx7irwkcgzjrivfe23bb65te
       react: 18.3.1
       react-dom: 18.3.1_react@18.3.1
@@ -1548,8 +1548,8 @@ packages:
       styled-components: 5.3.11_2fu2k4xiqkthyopzfpctpdtw6q
     dev: false
 
-  /@bigcommerce/big-design-patterns/1.1.0_qyg5lj5txlg4oxk7irm6f54qp4:
-    resolution: {integrity: sha512-H+ecBzpJfHY1G+bDMtkgd66eOthC3vSZHmm7PtUsYgs+6iTvLsO84I5gMGKy2eM1FABPrl/TrJ19XqkI2OBhQA==}
+  /@bigcommerce/big-design-patterns/1.1.1_qyg5lj5txlg4oxk7irm6f54qp4:
+    resolution: {integrity: sha512-C7dtMccoH+PSLXsZxSbSH3qEW07XOicRRw2qAoUBz/7uFOEVQ9iHHUP1jyuseCBtvIwEj/HaO9jGfFkTYgsJkA==}
     peerDependencies:
       '@bigcommerce/big-design': ^1.4.1
       '@bigcommerce/big-design-icons': ^1.0.3

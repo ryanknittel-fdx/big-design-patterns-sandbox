@@ -8,10 +8,7 @@ import {
   H4,
   H3,
 } from "@bigcommerce/big-design";
-import {
-  CardGrid,
-  AdvancedPanel as Panel,
-} from "bigcommerce-design-patterns";
+import { CardGrid, AdvancedPanel as Panel } from "bigcommerce-design-patterns";
 import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
@@ -35,15 +32,17 @@ const CardGridPage: FunctionComponent = () => {
 
   return (
     <Page
-    header={<Header
-      title="Card Grids"
-      description="Card grids are used to showcase relevant resources or actions in a condensed, organized manner."
-      backLink={{
-        text: "Back to patterns",
-        onClick: () => navigate("/"),
-        href: "#",
-      }}
-    />}
+      header={
+        <Header
+          title="Card Grids"
+          description="Card grids are used to showcase relevant resources or actions in a condensed, organized manner."
+          backLink={{
+            text: "Back to patterns",
+            onClick: () => navigate("/"),
+            href: "#",
+          }}
+        />
+      }
     >
       <Flex flexDirection="column" flexGap={theme.spacing.xLarge}>
         <Panel headerTitle="Example: Content">
@@ -191,9 +190,7 @@ const CardGridPage: FunctionComponent = () => {
             </FlexItem>
             <H3>Action skeleton</H3>
             <FlexItem>
-              <CardGrid
-                format="action"
-              />
+              <CardGrid format="action" />
             </FlexItem>
             <FlexItem>
               <HR />
@@ -370,7 +367,8 @@ const CardGridPage: FunctionComponent = () => {
                 propName: "items",
                 type: "CardGridItem[]",
                 default: "[{},{}]",
-                description: "Array of card grid items to display. Defaults to two empty objects for skeleton rendering",
+                description:
+                  "Array of card grid items to display. Defaults to two empty objects for skeleton rendering",
                 required: false,
               },
               {

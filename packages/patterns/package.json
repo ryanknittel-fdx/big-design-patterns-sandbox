@@ -23,7 +23,7 @@
     "@babel/runtime": "^7.24.4",
     "@bigcommerce/big-design": "^1.4.1",
     "@bigcommerce/big-design-icons": "^1.0.3",
-    "@bigcommerce/big-design-patterns": "^1.1.0",
+    "@bigcommerce/big-design-patterns": "^1.1.1",
     "@bigcommerce/big-design-theme": "^1.1.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
