@@ -1,10 +1,13 @@
 import React, { FunctionComponent } from "react";
 import { Flex, FlexItem, Text, Table } from "@bigcommerce/big-design";
-import { InfoIllustration, AdvancedPanel as Panel, Page } from "bigcommerce-design-patterns";
+import {
+  InfoIllustration,
+  AdvancedPanel as Panel,
+} from "bigcommerce-design-patterns";
+import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
 import { CopyBlock, nord as codecolor } from "react-code-blocks";
-
 
 const PageInfographics: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -23,11 +26,16 @@ const PageInfographics: FunctionComponent = () => {
 
   return (
     <Page
-      headerTitle="Info Illustrations"
-      headerBackButtonLabel="Back to patterns"
-      onHeaderBackButtonClick={() => navigate("/")}
-      pageDescription={
-        <>Illustrations to convey status on errors and empty spaces.</>
+      header={
+        <Header
+          description="Illustrations to convey status on errors and empty spaces."
+          title="Info Illustrations"
+          backLink={{
+            text: "Back to patterns",
+            onClick: () => navigate("/"),
+            href: "#",
+          }}
+        />
       }
     >
       <Flex flexDirection="column" flexGap={theme.spacing.xLarge}>

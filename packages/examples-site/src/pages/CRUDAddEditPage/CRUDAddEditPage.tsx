@@ -1,8 +1,4 @@
-import React, {
-  FunctionComponent,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -21,7 +17,13 @@ import {
   Grid,
   ProgressCircle,
 } from "@bigcommerce/big-design";
-import { Page, Scroller } from "bigcommerce-design-patterns";
+import { Scroller } from "bigcommerce-design-patterns";
+import {
+  ActionBar,
+  ActionBarProps,
+  Header,
+  Page,
+} from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { theme } from "@bigcommerce/big-design-theme";
@@ -195,7 +197,8 @@ const CRUDAddEditPage: FunctionComponent = () => {
 
     const fv = nameIsValid && priceIsValid && filesAreValid;
 
-    if (!fv) { // if form is not valid
+    if (!fv) {
+      // if form is not valid
       // set the form error messages
       const errorMessages: DescriptionLink[] = [
         { text: "Please correct the form errors before submitting." },
@@ -229,7 +232,8 @@ const CRUDAddEditPage: FunctionComponent = () => {
       }
 
       setFormErrorMessages(errorMessages);
-    } else { // if form is valid
+    } else {
+      // if form is valid
       // clear form error messages
       setFormErrorMessages([]);
     }
@@ -243,7 +247,6 @@ const CRUDAddEditPage: FunctionComponent = () => {
 
   // store item through service
   const storeItem = async () => {
-
     // let's get the store method based on the page type
     const storeMethod = isEditPage ? updateProduct : storeProduct;
 
@@ -327,35 +330,37 @@ const CRUDAddEditPage: FunctionComponent = () => {
   };
 
   // Action bar buttons with event handlers for cancel and save operations.
-  const ActionBarButtons = (
-    <>
-      <Button
-        variant="secondary"
-        onClick={backToListingHandler}
-        disabled={isSubmitting}
-        mobileWidth="auto"
-      >
-        Cancel
-      </Button>
-      <Button
-        mobileWidth="auto"
-        variant="primary"
-        onClick={handleSubmit}
-        disabled={isSubmitting}
-        isLoading={isSubmitting}
-      >
-        Save
-      </Button>
-    </>
-  );
+  const actionBarProps: ActionBarProps = {
+    actions: [
+      {
+        text: "Save",
+        onClick: handleSubmit,
+        disabled: isSubmitting,
+        isLoading: isSubmitting,
+      },
+      {
+        text: "Cancel",
+        onClick: backToListingHandler,
+        disabled: isSubmitting,
+        variant: "secondary",
+      },
+    ],
+  };
 
   return (
     <Page
-      headerTitle={isEditPage ? name : "Add item"}
-      headerBackButtonLabel="Back to items list"
-      onHeaderBackButtonClick={backToListingHandler}
-      pageDescription={<>Description of what's going to be added.</>}
-      actionBar={ActionBarButtons}
+      header={
+        <Header
+          title={isEditPage ? name : "Add item"}
+          description={`Description of what's going to be added.`}
+          backLink={{
+            text: "Back to items list",
+            onClick: () => backToListingHandler(),
+            href: "#",
+          }}
+        />
+      }
+      actionBar={<ActionBar {...actionBarProps} />}
     >
       <Flex
         flexDirection="column"
