@@ -15,8 +15,9 @@ import {
   AlertProps,
   ProgressCircle,
 } from "@bigcommerce/big-design";
-import { InfoIllustration, Page } from "bigcommerce-design-patterns";
+import { InfoIllustration } from "bigcommerce-design-patterns";
 import { AddIcon, MoreHorizIcon } from "@bigcommerce/big-design-icons";
+import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { theme } from "@bigcommerce/big-design-theme";
@@ -71,9 +72,6 @@ const PageCRUDList: FunctionComponent = () => {
   const location = useLocation();
 
   const navigate = useNavigate();
-  const backButtonClickHandler = () => {
-    navigate("/");
-  };
 
   // BULK ACTIONS
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
@@ -130,7 +128,7 @@ const PageCRUDList: FunctionComponent = () => {
     {
       header: null,
       hash: "actions",
-      render: ({ id, url }: { id: number; url: string }) => {
+      render: ({ productId, url }: { productId: number; url: string }) => {
         return (
           <Dropdown
             items={[
@@ -143,7 +141,9 @@ const PageCRUDList: FunctionComponent = () => {
               },
               {
                 content: "Delete",
-                onItemClick: () => deleteItems([id]),
+                onItemClick: () => {
+                  deleteItems([productId]);
+                },
                 hash: "delete",
                 actionType: "destructive",
               },
@@ -297,30 +297,28 @@ const PageCRUDList: FunctionComponent = () => {
       paddingVertical="xxxLarge"
       marginBottom="xxxLarge"
     >
-      {
-        items.length < 1 ? (
-          // if products havent been loaded, let's show a loader
-          <ProgressCircle size="large" />
-        ) : (
-          // if products have been loaded, let's show the empty
-          <InfoIllustration
-            icon="empty"
-            actionSecondary={{
-              text: "Add item",
-              onClick: addProductHandler,
-            }}
-          >
-            <Text color="secondary60">
-              {
-                // differentiate from empty search or empty products and show a loader element if the data is being fetched
-                searchValue
-                  ? `No products were found for query “${searchValue}”`
-                  : "You have no products yet."
-              }
-            </Text>
-          </InfoIllustration>
-        )
-      }
+      {items.length < 1 ? (
+        // if products havent been loaded, let's show a loader
+        <ProgressCircle size="large" />
+      ) : (
+        // if products have been loaded, let's show the empty
+        <InfoIllustration
+          icon="empty"
+          actionSecondary={{
+            text: "Add item",
+            onClick: addProductHandler,
+          }}
+        >
+          <Text color="secondary60">
+            {
+              // differentiate from empty search or empty products and show a loader element if the data is being fetched
+              searchValue
+                ? `No products were found for query “${searchValue}”`
+                : "You have no products yet."
+            }
+          </Text>
+        </InfoIllustration>
+      )}
     </Flex>
   );
 
@@ -333,7 +331,11 @@ const PageCRUDList: FunctionComponent = () => {
             {
               text: "Delete",
               onClick: () => {
-                return deleteItems(selectedItems.map((item) => item.productId));
+                return deleteItems(
+                  selectedItems.map((item) => {
+                    return item.productId;
+                  })
+                );
               },
             },
             { text: "Action 2" },
@@ -345,31 +347,29 @@ const PageCRUDList: FunctionComponent = () => {
   );
 
   //header CTAs
-  const PageHeaderCTAs = (
-    <>
-      <Button
-        iconLeft={<AddIcon />}
-        variant="primary"
-        mobileWidth="100%"
-        onClick={addProductHandler}
-      >
-        Add Item
-      </Button>
-    </>
-  );
+  const PageHeaderCTAs = [
+    {
+      text: "Add Item",
+      iconLeft: <AddIcon />,
+      mobileWidth: "100%",
+      onClick: addProductHandler,
+    },
+  ];
 
   return (
     <>
       <Page
-        headerCTAs={PageHeaderCTAs}
-        headerTitle="List Page"
-        headerBackButtonLabel="Back to patterns"
-        onHeaderBackButtonClick={backButtonClickHandler}
-        pageDescription={
-          <>
-            List pages are the bread and butter of an application, where you
-            present a number of items to act upon
-          </>
+        header={
+          <Header
+            description="List pages are the bread and butter of an application, where you present a number of items to act upon"
+            title="List Page"
+            actions={PageHeaderCTAs}
+            backLink={{
+              text: "Back to patterns",
+              onClick: () => navigate("/"),
+              href: "#",
+            }}
+          />
         }
       >
         <Flex flexDirection="column" flexGap={theme.spacing.xLarge}>

@@ -21,12 +21,15 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.24.4",
-    "@bigcommerce/big-design": "^1.0.0",
-    "@bigcommerce/big-design-icons": "^0.24.0",
-    "@bigcommerce/big-design-theme": "^0.19.2",
+    "@bigcommerce/big-design": "^1.4.1",
+    "@bigcommerce/big-design-icons": "^1.0.3",
+    "@bigcommerce/big-design-patterns": "^1.1.1",
+    "@bigcommerce/big-design-theme": "^1.1.0",
     "embla-carousel": "8.1.8",
     "embla-carousel-react": "^8.1.8",
     "react": "^18.3.1",
+    "react-dom": "^18.0.0",
+    "react-is": "^18.3.1",
     "react-loading-skeleton": "^3.4.0",
     "styled-components": "^5.3.11"
   },

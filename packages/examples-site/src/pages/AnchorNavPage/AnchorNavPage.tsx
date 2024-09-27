@@ -1,26 +1,24 @@
 import React, { FunctionComponent } from "react";
 import { Panel, Text, Box } from "@bigcommerce/big-design";
-import { AnchorNav, Page } from "bigcommerce-design-patterns"
+import { AnchorNav } from "bigcommerce-design-patterns";
 import { useNavigate } from "react-router";
-import { theme } from "@bigcommerce/big-design-theme";
+import { Header, Page } from "@bigcommerce/big-design-patterns";
 
 const PageAnchorNav: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const backButtonClickHandler = () => {
-    navigate("/");
-  };
-
   return (
     <Page
-      headerTitle="Anchor Navigation Page"
-      headerBackButtonLabel="Back to patterns"
-      onHeaderBackButtonClick={backButtonClickHandler}
-      pageDescription={
-        <>
-          When a page has a lot of content, it can be helpful to provide an
-          anchor navigation to help users quickly
-        </>
+      header={
+        <Header
+          description="When a page has a lot of content, it can be helpful to provide an anchor navigation to help users quickly"
+          title="Anchor Navigation Page"
+          backLink={{
+            text: "Back to patterns",
+            onClick: () => navigate("/"),
+            href: "#",
+          }}
+        />
       }
     >
       <AnchorNav
@@ -28,9 +26,7 @@ const PageAnchorNav: FunctionComponent = () => {
           {
             label: "First Section",
             element: (
-              <Panel
-                header="First Section"
-              >
+              <Panel header="First Section">
                 <Box style={{ minHeight: "101vh" }}>
                   <Text>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -88,9 +84,7 @@ const PageAnchorNav: FunctionComponent = () => {
           {
             label: "Second Section",
             element: (
-              <Panel
-                header="Second Section"
-              >
+              <Panel header="Second Section">
                 <Box style={{ minHeight: "101vh" }}>
                   <Text>
                     Etiam id velit tincidunt, feugiat arcu quis, venenatis
@@ -148,9 +142,7 @@ const PageAnchorNav: FunctionComponent = () => {
           {
             label: "Third Section",
             element: (
-              <Panel
-                header="Third Section"
-              >
+              <Panel header="Third Section">
                 <Box style={{ minHeight: "101vh" }}>
                   <Text>
                     Nulla porttitor luctus malesuada. Pellentesque est leo,

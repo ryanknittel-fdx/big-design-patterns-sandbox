@@ -1,24 +1,32 @@
-import React, { FunctionComponent, ReactNode } from "react";
-import { Flex, FlexItem, H1, H2, Text } from "@bigcommerce/big-design";
+import { FunctionComponent, ReactNode } from "react";
+import {
+  Flex,
+  FlexItem,
+  H1,
+  H2,
+  BadgeProps,
+  Badge,
+} from "@bigcommerce/big-design";
 import { ArrowBackIcon } from "@bigcommerce/big-design-icons";
 import { StyledBackButton } from "./Header.styled";
 
 /**
  * Props for the BackButton component.
- * @typedef {Object} BackButtonProps
- * @property {ReactNode} [children] - Optional children elements.
- * @property {string} [backButtonLabel] - Label for the back button.
- * @property {Function} [onBackButtonClick] - Callback triggered on back button click.
  */
 export interface BackButtonProps {
+  /** Content to display inside the back button. */
   children?: ReactNode;
+  /** Label for the back button. Defaults to "Back". */
   backButtonLabel?: string;
+  /** Callback function to handle back button click events. */
   onBackButtonClick?(): void;
 }
 
 /**
- * BackButton component, used for navigating back.
- * @param {BackButtonProps} props - Props for the BackButton component.
+ * BackButton component displays a button with an arrow icon and a label.
+ * 
+ * @param {BackButtonProps} props - The props for the BackButton component.
+ * @returns {JSX.Element} The rendered BackButton component.
  */
 export const BackButton: FunctionComponent<BackButtonProps> = ({
   onBackButtonClick,
@@ -32,18 +40,33 @@ export const BackButton: FunctionComponent<BackButtonProps> = ({
   );
 };
 
+/**
+ * Props for the Header component.
+ */
 export interface HeaderProps {
+  /** Title to be displayed in the header. */
   headerTitle?: string;
+  /** Label for the back button in the header. */
   headerBackButtonLabel?: string;
+  /** Callback function to handle back button click events in the header. */
   onHeaderBackButtonClick?(): void;
+  /** Call-to-action elements to be displayed in the header. */
   headerCTAs?: ReactNode;
+  /** Additional content to be displayed below the header title. */
   children?: ReactNode;
+  /** Defines if the header is the main header (H1) or a subheader (H2). */
   isMain?: boolean;
+  /** Badge component props to be displayed next to the title. */
+  headerBadge?: BadgeProps;
+  /** Icon to be displayed next to the header title. */
+  headerIcon?: ReactNode;
 }
 
 /**
- * Main Header component.
- * @param {HeaderProps} props - Props for the Header component.
+ * Header component displays a title, optional back button, badge, and additional content.
+ * 
+ * @param {HeaderProps} props - The props for the Header component.
+ * @returns {JSX.Element} The rendered Header component.
  */
 export const Header: FunctionComponent<HeaderProps> = ({
   headerTitle,
@@ -52,6 +75,8 @@ export const Header: FunctionComponent<HeaderProps> = ({
   headerCTAs,
   children,
   isMain = true,
+  headerBadge,
+  headerIcon,
 }) => {
   return (
     <Flex flexDirection="column">
@@ -70,13 +95,17 @@ export const Header: FunctionComponent<HeaderProps> = ({
           alignItems="stretch"
         >
           <FlexItem>
-            {isMain ? (
-              <H1 marginBottom={"medium"}>{headerTitle}</H1>
-            ) : (
-              <H2 marginBottom={"medium"}>{headerTitle}</H2>
-            )}
+            <Flex marginBottom="medium" alignItems="center" flexGap="1rem">
+              {headerIcon && headerIcon}
+              {isMain ? (
+                <H1 margin="none">{headerTitle}</H1>
+              ) : (
+                <H2 margin="none">{headerTitle}</H2>
+              )}
+              {headerBadge && <Badge {...headerBadge} />}
+            </Flex>
             {children && (
-              <FlexItem marginBottom={"xLarge"} color="secondary60">
+              <FlexItem marginBottom="xLarge" color="secondary60">
                 {children}
               </FlexItem>
             )}

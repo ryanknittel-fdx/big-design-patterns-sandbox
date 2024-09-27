@@ -1,10 +1,15 @@
 import React, { FunctionComponent } from "react";
-import { Flex, FlexItem, Text, HR, Table } from "@bigcommerce/big-design";
 import {
-  CardGrid,
-  Page,
-  AdvancedPanel as Panel,
-} from "bigcommerce-design-patterns";
+  Flex,
+  FlexItem,
+  Text,
+  HR,
+  Table,
+  H4,
+  H3,
+} from "@bigcommerce/big-design";
+import { CardGrid, AdvancedPanel as Panel } from "bigcommerce-design-patterns";
+import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
 
@@ -27,14 +32,16 @@ const CardGridPage: FunctionComponent = () => {
 
   return (
     <Page
-      headerTitle="Card Grids"
-      headerBackButtonLabel="Back to patterns"
-      onHeaderBackButtonClick={() => navigate("/")}
-      pageDescription={
-        <Text color="secondary60">
-          Card grids are used to showcase relevant resources or actions in a condensed,
-          organized manner.
-        </Text>
+      header={
+        <Header
+          title="Card Grids"
+          description="Card grids are used to showcase relevant resources or actions in a condensed, organized manner."
+          backLink={{
+            text: "Back to patterns",
+            onClick: () => navigate("/"),
+            href: "#",
+          }}
+        />
       }
     >
       <Flex flexDirection="column" flexGap={theme.spacing.xLarge}>
@@ -44,13 +51,13 @@ const CardGridPage: FunctionComponent = () => {
               <CardGrid
                 items={[
                   {
-                    name: "Helpful resource one",
+                    heading: <H4>Helpful resource one</H4>,
                     description:
                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
                     href: "https://developer.bigcommerce.com",
                   },
                   {
-                    name: "Helpful resource two",
+                    heading: <H4>Helpful resource two</H4>,
                     description:
                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
                     href: "https://developer.bigcommerce.com",
@@ -68,13 +75,13 @@ const CardGridPage: FunctionComponent = () => {
 
 <CardGrid items={[
   {
-    name: "Helpful resource one",
+    heading: <H4>Helpful resource one</H4>,
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
     href: "https://developer.bigcommerce.com",
   },
   {
-    name: "Helpful resource two",
+    heading: <H4>>Helpful resource two<H4>,
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
     href: "https://developer.bigcommerce.com",
@@ -89,14 +96,14 @@ const CardGridPage: FunctionComponent = () => {
           <Flex flexDirection="column" flexGap={theme.spacing.medium}>
             <FlexItem>
               <CardGrid
+                format="action"
                 items={[
                   {
-                    name: "Grid Item 1",
-                    description:
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.",
+                    heading: <H4>Grid Item 1</H4>,
+                    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.`,
                     button: {
-                      variant: "primary",
                       text: "Connect",
+                      onClick: () => alert("Connected!"),
                     },
                     icon: (
                       <img
@@ -105,15 +112,13 @@ const CardGridPage: FunctionComponent = () => {
                         width="45"
                       />
                     ),
-                    format: "action",
                   },
                   {
-                    name: "Grid Item 2",
-                    description:
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.",
+                    heading: <H4>Grid Item 2</H4>,
+                    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.`,
                     button: {
-                      variant: "primary",
                       text: "Connect",
+                      onClick: () => alert("Connected!"),
                     },
                     icon: (
                       <img
@@ -122,7 +127,6 @@ const CardGridPage: FunctionComponent = () => {
                         width="45"
                       />
                     ),
-                    format: "action",
                   },
                 ]}
               />
@@ -135,50 +139,58 @@ const CardGridPage: FunctionComponent = () => {
                 {...copyBlockProps}
                 text={`import { CardGrid } from "bigcommerce-design-patterns";
 
-<CardGrid items={[
-{
-    name: "Grid Item 1",
-    description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.",
-    button: {
-        variant: "primary",
+<CardGrid
+  format="action"
+  items={[
+    {
+      heading: <H4>Grid Item 1</H4>,
+      description: \`Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.\`,
+      button: {
         text: "Connect",
-    },
-    icon: (
+        onClick: () => alert("Connected!"),
+      },
+      icon: (
         <img
-            src="https://storage.googleapis.com/bigcommerce-developers/logos/bigcommerce-dx.svg"
-            height="45"
-            width="45"
+          src=
+            "https://storage.googleapis.com/bigcommerce-developers/images/bigc-dev/bigc-inverted-black.svg"
+          height="45"
+          width="45"
         />
-    ),
-    format: "action",
-},
-{
-    name: "Grid Item 2",
-    description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.",
-    button: {
-        variant: "primary",
+      ),
+    },
+    {
+      heading: <H4>Grid Item 2</H4>,
+      description: \`Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.\`,
+      button: {
         text: "Connect",
-    },
-    icon: (
+        onClick: () => alert("Connected!"),
+      },
+      icon: (
         <img
-            src="https://storage.googleapis.com/bigcommerce-developers/logos/bigcommerce-dx.svg"
-            height="45"
-            width="45"
+          src=
+            "https://storage.googleapis.com/bigcommerce-developers/images/bigc-dev/bigc-inverted-black.svg"
+          height="45"
+          width="45"
         />
-    ),
-    format: "action",
-},
-]} />`}
+      ),
+    },
+  ]}
+/>`}
               />
             </FlexItem>
           </Flex>
         </Panel>
         <Panel headerTitle="Example: Skeleton">
           <Flex flexDirection="column" flexGap={theme.spacing.medium}>
+            <H3>Content skeleton</H3>
             <FlexItem>
               <CardGrid />
+            </FlexItem>
+            <H3>Action skeleton</H3>
+            <FlexItem>
+              <CardGrid format="action" />
             </FlexItem>
             <FlexItem>
               <HR />
@@ -188,13 +200,17 @@ const CardGridPage: FunctionComponent = () => {
                 {...copyBlockProps}
                 text={`import { CardGrid } from "bigcommerce-design-patterns";
 
-<CardGrid />`}
+// Content skeletons
+<CardGrid />
+
+// Action skeletons
+<CardGrid format="action"/>`}
               />
             </FlexItem>
           </Flex>
         </Panel>
 
-        <Panel headerTitle="Props" contentsPadding={false}>
+        <Panel headerTitle="CardGridItem Props" contentsPadding={false}>
           <Table
             columns={[
               {
@@ -202,11 +218,134 @@ const CardGridPage: FunctionComponent = () => {
                 hash: "propName",
                 render: ({ propName }) => propName,
               },
+              { header: "Type", hash: "type", render: ({ type }) => type },
               {
-                header: "Type",
-                hash: "type",
-                render: ({ type }) => type,
+                header: "Default",
+                hash: "default",
+                render: ({ default: defaultValue }) => defaultValue.toString(),
               },
+              {
+                header: "Description",
+                hash: "description",
+                render: ({ description }) => description,
+              },
+              {
+                header: "Required",
+                hash: "required",
+                render: ({ required }) => (required ? "Yes" : "No"),
+              },
+            ]}
+            items={[
+              {
+                propName: "button",
+                type: "CardGridButtonProps",
+                default: "-",
+                description: "Button props for the card grid item.",
+                required: false,
+              },
+              {
+                propName: "heading",
+                type: "React.ReactNode",
+                default: "-",
+                description: "Heading content for the card grid item.",
+                required: false,
+              },
+              {
+                propName: "description",
+                type: "string",
+                default: "-",
+                description: "Description content for the card grid item.",
+                required: false,
+              },
+              {
+                propName: "format",
+                type: "'action' | 'content'",
+                default: "content",
+                description:
+                  "Defines the format of the card grid item, either 'action' or 'content'.",
+                required: false,
+              },
+              {
+                propName: "href",
+                type: "string",
+                default: "-",
+                description: "URL to navigate to when the item is clicked.",
+                required: false,
+              },
+              {
+                propName: "hrefTarget",
+                type: "string",
+                default: "_self",
+                description: "Target attribute for the link.",
+                required: false,
+              },
+              {
+                propName: "onClick",
+                type: "() => void",
+                default: "-",
+                description: "Function to call when the item is clicked.",
+                required: false,
+              },
+              {
+                propName: "icon",
+                type: "React.ReactNode",
+                default: "-",
+                description: "Icon displayed in the card grid item.",
+                required: false,
+              },
+            ]}
+            stickyHeader
+          />
+        </Panel>
+
+        <Panel headerTitle="CardGridButtonProps" contentsPadding={false}>
+          <Table
+            columns={[
+              {
+                header: "Prop Name",
+                hash: "propName",
+                render: ({ propName }) => propName,
+              },
+              { header: "Type", hash: "type", render: ({ type }) => type },
+              {
+                header: "Default",
+                hash: "default",
+                render: ({ default: defaultValue }) => defaultValue.toString(),
+              },
+              {
+                header: "Description",
+                hash: "description",
+                render: ({ description }) => description,
+              },
+              {
+                header: "Required",
+                hash: "required",
+                render: ({ required }) => (required ? "Yes" : "No"),
+              },
+            ]}
+            items={[
+              {
+                propName: "text",
+                type: "string",
+                default: "-",
+                description: "Text to display on the button.",
+                required: true,
+              },
+              // Include other ButtonProps if needed
+            ]}
+            stickyHeader
+          />
+        </Panel>
+
+        <Panel headerTitle="CardGrid Props" contentsPadding={false}>
+          <Table
+            columns={[
+              {
+                header: "Prop Name",
+                hash: "propName",
+                render: ({ propName }) => propName,
+              },
+              { header: "Type", hash: "type", render: ({ type }) => type },
               {
                 header: "Default",
                 hash: "default",
@@ -226,9 +365,18 @@ const CardGridPage: FunctionComponent = () => {
             items={[
               {
                 propName: "items",
-                type: "array",
-                default: "-",
-                description: "Array of entries for content or actions. See above for examples for each. If you don't include the items prop, a loading skeleton will render.",
+                type: "CardGridItem[]",
+                default: "[{},{}]",
+                description:
+                  "Array of card grid items to display. Defaults to two empty objects for skeleton rendering",
+                required: false,
+              },
+              {
+                propName: "format",
+                type: "'action' | 'content'",
+                default: "content",
+                description:
+                  "Defines the format of all card grid items, either 'action' or 'content'.",
                 required: false,
               },
             ]}

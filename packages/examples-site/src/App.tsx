@@ -23,7 +23,6 @@ const RouteFC = () => {
     { path: "/page-list", element: <PageList /> },
     { path: "/page-form", element: <PageForm /> },
     { path: "/page-featured-content", element: <PageFeaturedContent /> },
-    { path: "/header", element: <PageHeader /> },
     { path: "/info-illustration", element: <PageInfoIllustration /> },
     { path: "/feature-tag", element: <PageFeatureTags /> },
     { path: "/select-sample", element: <SelectPage /> },

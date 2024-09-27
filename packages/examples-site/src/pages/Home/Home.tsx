@@ -1,13 +1,17 @@
 import React, { FunctionComponent } from "react";
-import { H2, H3, Text } from "@bigcommerce/big-design";
-import { Page } from "bigcommerce-design-patterns";
+import { H2 } from "@bigcommerce/big-design";
+import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { Link } from "react-router-dom";
 
 const PageHome: FunctionComponent = () => {
   return (
     <Page
-      headerTitle="BigDesign pattern library"
-      pageDescription={<>Code samples for our commonly used patterns.</>}
+      header={
+        <Header
+          description="Code samples for our commonly used patterns."
+          title="BigDesign pattern library"
+        ></Header>
+      }
     >
       <H2>Sample Flows</H2>
       <ul>
@@ -34,9 +38,6 @@ const PageHome: FunctionComponent = () => {
       <ul>
         <li>
           <Link to="/feature-tag">Feature Tags</Link>
-        </li>
-        <li>
-          <Link to={"/header"}>Header</Link>
         </li>
         <li>
           <Link to={"/info-illustration"}>Info Illustrations</Link>

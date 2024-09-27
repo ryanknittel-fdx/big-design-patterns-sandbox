@@ -5,7 +5,7 @@ import {
   Select,
   ProgressCircle,
 } from "@bigcommerce/big-design";
-import { Page } from "bigcommerce-design-patterns";
+import { Page, Header } from "@bigcommerce/big-design-patterns";
 
 const SmallLoader: FunctionComponent = () => {
   return <ProgressCircle size="xxSmall" />;
@@ -14,8 +14,12 @@ const SmallLoader: FunctionComponent = () => {
 const SelectPage: FunctionComponent = () => {
   return (
     <Page
-      headerTitle="BigDesign pattern library"
-      pageDescription={<>Code samples for our commonly used patterns.</>}
+      header={
+        <Header
+          title="BigDesign pattern library"
+          description="Code samples for our commonly used patterns."
+        />
+      }
     >
       <H2>Select Sample</H2>
       <Box marginBottom="large">
