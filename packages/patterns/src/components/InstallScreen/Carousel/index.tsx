@@ -27,22 +27,20 @@ const EmblaWrapper = styled.section`
 
 const EmblaViewport = styled.div`
   overflow: hidden;
-  margin-right: 5rem;
 `;
 
 const EmblaContainer = styled.div`
   display: flex;
+  gap: 1rem;
   user-select: none;
   -webkit-touch-callout: none;
   -khtml-user-select: none;
   -webkit-tap-highlight-color: transparent;
-  margin-left: -10px; // Negative margin to offset the slide padding
 `;
 
 const EmblaSlide = styled.div`
   position: relative;
-  min-width: calc(50% - 20px);
-  padding-left: 20px; // Add some space between slides
+  min-width: calc(50% - 0.5rem);
 `;
 
 const EmblaSlideInner = styled.div`
@@ -68,26 +66,29 @@ const EmblaButton = styled.button<{ side: "left" | "right" }>`
   top: 50%;
   transform: translateY(-50%);
   border: 0;
-  width: 4rem;
-  height: 4rem;
+  width: 2rem;
+  height: 2rem;
   justify-content: center;
   align-items: center;
   padding: 0;
   ${({ side }) => side}: 0.7rem;
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: ${({ theme }) => theme.colors.primary10};
   border-radius: 50%;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: ${({ theme }) => theme.colors.primary20};
   }
 
   &:disabled {
-    opacity: 0.3;
+  opacity: 0.75;
     cursor: default;
+    pointer-events: none;
   }
 `;
+
+EmblaButton.defaultProps = { theme: defaultTheme };
 
 const ButtonSvg = styled.svg`
   width: 65%;

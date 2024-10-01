@@ -3,7 +3,6 @@ import { BrowserRouter as Router, useRoutes } from "react-router-dom";
 import PageHome from "./pages/Home/Home";
 import PageList from "./pages/ListPage/ListPage";
 import PageForm from "./pages/FormPage/FormPage";
-import PageHeader from "./pages/HeaderPage/HeaderPage";
 import PageInfoIllustration from "./pages/InfoIllustrationPage/InfoIllustrationPage";
 import PageFeatureTags from "./pages/FeatureTagPage/FeatureTagPage";
 import PageFeaturedContent from "./pages/FeaturedContentPage/FeaturedContentPage";
@@ -13,7 +12,8 @@ import PageCRUDList from "./pages/CRUDListPage/CRUDListPage";
 import PageCRUDAddEdit from "./pages/CRUDAddEditPage/CRUDAddEditPage";
 import PageAnchorNav from "./pages/AnchorNavPage/AnchorNavPage";
 import CardGridPage from "./pages/CardGridPage";
-import InstallScreenPage from "./pages/InstallScreenPage";
+import InstallScreenApp from "./pages/InstallScreenPage/AppExample";
+import InstallScreenChannel from "./pages/InstallScreenPage/ChannelExample";
 
 export const alertsManager = createAlertsManager();
 
@@ -31,7 +31,8 @@ const RouteFC = () => {
     { path: "/page-crud-edit/:sku", element: <PageCRUDAddEdit /> },
     { path: "/page-anchor-nav", element: <PageAnchorNav />},
     { path: "/card-grid", element: <CardGridPage />},
-    { path: "/install-screen", element: <InstallScreenPage />}
+    { path: "/install-screen-app", element: <InstallScreenApp />},
+    { path: "/install-screen-channel", element: <InstallScreenChannel />},
   ]);
   return routes;
 };
