@@ -1,11 +1,10 @@
-import { FunctionComponent, ReactNode, useState } from "react";
+import { FunctionComponent, ReactNode, useState, useEffect } from "react";
 import {
   Box,
   Flex,
   FlexItem,
   Grid,
   GridItem,
-  Panel,
   Link,
   HR,
   Form,
@@ -14,6 +13,7 @@ import {
   Text,
   H1,
   H2,
+  Checkbox,
 } from "@bigcommerce/big-design";
 import { Page } from "@bigcommerce/big-design-patterns";
 import { FeatureTag } from "../featureTag/FeatureTag";
@@ -74,6 +74,7 @@ interface InstallScreenProps {
     price?: string;
     privacyPolicyURL?: string;
     termsOfServiceURL?: string;
+    requireAcknowledgment?: boolean;
   };
   copy: {
     panelHeader: string;
@@ -171,14 +172,14 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
     cancel: "Cancel",
   },
 }) => {
-  // state to determine if form is open or closed
   const [formOpen, setFormOpen] = useState(false);
+  const [acknowledged, setAcknowledged] = useState(true);
 
   const descriptionAsHTML = app.description
     ? textToHTML(app.description)
     : null;
 
-  const cancelButtonHandler = (e) => {
+  const cancelButtonHandler = (e: MouseEvent) => {
     e.preventDefault();
     setFormOpen(false);
   };
@@ -187,6 +188,18 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
     e.preventDefault();
     setFormOpen(true);
   };
+
+  const handleAcknowledgmentChange = (event:any) => {
+    setAcknowledged(!acknowledged);
+  }
+
+
+  useEffect(() => {
+    if (app.requireAcknowledgment) {
+      setAcknowledged(false);
+    }
+  }, [app.requireAcknowledgment]);
+
   return (
     <Page
       background={{
@@ -298,7 +311,16 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                   justify-content="start"
                   marginTop={{ mobile: "medium", desktop: "none" }}
                 >
-                  <Text marginBottom="medium">{copy.policiesAndTerms}</Text>
+                  <Flex marginBottom="medium">
+                    {app.requireAcknowledgment ? (
+                      <Checkbox
+                        label=""
+                        checked={acknowledged}
+                        onChange={handleAcknowledgmentChange}
+                      ></Checkbox>
+                    ) : null}
+                    <Text>{copy.policiesAndTerms}</Text>
+                  </Flex>
                   <Form fullWidth>
                     <FormGroup>
                       <Grid
@@ -317,6 +339,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                           variant="primary"
                           marginBottom={{ mobile: "none", desktop: "medium" }}
                           onClick={onInstallButtonClick}
+                          disabled={app.requireAcknowledgment && !acknowledged}
                         >
                           {copy.install}
                         </Button>
@@ -331,10 +354,9 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                       <StyledScopes>
                         {app.scopesAllowed?.map(
                           (permission: string, index: number) => (
-                            <li>
+                            <li key={index}>
                               <Flex
                                 alignItems={{ mobile: "start" }}
-                                key={index}
                                 flexDirection={{ mobile: "row" }}
                               >
                                 <CheckIcon color="success" aria-hidden="true" />
@@ -354,10 +376,9 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                       <StyledScopes>
                         {app.scopesDenied?.map(
                           (denial: string, index: number) => (
-                            <li>
+                            <li key={index}>
                               <Flex
                                 alignItems={{ mobile: "start" }}
-                                key={index}
                                 flexDirection={{ mobile: "row" }}
                               >
                                 <CloseIcon color="danger" aria-hidden="true" />
