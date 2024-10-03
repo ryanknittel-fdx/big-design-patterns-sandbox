@@ -111,11 +111,23 @@ const partnerTier = (tier: string, headingText: string) => {
   let tierIcon = null;
   let tierName = null;
 
-  switch (tier) {
-    case "ELITE":
+  const tierObjectKey = tier.toLowerCase().replace(" ", "");
+
+  switch (tierObjectKey) {
+    case "elite":
       tierIcon =
         "https://images.ctfassets.net/wowgx05xsdrr/mKRdJn9Ea3OXNOizSFotn/8d2579f3cdc3b214fdf635cfaee78cc9/elite.svg";
       tierName = "Elite";
+      break;
+    case "verified":
+      tierIcon =
+        "https://images.ctfassets.net/wowgx05xsdrr/3ZKVZyGsz1WXl7N7sxPbVy/3871c5fcf98bf81bd6de60d081f37c8f/verified.svg";
+      tierName = "Verified";
+      break;
+    case "preferred":
+      tierIcon =
+        "https://images.ctfassets.net/wowgx05xsdrr/h1Hsopo4cU1d39UVItu6q/0f01262b0fadcc6271984e2ac063c627/preferred.svg";
+      tierName = "Preferred";
       break;
     default:
       break;
@@ -361,21 +373,16 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
               </Grid>
             </Box>
 
-            <Grid
-              className="mobile-toggle"
-              display={{ desktop: "none" }}
-            >
-              <Flex
-              justifyContent="end" padding="large">
-              <Button
-                variant="primary"
-                onClick={toggleForm}
-                iconRight={<ArrowDropDownIcon />}
-                mobileWidth="100%"
-              >
-                {copy.install}
-              </Button>
-
+            <Grid className="mobile-toggle" display={{ desktop: "none" }}>
+              <Flex justifyContent="end" padding="large">
+                <Button
+                  variant="primary"
+                  onClick={toggleForm}
+                  iconRight={<ArrowDropDownIcon />}
+                  mobileWidth="100%"
+                >
+                  {copy.install}
+                </Button>
               </Flex>
             </Grid>
           </StyledPanelViewport>
