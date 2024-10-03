@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent, ReactNode, useState } from "react";
 import {
   Box,
   Flex,
@@ -13,8 +13,8 @@ import {
   Button,
   Text,
   H1,
+  H2,
 } from "@bigcommerce/big-design";
-import { theme as defaultTheme } from "@bigcommerce/big-design-theme";
 import { Page } from "@bigcommerce/big-design-patterns";
 import { FeatureTag } from "../featureTag/FeatureTag";
 
@@ -28,46 +28,65 @@ import {
   StarBorderIcon,
   StarHalfIcon,
   StarIcon,
+  ArrowDropDownIcon,
 } from "@bigcommerce/big-design-icons";
 
-import { StyledBackLink } from "./styled";
+import {
+  StyledAsideForm,
+  StyledBackLink,
+  StyledMovingBlock,
+  StyledPanelViewport,
+  StyledScopes,
+} from "./styled";
 
 interface SlideData {
   alt: string;
   imageUrl: string;
+  thumbnailUrl?: string;
+}
+
+interface DeveloperType {
+  name: string;
+  url: string;
+  tier?: string;
+}
+
+interface FeatureType {
+  label: string;
+  icon?: ReactNode;
+  link?: string;
 }
 
 interface InstallScreenProps {
-  backButtonLabel?: string;
   onBackButtonClick?: () => void;
   onInstallButtonClick?: () => void;
   app: {
     logoURL: string;
     name: string;
-    developer: {
-      name: string;
-      url: string;
-      tier?: string;
-    };
+    developer: DeveloperType;
     description?: string;
     summary: string;
-    features: Array<{
-      label: string;
-      icon?: ReactNode;
-      link?: string;
-    }>;
-    screenshots?: SlideData[];
-    permissions?: Array<string>;
+    features: Array<FeatureType>;
+    screenshots?: Array<SlideData>;
+    scopesAllowed?: Array<string>;
+    scopesDenied: Array<string>;
     rating?: number;
     price?: string;
     privacyPolicyURL?: string;
     termsOfServiceURL?: string;
   };
-  about: string;
-  benefits: Array<{
-    title: string;
-    description: string;
-  }>;
+  copy: {
+    panelHeader: string;
+    backButton: string;
+    price: string;
+    rating: string;
+    partnerTier: string;
+    policiesAndTerms: ReactNode;
+    install: string;
+    scopesAllowed: ReactNode;
+    scopesDenied: ReactNode;
+    cancel: string;
+  };
 }
 
 const AppRating = ({ rating }: { rating: number }) => {
@@ -88,7 +107,7 @@ const textToHTML = (text: string) => {
   return { __html: text };
 };
 
-const partnerTier = (tier: string) => {
+const partnerTier = (tier: string, headingText: string) => {
   let tierIcon = null;
   let tierName = null;
 
@@ -105,7 +124,7 @@ const partnerTier = (tier: string) => {
   if (tierName && tierIcon) {
     return (
       <FlexItem>
-        <Text margin="none">Partner Tier</Text>
+        <Text margin="none">{headingText}</Text>
         <Flex marginTop="xxSmall">
           <FlexItem>
             <img src={tierIcon} height="24" />
@@ -124,15 +143,38 @@ const partnerTier = (tier: string) => {
 };
 
 export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
-  backButtonLabel,
   onBackButtonClick,
   onInstallButtonClick,
   app,
+  copy = {
+    panelHeader: <>App Installation</>,
+    backButton: "Apps",
+    price: "Price",
+    rating: "Rating",
+    partnerTier: "Partner Tier",
+    policiesAndTerms: <>Policies and Terms</>,
+    install: "Install",
+    scopesAllowed: <>"Scopes Allowed"</>,
+    scopesDenied: <>"Scopes Denied"</>,
+    cancel: "Cancel",
+  },
 }) => {
+  // state to determine if form is open or closed
+  const [formOpen, setFormOpen] = useState(false);
+
   const descriptionAsHTML = app.description
     ? textToHTML(app.description)
     : null;
 
+  const cancelButtonHandler = (e) => {
+    e.preventDefault();
+    setFormOpen(false);
+  };
+
+  const toggleForm = (e: MouseEvent) => {
+    e.preventDefault();
+    setFormOpen(true);
+  };
   return (
     <Page
       background={{
@@ -144,13 +186,13 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
     >
       <Grid
         gridColumns={{ mobile: "1fr", desktop: "minmax(0px, 4fr) 425px" }}
-        gridGap="30px"
+        gridGap="2rem"
       >
         <GridItem>
           <Grid gridColumns={"102px 1fr"} gridColumnGap={theme.spacing.large}>
             <GridItem gridColumnStart={"1"} gridColumnEnd={"3"}>
               <StyledBackLink href="#" onClick={onBackButtonClick}>
-                <ArrowBackIcon size="large" /> {backButtonLabel}
+                <ArrowBackIcon size="large" /> {copy.backButton}
               </StyledBackLink>
             </GridItem>
             <GridItem
@@ -183,7 +225,6 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
               ) : null}
             </GridItem>
           </Grid>
-
           <Flex flexDirection="column" flexGap="24px">
             {app.screenshots && app.screenshots.length > 0 ? (
               <FlexItem>
@@ -206,20 +247,23 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
             ) : null}
           </Flex>
         </GridItem>
-        <Box>
-          <Flex flexDirection="column" flexGap={defaultTheme.spacing.xLarge}>
-            <FlexItem>
-              <Panel header={`Easily install ${app.name} now`}>
-                <HR />
+        <StyledAsideForm backgroundColor="white" shadow="raised">
+          <StyledPanelViewport className={formOpen ? "isOpen" : "isClosed"}>
+            <Box className="contents">
+              <Grid gridColumns="1fr" gridGap="medium" padding="large">
+                <H2>{copy.panelHeader}</H2>
                 <Flex
+                  flexDirection={{ mobile: "row" }}
                   justifyContent="space-between"
-                  alignItems="center"
+                  alignItems="start"
                   marginBottom="medium"
-                  marginTop="small"
+                  paddingVertical="small"
+                  borderTop="box"
+                  borderBottom="box"
                 >
                   {app.price ? (
                     <FlexItem>
-                      <Text margin="none">Price</Text>
+                      <Text margin="none">{copy.price}</Text>
                       <Text bold marginTop="xxSmall">
                         {app.price}
                       </Text>
@@ -227,86 +271,115 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                   ) : null}
                   {app.rating ? (
                     <FlexItem>
-                      <Text margin="none">Rating</Text>
+                      <Text margin="none">{copy.rating}</Text>
                       <Box marginTop="xxSmall">
                         <AppRating rating={app.rating} />
                       </Box>
                     </FlexItem>
                   ) : null}
 
-                  {app.developer.tier ? partnerTier(app.developer.tier) : null}
-                </Flex>
-
-                <Form fullWidth>
-                  <FormGroup>
-                    <Button
-                      variant="primary"
-                      marginBottom="medium"
-                      onClick={onInstallButtonClick}
-                    >
-                      Install
-                    </Button>
-                  </FormGroup>
-                </Form>
-
-                <HR />
-                <Text marginBottom="medium">
-                  By clicking on install you agree to the{" "}
-                  <strong>BigCommerce</strong>{" "}
-                  <Link href="#" target="_blank">
-                    terms of service
-                  </Link>{" "}
-                  and <strong>{app.name}</strong>{" "}
-                  {app.privacyPolicyURL ? (
-                    <Link href={app.privacyPolicyURL} target="_blank">
-                      privacy policy
-                    </Link>
-                  ) : null}
-                  {app.privacyPolicyURL && app.termsOfServiceURL
-                    ? " and "
+                  {app.developer.tier
+                    ? partnerTier(app.developer.tier, copy.partnerTier)
                     : null}
-                  {app.termsOfServiceURL ? (
-                    <Link href={app.termsOfServiceURL} target="_blank">
-                      terms of service
-                    </Link>
+                </Flex>
+                <StyledMovingBlock
+                  justify-content="start"
+                  marginTop={{ mobile: "medium", desktop: "none" }}
+                >
+                  <Text marginBottom="medium">{copy.policiesAndTerms}</Text>
+                  <Form fullWidth>
+                    <FormGroup>
+                      <Grid
+                        gridColumns={{ mobile: "1fr 1fr", desktop: "1fr" }}
+                        gridGap="1rem"
+                      >
+                        <GridItem display={{ mobile: "grid", desktop: "none" }}>
+                          <Button
+                            variant="secondary"
+                            onClick={cancelButtonHandler}
+                          >
+                            {copy.cancel}
+                          </Button>
+                        </GridItem>
+                        <Button
+                          variant="primary"
+                          marginBottom={{ mobile: "none", desktop: "medium" }}
+                          onClick={onInstallButtonClick}
+                        >
+                          {copy.install}
+                        </Button>
+                      </Grid>
+                    </FormGroup>
+                  </Form>
+                </StyledMovingBlock>
+                <GridItem>
+                  {app.scopesAllowed && app.scopesAllowed.length > 0 ? (
+                    <Box marginBottom="medium">
+                      <Text marginBottom="small">{copy.scopesAllowed}</Text>
+                      <StyledScopes>
+                        {app.scopesAllowed?.map(
+                          (permission: string, index: number) => (
+                            <li>
+                              <Flex
+                                alignItems={{ mobile: "start" }}
+                                key={index}
+                                flexDirection={{ mobile: "row" }}
+                              >
+                                <CheckIcon color="success" aria-hidden="true" />
+                                <FlexItem marginLeft="small">
+                                  {permission}
+                                </FlexItem>
+                              </Flex>
+                            </li>
+                          )
+                        )}
+                      </StyledScopes>
+                    </Box>
                   ) : null}
-                  .
-                </Text>
+                  {app.scopesDenied && app.scopesDenied.length > 0 ? (
+                    <Box>
+                      <Text marginBottom="small">{copy.scopesDenied}</Text>
+                      <StyledScopes>
+                        {app.scopesDenied?.map(
+                          (denial: string, index: number) => (
+                            <li>
+                              <Flex
+                                alignItems={{ mobile: "start" }}
+                                key={index}
+                                flexDirection={{ mobile: "row" }}
+                              >
+                                <CloseIcon color="danger" aria-hidden="true" />
+                                <FlexItem marginLeft="small">{denial}</FlexItem>
+                              </Flex>
+                            </li>
+                          )
+                        )}
+                      </StyledScopes>
+                    </Box>
+                  ) : null}
+                </GridItem>
+              </Grid>
+            </Box>
 
-                {app.permissions && app.permissions.length > 0 ? (
-                  <Box marginBottom="medium">
-                    <Text marginBottom="small">
-                      By installing {app.name}, it will be able to:
-                    </Text>
-                    <Flex flexDirection="column" flexGap="4px">
-                      {app.permissions?.map(
-                        (permission: string, index: number) => (
-                          <Flex alignItems="center" key={index}>
-                            <CheckIcon color="success" />
-                            <FlexItem marginLeft="small">{permission}</FlexItem>
-                          </Flex>
-                        )
-                      )}
-                    </Flex>
-                  </Box>
-                ) : null}
-                <Box>
-                  <Text marginBottom="small">
-                    {app.name} <strong>will not be able</strong> to:
-                  </Text>
-                  <Flex flexDirection="column" flexGap="4px">
-                    <Flex alignItems="center">
-                      <CloseIcon color="danger" />
-                      <FlexItem marginLeft="small">
-                        Access your password
-                      </FlexItem>
-                    </Flex>
-                  </Flex>
-                </Box>
-              </Panel>
-            </FlexItem>
-          </Flex>
-        </Box>
+            <Grid
+              className="mobile-toggle"
+              display={{ desktop: "none" }}
+            >
+              <Flex
+              justifyContent="end" padding="large">
+              <Button
+                variant="primary"
+                onClick={toggleForm}
+                iconRight={<ArrowDropDownIcon />}
+                mobileWidth="100%"
+              >
+                {copy.install}
+              </Button>
+
+              </Flex>
+            </Grid>
+          </StyledPanelViewport>
+        </StyledAsideForm>
       </Grid>
     </Page>
   );

@@ -11,6 +11,7 @@ import { usePrevNextButtons } from "./ArrowButtons";
 
 type SlideType = {
   imageUrl: string;
+  thumbnailUrl?: string;
   alt: string;
 };
 
@@ -40,8 +41,14 @@ const EmblaContainer = styled.div`
 
 const EmblaSlide = styled.div`
   position: relative;
-  min-width: calc(50% - 0.5rem);
+  min-width: 100%;
+
+  @media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
+    min-width: calc(50% - 0.5rem);
+  }
 `;
+
+EmblaSlide.defaultProps = { theme: defaultTheme };
 
 const EmblaSlideInner = styled.div`
   position: relative;
@@ -62,7 +69,7 @@ const EmblaSlideImg = styled.img`
 
 const EmblaButton = styled.button<{ side: "left" | "right" }>`
   position: absolute;
-  z-index: 1;
+  z-index: 0;
   top: 50%;
   transform: translateY(-50%);
   border: 0;
@@ -116,7 +123,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
           {slides.map((slide, index) => (
             <EmblaSlide key={index}>
               <EmblaSlideInner>
-                <EmblaSlideImg src={slide.imageUrl} alt={slide.alt} />
+                <EmblaSlideImg src={slide.thumbnailUrl} alt={slide.alt} />
               </EmblaSlideInner>
             </EmblaSlide>
           ))}
