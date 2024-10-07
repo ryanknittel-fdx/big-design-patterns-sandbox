@@ -1,4 +1,10 @@
-import { FunctionComponent, ReactNode, useState, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  ReactNode,
+  useState,
+  useEffect,
+  MouseEvent,
+} from "react";
 import {
   Box,
   Flex,
@@ -16,10 +22,8 @@ import {
   Checkbox,
 } from "@bigcommerce/big-design";
 import { Page } from "@bigcommerce/big-design-patterns";
-import { FeatureTag } from "../featureTag/FeatureTag";
-
+import { FeatureTag, FeatureTagProps } from "../featureTag/FeatureTag";
 import EmblaCarousel from "./Carousel";
-
 import { theme } from "@bigcommerce/big-design-theme";
 import {
   ArrowBackIcon,
@@ -30,7 +34,6 @@ import {
   StarIcon,
   ArrowDropDownIcon,
 } from "@bigcommerce/big-design-icons";
-
 import {
   StyledAsideForm,
   StyledBackLink,
@@ -39,58 +42,80 @@ import {
   StyledScopes,
 } from "./styled";
 
+/**
+ * Slide data structure for the image carousel.
+ */
 interface SlideData {
   alt: string;
   imageUrl: string;
   thumbnailUrl?: string;
 }
 
+/**
+ * Developer information structure.
+ */
 interface DeveloperType {
   name: string;
   url: string;
   tier?: string;
 }
 
-interface FeatureType {
-  label: string;
-  icon?: ReactNode;
-  link?: string;
+/**
+ * Copy structure for the installation panel text content.
+ */
+interface InstallationCopy {
+  panelHeader: string;
+  backButton: string;
+  price: string;
+  rating: string;
+  partnerTier: string;
+  policiesAndTerms: ReactNode;
+  install: string;
+  scopesAllowed: ReactNode;
+  scopesDenied: ReactNode;
+  cancel: string;
 }
 
+/**
+ * App information structure.
+ */
+export interface AppType {
+  logoURL: string;
+  name: string;
+  developer: DeveloperType;
+  description?: string;
+  summary: string;
+  features: Array<FeatureTagProps>;
+  screenshots?: Array<SlideData>;
+  scopesAllowed?: Array<string>;
+  scopesDenied: Array<string>;
+  rating?: number;
+  price?: string;
+  privacyPolicyURL?: string;
+  termsOfServiceURL?: string;
+  requireAcknowledgment?: boolean;
+}
+
+/**
+ * Props structure for the InstallScreen component.
+ */
 interface InstallScreenProps {
   onBackButtonClick?: () => void;
   onInstallButtonClick?: () => void;
-  app: {
-    logoURL: string;
-    name: string;
-    developer: DeveloperType;
-    description?: string;
-    summary: string;
-    features: Array<FeatureType>;
-    screenshots?: Array<SlideData>;
-    scopesAllowed?: Array<string>;
-    scopesDenied: Array<string>;
-    rating?: number;
-    price?: string;
-    privacyPolicyURL?: string;
-    termsOfServiceURL?: string;
-    requireAcknowledgment?: boolean;
-  };
-  copy: {
-    panelHeader: string;
-    backButton: string;
-    price: string;
-    rating: string;
-    partnerTier: string;
-    policiesAndTerms: ReactNode;
-    install: string;
-    scopesAllowed: ReactNode;
-    scopesDenied: ReactNode;
-    cancel: string;
-  };
+  customForm?: ReactNode;
+  app: AppType;
+  copy: InstallationCopy;
 }
 
-const AppRating = ({ rating }: { rating: number }) => {
+/**
+ * AppRating component.
+ * Renders the rating of the app using stars based on the rating value.
+ *
+ * @param {Object} props - Properties for the component.
+ * @param {number} props.rating - Rating value for the app.
+ * @returns {JSX.Element} The rendered AppRating component.
+ */
+const AppRating: FunctionComponent<{ rating: number }> = ({ rating }) => {
   const stars = [1, 2, 3, 4, 5].map((star) => {
     if (rating >= star) {
       return <StarIcon key={star} color="warning60" />;
@@ -104,11 +129,24 @@ const AppRating = ({ rating }: { rating: number }) => {
   return <>{stars}</>;
 };
 
+/**
+ * Converts a text string to an HTML structure.
+ *
+ * @param {string} text - The text to be converted to HTML.
+ * @returns {Object} HTML object for rendering.
+ */
 const textToHTML = (text: string) => {
   return { __html: text };
 };
 
-const partnerTier = (tier: string, headingText: string) => {
+/**
+ * Renders the partner tier information based on the tier name and heading text.
+ *
+ * @param {string} tier - Partner tier name.
+ * @param {string} headingText - Heading text for the tier section.
+ * @returns {JSX.Element | null} The rendered tier information or null if no match is found.
+ */
+const partnerTier = (tier: string, headingText: string): ReactNode => {
   let tierIcon = null;
   let tierName = null;
 
@@ -140,10 +178,10 @@ const partnerTier = (tier: string, headingText: string) => {
         <Text margin="none">{headingText}</Text>
         <Flex marginTop="xxSmall">
           <FlexItem>
-            <img src={tierIcon} height="24" />
+            <img src={tierIcon} height="24" alt={`${tierName} icon`} />
           </FlexItem>
           <FlexItem>
-            <Text color="brand" uppercase={true} marginLeft="xxSmall" bold>
+            <Text color="brand" uppercase marginLeft="xxSmall" bold>
               {tierName}
             </Text>
           </FlexItem>
@@ -155,9 +193,17 @@ const partnerTier = (tier: string, headingText: string) => {
   return null;
 };
 
+/**
+ * InstallScreen component.
+ * Renders the installation screen for an app, including app details, installation options, and acknowledgment.
+ *
+ * @param {InstallScreenProps} props - Properties passed to the component.
+ * @returns {JSX.Element} The rendered InstallScreen component.
+ */
 export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
   onBackButtonClick,
   onInstallButtonClick,
+  customForm,
   app,
   copy = {
     panelHeader: <>App Installation</>,
@@ -175,24 +221,36 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
   const [formOpen, setFormOpen] = useState(false);
   const [acknowledged, setAcknowledged] = useState(true);
 
-  const descriptionAsHTML = app.description
-    ? textToHTML(app.description)
-    : null;
+  const descriptionAsHTML = app.description ? textToHTML(app.description) : null;
 
+  /**
+   * Handles the click event for the cancel button.
+   *
+   * @param {MouseEvent} e - The click event object.
+   */
   const cancelButtonHandler = (e: MouseEvent) => {
     e.preventDefault();
     setFormOpen(false);
   };
 
+  /**
+   * Handles the form toggle event to show/hide the form.
+   *
+   * @param {MouseEvent} e - The click event object.
+   */
   const toggleForm = (e: MouseEvent) => {
     e.preventDefault();
     setFormOpen(true);
   };
 
-  const handleAcknowledgmentChange = (event:any) => {
+  /**
+   * Handles the acknowledgment checkbox change event.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} event - The change event object.
+   */
+  const handleAcknowledgmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAcknowledged(!acknowledged);
-  }
-
+  };
 
   useEffect(() => {
     if (app.requireAcknowledgment) {
@@ -215,17 +273,19 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
       >
         <GridItem>
           <Grid gridColumns={"102px 1fr"} gridColumnGap={theme.spacing.large}>
+            {/* Back Button */}
             <GridItem gridColumnStart={"1"} gridColumnEnd={"3"}>
               <StyledBackLink href="#" onClick={onBackButtonClick}>
                 <ArrowBackIcon size="large" /> {copy.backButton}
               </StyledBackLink>
             </GridItem>
+            {/* App Details */}
             <GridItem
               backgroundColor="white"
               borderRadius="normal"
               padding={`large`}
             >
-              <img src={app.logoURL} width={"60"} height={"60"} />
+              <img src={app.logoURL} width={"60"} height={"60"} alt="App Logo" />
             </GridItem>
             <GridItem>
               <H1 marginBottom={"small"}>{app.name}</H1>
@@ -234,6 +294,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
               </Link>{" "}
               | {app.summary}
             </GridItem>
+            {/* App features */}
             <GridItem gridColumnStart={"1"} gridColumnEnd={"3"}>
               {app.features ? (
                 <Flex
@@ -244,12 +305,13 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                   alignContent={{ mobile: "flex-start" }}
                 >
                   {app.features.map((tag, index) => (
-                    <FeatureTag key={index} label={tag.label} icon={tag.icon} />
+                    <FeatureTag {...tag} key={index} />
                   ))}
                 </Flex>
               ) : null}
             </GridItem>
           </Grid>
+          {/* App screenshots */}
           <Flex flexDirection="column" flexGap="24px">
             {app.screenshots && app.screenshots.length > 0 ? (
               <FlexItem>
@@ -267,51 +329,60 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
             <Box>
               <HR />
             </Box>
+            {/* App description */}
             {descriptionAsHTML ? (
               <Box dangerouslySetInnerHTML={descriptionAsHTML} />
             ) : null}
           </Flex>
         </GridItem>
+        {/* Installation panel */}
         <StyledAsideForm backgroundColor="white" shadow="raised">
           <StyledPanelViewport className={formOpen ? "isOpen" : "isClosed"}>
             <Box className="contents">
               <Grid gridColumns="1fr" gridGap="medium" padding="large">
                 <H2>{copy.panelHeader}</H2>
-                <Flex
-                  flexDirection={{ mobile: "row" }}
-                  justifyContent="space-between"
-                  alignItems="start"
-                  marginBottom="medium"
-                  paddingVertical="small"
-                  borderTop="box"
-                  borderBottom="box"
-                >
-                  {app.price ? (
-                    <FlexItem>
-                      <Text margin="none">{copy.price}</Text>
-                      <Text bold marginTop="xxSmall">
-                        {app.price}
-                      </Text>
-                    </FlexItem>
-                  ) : null}
-                  {app.rating ? (
-                    <FlexItem>
-                      <Text margin="none">{copy.rating}</Text>
-                      <Box marginTop="xxSmall">
-                        <AppRating rating={app.rating} />
-                      </Box>
-                    </FlexItem>
-                  ) : null}
+                {/* App characteristics */}
+                {app.price || app.rating || app.developer.tier ? (
+                  <Flex
+                    flexDirection={{ mobile: "row" }}
+                    justifyContent="space-between"
+                    alignItems="start"
+                    marginBottom="medium"
+                    paddingVertical="small"
+                    borderTop="box"
+                    borderBottom="box"
+                  >
+                    {app.price ? (
+                      <FlexItem>
+                        <Text margin="none">{copy.price}</Text>
+                        <Text bold marginTop="xxSmall">
+                          {app.price}
+                        </Text>
+                      </FlexItem>
+                    ) : null}
+                    {app.rating ? (
+                      <FlexItem>
+                        <Text margin="none">{copy.rating}</Text>
+                        <Box marginTop="xxSmall">
+                          <AppRating rating={app.rating} />
+                        </Box>
+                      </FlexItem>
+                    ) : null}
 
-                  {app.developer.tier
-                    ? partnerTier(app.developer.tier, copy.partnerTier)
-                    : null}
-                </Flex>
+                    {app.developer.tier
+                      ? partnerTier(app.developer.tier, copy.partnerTier)
+                      : null}
+                  </Flex>
+                ) : null}
+
+                {/* Custom form (if needed) */}
+                {customForm ? customForm : null}
+                {/* Acknowledgment and installation */}
                 <StyledMovingBlock
                   justify-content="start"
                   marginTop={{ mobile: "medium", desktop: "none" }}
                 >
-                  <Flex marginBottom="medium">
+                  <Flex marginBottom="medium" flexDirection={{ mobile: "row" }}>
                     {app.requireAcknowledgment ? (
                       <Checkbox
                         label=""
@@ -347,12 +418,13 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                     </FormGroup>
                   </Form>
                 </StyledMovingBlock>
+                {/* Scopes */}
                 <GridItem>
                   {app.scopesAllowed && app.scopesAllowed.length > 0 ? (
                     <Box marginBottom="medium">
                       <Text marginBottom="small">{copy.scopesAllowed}</Text>
                       <StyledScopes>
-                        {app.scopesAllowed?.map(
+                        {app.scopesAllowed.map(
                           (permission: string, index: number) => (
                             <li key={index}>
                               <Flex
@@ -374,7 +446,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                     <Box>
                       <Text marginBottom="small">{copy.scopesDenied}</Text>
                       <StyledScopes>
-                        {app.scopesDenied?.map(
+                        {app.scopesDenied.map(
                           (denial: string, index: number) => (
                             <li key={index}>
                               <Flex
@@ -393,7 +465,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                 </GridItem>
               </Grid>
             </Box>
-
+            {/* Mobile toggle */}
             <Grid className="mobile-toggle" display={{ desktop: "none" }}>
               <Flex justifyContent="end" padding="large">
                 <Button

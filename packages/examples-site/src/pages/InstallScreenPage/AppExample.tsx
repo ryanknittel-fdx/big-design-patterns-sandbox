@@ -22,8 +22,8 @@ const InstallScreenApp: FunctionComponent = () => {
     },
     summary: "Sell on other websites with the power of your BigCommerce store",
     features: [
-      { label: "Multi-storefront support", icon: <MagicIcon /> },
-      { label: "Built by BigCommerce", icon: <MagicIcon /> },
+      { label: "Multi-storefront support", icon: <MagicIcon />, href:"#", target:"_self" },
+      { label: "Built by BigCommerce", icon: <MagicIcon />, href:"#", target:"_self" },
     ],
     screenshots: [
       {
@@ -55,7 +55,7 @@ const InstallScreenApp: FunctionComponent = () => {
       "View and modify products",
     ],
     scopesDenied: ["Access your password"],
-    requireAcknowledgment: true,
+    requireAcknowledgment: false,
     price: "Free",
     rating: 4.5,
     description: `<h4 id="h4_your_brand__everywhere">Your brand, everywhere</h4><p>Buy Buttons allow you to sell on other websites with the power of your BigCommerce store.</p><p>Buy Buttons can be used to:</p><ul><li><p>Add commerce to your blog (such as WordPress)</p></li><li><p>Market your products on Tumblr</p></li><li><p>Easily embed straight-to-checkout links into marketing emails</p></li><li><p>Make it easy to add-to-cart directly from social media</p></li><li><p>...and much more!</p></li></ul><h4 id="h4_flexible__customizable">Flexible, Customizable</h4><p>The Buy Button is fully responsive so it looks great on mobile and desktop, and can scale intelligently on responsive websites. It requires no JavaScript which makes it compatible with any website where you have the ability to add HTML.</p><p>You can customize the display of your Buy Button by picking your own colors, fonts, and text.</p><h4 id="h4_conversion_tracking">Conversion Tracking</h4><p>Advanced users can also integrate Google Analytics to easily track views and conversions originating from the Buy Button.</p>`,
@@ -101,7 +101,6 @@ const InstallScreenApp: FunctionComponent = () => {
   };
 
   return (
-    <>
       <InstallScreen
         backButtonLabel="Apps"
         onBackButtonClick={() => {
@@ -114,7 +113,6 @@ const InstallScreenApp: FunctionComponent = () => {
         }}
         copy={copy}
       />
-    </>
   );
 };
 

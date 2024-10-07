@@ -52,9 +52,9 @@ const PageHome: FunctionComponent = () => {
             <li>
               <Link to={"/install-screen-app"}>Install Apps</Link>
             </li>
-            {/* <li>
+            <li>
               <Link to={"/install-screen-channel"}>Install Channels</Link>
-            </li> */}
+            </li>
           </ul>
           </Box>
         </li>
