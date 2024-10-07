@@ -28,7 +28,7 @@ export interface BackButtonProps {
  * @param {BackButtonProps} props - The props for the BackButton component.
  * @returns {JSX.Element} The rendered BackButton component.
  */
-const BackButton: FunctionComponent<BackButtonProps> = ({
+export const BackButton: FunctionComponent<BackButtonProps> = ({
   onBackButtonClick,
   backButtonLabel = "Back",
 }) => {

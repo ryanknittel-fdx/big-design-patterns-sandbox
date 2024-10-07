@@ -8,5 +8,6 @@ export * from './components/contextSelector/ContextSelector';
 export * from './components/featureTag/FeatureTag';
 export * from './components/hero/Hero';
 export * from './components/InfoIllustration/InfoIllustration';
+export * from './components/InstallScreen';
 export * from './components/MagicIcon/MagicIcon';
 export * from './components/scroller/Scroller';

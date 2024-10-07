@@ -9,10 +9,9 @@ import { StyledFeatureTag } from "./FeatureTag.styled";
  * @property {number} [tabIndex=0] - The tabIndex attribute specifies the tab order of an element (when the "tab" button is used for navigating).
  * @property {boolean} [isActive=false] - Indicates whether the feature tag is currently active.
  */
-export interface FeatureTagProps {
+export interface FeatureTagProps extends React.HTMLAttributes<HTMLAnchorElement> {
   label: string;
-  icon: ReactNode;
-  tabIndex?: number;
+  icon?: ReactNode;
   isActive?: boolean;
 }
 
@@ -26,13 +25,10 @@ export interface FeatureTagProps {
 export const FeatureTag: FunctionComponent<FeatureTagProps> = ({
   label,
   icon,
-  tabIndex = 0,
   isActive = false,
 }) => {
   return (
     <StyledFeatureTag
-      role="button"
-      tabIndex={tabIndex}
       className={isActive ? "active" : ""}
     >
       {icon}

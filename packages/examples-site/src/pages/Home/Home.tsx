@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { H2 } from "@bigcommerce/big-design";
+import { H2, H3, Box } from "@bigcommerce/big-design";
 import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { Link } from "react-router-dom";
 
@@ -40,10 +40,23 @@ const PageHome: FunctionComponent = () => {
           <Link to="/feature-tag">Feature Tags</Link>
         </li>
         <li>
+          <Link to={"/card-grid"}>Card Grid</Link>
+        </li>
+        <li>
           <Link to={"/info-illustration"}>Info Illustrations</Link>
         </li>
         <li>
-          <Link to={"/cardgrid"}>Card Grid</Link>
+          <Box marginTop={'large'}>
+          <H3>Install Screen</H3>
+          <ul>
+            <li>
+              <Link to={"/install-screen-app"}>Install Apps</Link>
+            </li>
+            <li>
+              <Link to={"/install-screen-channel"}>Install Channels</Link>
+            </li>
+          </ul>
+          </Box>
         </li>
       </ul>
     </Page>

@@ -1,8 +1,7 @@
 import { theme as defaultTheme } from "@bigcommerce/big-design-theme";
 import styled from "styled-components";
-import { BoxProps } from "@bigcommerce/big-design";
 
-export const StyledFeatureTag = styled.div<BoxProps>`
+export const StyledFeatureTag = styled.a`
   display: inline-flex;
   gap: ${({ theme }) => theme.spacing.xxSmall};
   justify-content: center;
@@ -19,12 +18,6 @@ export const StyledFeatureTag = styled.div<BoxProps>`
   cursor: pointer;
   outline: none;
 
-  &.active {
-    color: ${({ theme }) => theme.colors.primary50};
-    fill: ${({ theme }) => theme.colors.primary40};
-    background-color: ${({ theme }) => theme.colors.primary10};
-  }
-
   &:hover {
     color: ${({ theme }) => theme.colors.primary60};
     fill: ${({ theme }) => theme.colors.primary40};
@@ -35,16 +28,18 @@ export const StyledFeatureTag = styled.div<BoxProps>`
     outline: 4px solid ${({ theme }) => theme.colors.primary20};
   }
 
+  &:active,
   &:active {
-    color: ${({ theme }) => theme.colors.primary70};
+    color: ${({ theme }) => theme.colors.primary60};
     fill: ${({ theme }) => theme.colors.primary60};
-    background-color: ${({ theme }) => theme.colors.primary30};
+    background-color: ${({ theme }) => theme.colors.primary10};
   }
 
   &:focused:active {
-    color: ${({ theme }) => theme.colors.primary70};
+    color: ${({ theme }) => theme.colors.primary60};
     fill: ${({ theme }) => theme.colors.primary60};
-    background-color: ${({ theme }) => theme.colors.primary30};
+    background-color: ${({ theme }) => theme.colors.primary10};
+    outline: 4px solid ${({ theme }) => theme.colors.primary30};
   }
 `;
 
