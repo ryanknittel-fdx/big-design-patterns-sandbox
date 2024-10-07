@@ -23,6 +23,7 @@ import {
 } from "@bigcommerce/big-design";
 import { Page } from "@bigcommerce/big-design-patterns";
 import { FeatureTag, FeatureTagProps } from "../featureTag/FeatureTag";
+import { HTMLParser } from "../htmlParser/htmlParser";
 import EmblaCarousel from "./Carousel";
 import { theme } from "@bigcommerce/big-design-theme";
 import {
@@ -330,8 +331,9 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
               <HR />
             </Box>
             {/* App description */}
-            {descriptionAsHTML ? (
-              <Box dangerouslySetInnerHTML={descriptionAsHTML} />
+            {app.description ? (
+              // <Box dangerouslySetInnerHTML={descriptionAsHTML} />
+              <HTMLParser html={app.description} />
             ) : null}
           </Flex>
         </GridItem>
