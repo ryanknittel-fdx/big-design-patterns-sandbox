@@ -41,7 +41,7 @@ const App: FunctionComponent = () => {
   return (
     <>
       <AlertsManager manager={alertsManager} />
-      <Router>
+      <Router basename="import.meta.env.BASE_URL">
         <RouteFC />
       </Router>
     </>
