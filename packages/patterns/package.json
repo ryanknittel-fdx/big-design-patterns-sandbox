@@ -21,9 +21,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.24.4",
-    "@bigcommerce/big-design": "^1.4.1",
-    "@bigcommerce/big-design-icons": "^1.0.3",
-    "@bigcommerce/big-design-patterns": "^1.1.1",
+    "@bigcommerce/big-design": "^1.4.2",
+    "@bigcommerce/big-design-icons": "^1.1.0",
+    "@bigcommerce/big-design-patterns": "^2.0.0",
     "@bigcommerce/big-design-theme": "^1.1.0",
     "dompurify": "^3.1.7",
     "embla-carousel": "8.1.8",

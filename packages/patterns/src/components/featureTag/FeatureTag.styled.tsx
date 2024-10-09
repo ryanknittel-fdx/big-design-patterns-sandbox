@@ -44,3 +44,19 @@ export const StyledFeatureTag = styled.a`
 `;
 
 StyledFeatureTag.defaultProps = { theme: defaultTheme };
+
+export const StyledFeatureTagIcon = styled.div`
+  display: flex;
+  width: ${({ theme }) => theme.helpers.remCalc(24)};
+  height: ${({ theme }) => theme.helpers.remCalc(24)};
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  & > svg {
+    transform: scale(0.75);
+    transform-origin: center;
+  }
+`;
+
+StyledFeatureTagIcon.defaultProps = { theme: defaultTheme };

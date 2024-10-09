@@ -9,7 +9,8 @@ import {
   Radio,
   Select,
 } from "@bigcommerce/big-design";
-import { InstallScreen, MagicIcon } from "bigcommerce-design-patterns";
+import { InstallScreen } from "bigcommerce-design-patterns";
+import { AutoAwesomeIcon as MagicIcon } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
 
 /**

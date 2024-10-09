@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from "react";
 import { Flex, FlexItem, Text, HR, Table } from "@bigcommerce/big-design";
-import { FeatureTag, MagicIcon, AdvancedPanel as Panel } from "bigcommerce-design-patterns";
+import { FeatureTag, AdvancedPanel as Panel } from "bigcommerce-design-patterns";
 import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
+import { AutoAwesomeIcon as MagicIcon } from "@bigcommerce/big-design-icons";
 
 import { CopyBlock, nord as codecolor } from "react-code-blocks";
 
