@@ -1,5 +1,7 @@
-import React, { FunctionComponent, ReactNode } from "react";
-import { StyledFeatureTag } from "./FeatureTag.styled";
+import React, { FunctionComponent, ReactElement, ReactNode } from "react";
+import { StyledFeatureTag, StyledFeatureTagIcon } from "./FeatureTag.styled";
+import { Flex, FlexItem } from "@bigcommerce/big-design";
+import { IconProps } from "@bigcommerce/big-design-icons";
 
 /**
  * Props for the FeatureTag component.
@@ -9,9 +11,10 @@ import { StyledFeatureTag } from "./FeatureTag.styled";
  * @property {number} [tabIndex=0] - The tabIndex attribute specifies the tab order of an element (when the "tab" button is used for navigating).
  * @property {boolean} [isActive=false] - Indicates whether the feature tag is currently active.
  */
-export interface FeatureTagProps extends React.HTMLAttributes<HTMLAnchorElement> {
+export interface FeatureTagProps
+  extends React.HTMLAttributes<HTMLAnchorElement> {
   label: string;
-  icon?: ReactNode;
+  icon?: ReactElement<IconProps>;
   isActive?: boolean;
 }
 
@@ -27,11 +30,14 @@ export const FeatureTag: FunctionComponent<FeatureTagProps> = ({
   icon,
   isActive = false,
 }) => {
+  const iconSize = icon && icon.props.size ? icon.props.size : "";
   return (
-    <StyledFeatureTag
-      className={isActive ? "active" : ""}
-    >
-      {icon}
+    <StyledFeatureTag className={isActive ? "active" : ""}>
+      {icon ? (
+        <StyledFeatureTagIcon className={`icon-${iconSize}`}>
+          {icon}
+        </StyledFeatureTagIcon>
+      ) : null}
       {label}
     </StyledFeatureTag>
   );

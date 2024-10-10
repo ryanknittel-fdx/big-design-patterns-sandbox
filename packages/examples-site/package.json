@@ -8,9 +8,9 @@
   },
   "dependencies": {
     "@babel/core": "^7.0.0-0",
-    "@bigcommerce/big-design": "^1.4.1",
-    "@bigcommerce/big-design-icons": "^1.0.3",
-    "@bigcommerce/big-design-patterns": "^1.1.1",
+    "@bigcommerce/big-design": "^1.4.2",
+    "@bigcommerce/big-design-icons": "^1.1.0",
+    "@bigcommerce/big-design-patterns": "^2.0.0",
     "@bigcommerce/big-design-theme": "^1.1.0",
     "bigcommerce-design-patterns": "workspace:*",
     "react": "^18.0.0",

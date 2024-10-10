@@ -3,8 +3,8 @@ import { Link } from "@bigcommerce/big-design";
 import {
   AdvancedPanel as Panel,
   InstallScreen,
-  MagicIcon,
 } from "bigcommerce-design-patterns";
+import { AutoAwesomeIcon as MagicIcon } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
 
 const InstallScreenApp: FunctionComponent = () => {
