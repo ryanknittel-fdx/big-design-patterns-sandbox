@@ -163,7 +163,7 @@ const InstallScreenChannel: FunctionComponent = () => {
     name: "Catalyst",
     termsOfServiceURL: "https://www.bigcommerce.com/legal/terms/",
     privacyPolicyURL: "https://www.bigcommerce.com/legal/privacy/",
-    logoURL: "/assets/images/icons/bigc-inverted-black.svg",
+    logoURL: "./assets/images/icons/bigc-inverted-black.svg",
     developer: {
       name: "BigCommerce",
       url: "#",
@@ -177,18 +177,18 @@ const InstallScreenChannel: FunctionComponent = () => {
     screenshots: [
       {
         alt: "skyline",
-        imageUrl: "/assets/images/demo/catalyst-demo-screen.png",
-        thumbnailUrl: "/assets/images/demo/catalyst-demo-screen.png",
+        imageUrl: "./assets/images/demo/catalyst-demo-screen.png",
+        thumbnailUrl: "./assets/images/demo/catalyst-demo-screen.png",
       },
       {
         alt: "r35",
-        imageUrl: "/assets/images/demo/makeswift-demo-screen.png",
-        thumbnailUrl: "/assets/images/demo/makeswift-demo-screen.png",
+        imageUrl: "./assets/images/demo/makeswift-demo-screen.png",
+        thumbnailUrl: "./assets/images/demo/makeswift-demo-screen.png",
       },
       {
         alt: "custom",
-        imageUrl: "/assets/images/demo/catalyst-demo-screen.png",
-        thumbnailUrl: "/assets/images/demo/catalyst-demo-screen.png",
+        imageUrl: "./assets/images/demo/catalyst-demo-screen.png",
+        thumbnailUrl: "./assets/images/demo/catalyst-demo-screen.png",
       },
     ],
     description: `
