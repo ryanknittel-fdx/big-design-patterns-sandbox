@@ -39,6 +39,9 @@ const PageHome: FunctionComponent = () => {
         <li>
           <Link to={"/filters-search"}>Simple search</Link>
         </li>
+        <li>
+          <Link to={"/filters-dropdowns"}>Dropdown filtering</Link>
+        </li>
       </ul>
       <H2>Pattern Components</H2>
       <ul>

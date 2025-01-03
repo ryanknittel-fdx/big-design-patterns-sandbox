@@ -15,6 +15,7 @@ import CardGridPage from "./pages/CardGridPage";
 import InstallScreenApp from "./pages/InstallScreenPage/AppExample";
 import InstallScreenChannel from "./pages/InstallScreenPage/ChannelExample";
 import PageFiltersSearch from "./pages/FiltersSearchPage/FiltersSearchPage";
+import PageFiltersDropdowns from "./pages/FiltersDropdownsPage/FiltersDropdownsPage";
 
 export const alertsManager = createAlertsManager();
 
@@ -35,6 +36,7 @@ const RouteFC = () => {
     { path: "/install-screen-app", element: <InstallScreenApp />},
     { path: "/install-screen-channel", element: <InstallScreenChannel />},
     { path: "/filters-search", element: <PageFiltersSearch />},
+    { path: "/filters-dropdowns", element: <PageFiltersDropdowns />},
   ]);
   return routes;
 };
