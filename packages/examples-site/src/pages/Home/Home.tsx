@@ -34,6 +34,12 @@ const PageHome: FunctionComponent = () => {
           <Link to={"/page-anchor-nav"}>Anchor Navigation Page</Link>
         </li>
       </ul>
+      <H3>Data filtering</H3>
+      <ul>
+        <li>
+          <Link to={"/filters-search"}>Simple search</Link>
+        </li>
+      </ul>
       <H2>Pattern Components</H2>
       <ul>
         <li>
