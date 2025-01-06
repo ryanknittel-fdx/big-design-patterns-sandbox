@@ -2,10 +2,8 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import {
   Flex,
   FlexItem,
-  Box,
   Button,
   Panel,
-  Search,
   Table,
   TableItem,
   Text,
@@ -196,14 +194,17 @@ const PageFiltersDropdowns: FunctionComponent = () => {
 
   // SEARCH
   const [filterApplied, setFilterApplied] = useState(false);
-  const [chosenCategory, setChosenCategory] = useState<string>("");
-  const [chosenAvailability, setChosenAvailability] = useState<string>("");
+  
+  // categroy state could be a number or undefined
+  const [chosenCategory, setChosenCategory] = useState<number | null>(null);
+  
+  const [chosenAvailability, setChosenAvailability] = useState<string | null>(null);
 
-  const handleCategoryChange = (category) => {
+  const handleCategoryChange = (category:number | null) => {
     handleFiltering(category, chosenAvailability);
   };
 
-  const handleAvailabilityChange = (availability) => {
+  const handleAvailabilityChange = (availability:string | null) => {
     handleFiltering(chosenCategory, availability);
   };
 
@@ -213,24 +214,19 @@ const PageFiltersDropdowns: FunctionComponent = () => {
   ) => {
     setChosenCategory(category);
     setChosenAvailability(availability);
-    let filteredItems = allItems;
+    let filteredItems = [...allItems];
 
-    console.log("category", category);
-    console.log("availability", availability);
-
-    if (category !== "") {
+    if (category !== null) {
       filteredItems = filteredItems.filter((item) => {
         return item.categories.includes(category);
       });
     }
 
-    if (availability !== "") {
+    if (availability !== null) {
       filteredItems = filteredItems.filter((item) => {
         return availability === "in-stock" ? item.stock > 0 : item.stock === 0;
       });
     }
-
-    console.log("filteredItems", filteredItems);
 
     setItems(filteredItems as Item[]);
     setTableItems(filteredItems);
@@ -342,7 +338,7 @@ const PageFiltersDropdowns: FunctionComponent = () => {
                   onOptionChange={handleCategoryChange}
                   options={[
                     {
-                      value: "",
+                      value: null,
                       content: "All categories",
                     },
                     ...formattedCats,
@@ -355,7 +351,7 @@ const PageFiltersDropdowns: FunctionComponent = () => {
                   onOptionChange={handleAvailabilityChange}
                   options={[
                     {
-                      value: "",
+                      value: null,
                       content: "All products",
                     },
                     {

@@ -16,6 +16,7 @@ import InstallScreenApp from "./pages/InstallScreenPage/AppExample";
 import InstallScreenChannel from "./pages/InstallScreenPage/ChannelExample";
 import PageFiltersSearch from "./pages/FiltersSearchPage/FiltersSearchPage";
 import PageFiltersDropdowns from "./pages/FiltersDropdownsPage/FiltersDropdownsPage";
+import PageFiltersAdvanced from "./pages/FiltersAdvancedPAge/FiltersAdvancedPage";
 
 export const alertsManager = createAlertsManager();
 
@@ -31,12 +32,13 @@ const RouteFC = () => {
     { path: "/page-crud-list", element: <PageCRUDList /> },
     { path: "/page-crud-add", element: <PageCRUDAddEdit /> },
     { path: "/page-crud-edit/:sku", element: <PageCRUDAddEdit /> },
-    { path: "/page-anchor-nav", element: <PageAnchorNav />},
-    { path: "/card-grid", element: <CardGridPage />},
-    { path: "/install-screen-app", element: <InstallScreenApp />},
-    { path: "/install-screen-channel", element: <InstallScreenChannel />},
-    { path: "/filters-search", element: <PageFiltersSearch />},
-    { path: "/filters-dropdowns", element: <PageFiltersDropdowns />},
+    { path: "/page-anchor-nav", element: <PageAnchorNav /> },
+    { path: "/card-grid", element: <CardGridPage /> },
+    { path: "/install-screen-app", element: <InstallScreenApp /> },
+    { path: "/install-screen-channel", element: <InstallScreenChannel /> },
+    { path: "/filters-search", element: <PageFiltersSearch /> },
+    { path: "/filters-dropdowns", element: <PageFiltersDropdowns /> },
+    { path: "/filters-advanced", element: <PageFiltersAdvanced /> },
   ]);
   return routes;
 };
