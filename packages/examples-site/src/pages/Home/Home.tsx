@@ -45,6 +45,9 @@ const PageHome: FunctionComponent = () => {
         <li>
           <Link to={"/filters-advanced"}>Advanced filtering</Link>
         </li>
+        {/* <li>
+          <Link to={"/filters-advanced-additive"}>Advanced additive filtering with views</Link>
+        </li> */}
       </ul>
       <H2>Pattern Components</H2>
       <ul>

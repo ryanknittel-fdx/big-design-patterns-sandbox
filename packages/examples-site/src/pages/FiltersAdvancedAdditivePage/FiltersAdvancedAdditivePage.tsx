@@ -18,6 +18,7 @@ import {
   Modal,
   Fieldset,
   MultiSelect,
+  Select,
 } from "@bigcommerce/big-design";
 import { InfoIllustration } from "bigcommerce-design-patterns";
 import {
@@ -36,7 +37,7 @@ import {
   StyledFiltersLink,
   StyledPanelContents,
   StyledProductImage,
-} from "./FiltersAdvancedPage.styled";
+} from "./FiltersAdvancedAdditivePage.styled";
 
 import { DummyItem } from "../../data/dummyProducts";
 import { getCategories, getProducts } from "../../data/services";
@@ -49,6 +50,17 @@ import { formatPrice } from "../../helpers/price";
  */
 interface Item extends DummyItem, TableItem {}
 
+/**
+ * Column definitions for the table.
+ */
+
+/**
+ * Function to sort the items based on a column and direction.
+ * @param {Item[]} items - The items to sort.
+ * @param {string} columnHash - The column to sort by.
+ * @param {string} direction - The direction to sort (ASC or DESC).
+ * @returns {Item[]} - The sorted items.
+ */
 const sort = (items: Item[], columnHash: string, direction: string) => {
   return items
     .concat()
@@ -66,7 +78,7 @@ const sort = (items: Item[], columnHash: string, direction: string) => {
 /**
  * PageList component - Displays a page with a list of items in a table.
  */
-const PageFiltersAdvanced: FunctionComponent = () => {
+const PageFiltersAdvancedAdditive: FunctionComponent = () => {
   // NAVIGATION
   const location = useLocation();
 
@@ -217,12 +229,14 @@ const PageFiltersAdvanced: FunctionComponent = () => {
       // set the items
       setItems(foundItems);
       setTableItems(foundItems);
+      setFiltersApplied(true);
     }
   };
 
   // EFFECTS
 
   // fetch categories and product all at once
+
   const [productCats, setProductCats] = useState<Category[]>([]);
   const [items, setItems] = useState<Item[]>([]);
   const [allItems, setAllItems] = useState<Item[]>([]);
@@ -237,6 +251,8 @@ const PageFiltersAdvanced: FunctionComponent = () => {
       }
     );
   }, []);
+
+  // PAGE ELEMENTS
 
   // FILTERING MODAL
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -255,10 +271,32 @@ const PageFiltersAdvanced: FunctionComponent = () => {
     undefined
   );
 
+  const filteringCriteria = {
+    name: {
+      operators: ["=", "!="],
+    },
+    category: {
+      operators: ["=", "!="],
+    },
+    price: {
+      operators: ["=", "!=", ">", ">=", "<", "=<"],
+    },
+    stock: {
+      operators: ["=", "!=", ">", ">=", "<", "=<"],
+    },
+  };
+
   const applyFilters = () => {
+    console.log("Applying filters");
+    console.log("Name", searchValue);
+    console.log("Category", filterCategory);
+    console.log("Price range", filterPriceMin, filterPriceMax);
+    console.log("Stock range", filterStockMin, filterStockMax);
+
     // let's find out if filters are applied
     setFiltersApplied(
-      filterCategory.length > 0 ||
+      searchValue !== "" ||
+        filterCategory.length > 0 ||
         filterPriceMin !== undefined ||
         filterPriceMax !== undefined ||
         filterStockMin !== undefined ||
@@ -274,6 +312,7 @@ const PageFiltersAdvanced: FunctionComponent = () => {
 
   const clearAllFilters = (e) => {
     e && e.preventDefault();
+    setSearchValue("");
     setFilterCategory([]);
     setFilterPriceMin(undefined);
     setFilterPriceMax(undefined);
@@ -313,25 +352,25 @@ const PageFiltersAdvanced: FunctionComponent = () => {
         });
       }
 
-      if (filterPriceMin !== undefined && !isNaN(filterPriceMin)) {
+      if (filterPriceMin !== undefined) {
         filteredItems = filteredItems.filter(
           (item) => item.price >= filterPriceMin
         );
       }
 
-      if (filterPriceMax !== undefined && !isNaN(filterPriceMax)) {
+      if (filterPriceMax !== undefined) {
         filteredItems = filteredItems.filter(
           (item) => item.price <= filterPriceMax
         );
       }
 
-      if (filterStockMin !== undefined && !isNaN(filterStockMin)) {
+      if (filterStockMin !== undefined) {
         filteredItems = filteredItems.filter(
           (item) => item.stock >= filterStockMin
         );
       }
 
-      if (filterStockMax !== undefined && !isNaN(filterStockMax)) {
+      if (filterStockMax !== undefined) {
         filteredItems = filteredItems.filter(
           (item) => item.stock <= filterStockMax
         );
@@ -340,47 +379,6 @@ const PageFiltersAdvanced: FunctionComponent = () => {
 
     setItems(filteredItems as Item[]);
     setTableItems(filteredItems);
-  };
-
-  const deleteFilter = (type: string, value?: number) => {
-    let checkCategory = [...filterCategory];
-    let checkPriceMin = filterPriceMin;
-    let checkPriceMax = filterPriceMax;
-    let checkStockMin = filterStockMin;
-    let checkStockMax = filterStockMax;
-
-    switch (type) {
-      case "category":
-        checkCategory = checkCategory.filter((cat) => cat !== value);
-        setFilterCategory(checkCategory);
-        break;
-      case "priceMin":
-        setFilterPriceMin(undefined);
-        checkPriceMin = undefined;
-        break;
-      case "priceMax":
-        setFilterPriceMax(undefined);
-        checkPriceMax = undefined;
-        break;
-      case "stockMin":
-        setFilterStockMin(undefined);
-        checkStockMin = undefined;
-        break;
-      case "stockMax":
-        setFilterStockMax(undefined);
-        checkStockMax = undefined;
-        break;
-      default:
-        break;
-    }
-
-    setFiltersApplied(
-      checkCategory.length > 0 ||
-        checkPriceMin !== undefined ||
-        checkPriceMax !== undefined ||
-        checkStockMin !== undefined ||
-        checkStockMax !== undefined
-    );
   };
 
   // Empty state
@@ -443,7 +441,6 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                         value={searchValue}
                         onChange={onSearchChange}
                         iconLeft={<SearchIcon color="secondary50" />}
-                        type="search"
                       />
                     </FormGroup>
                   </Form>
@@ -465,40 +462,48 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                   marginBottom="medium"
                   alignItems={"center"}
                 >
-                  {/* let's showcase the filters applied with chips here*/}
+                  {/* let's showcase teh filters applied with chips here*/}
+                  {searchValue && (
+                    <Chip
+                      onDelete={() => setSearchValue("")}
+                      label={`Name: ${searchValue}`}
+                    />
+                  )}
                   {filterCategory.map((catId) => {
                     const cat = findCategoryById(productCats, catId);
                     return (
                       <Chip
                         key={catId}
-                        onDelete={() => {
-                          deleteFilter("category", catId);
-                        }}
+                        onDelete={() =>
+                          setFilterCategory(
+                            filterCategory.filter((c) => c !== catId)
+                          )
+                        }
                         label={`Category: ${cat?.label}`}
                       />
                     );
                   })}
-                  {filterPriceMin !== undefined && !isNaN(filterPriceMin) && (
+                  {filterPriceMin !== undefined && (
                     <Chip
-                      onDelete={() => deleteFilter("priceMin")}
+                      onDelete={() => setFilterPriceMin(undefined)}
                       label={`Min price: ${filterPriceMin}`}
                     />
                   )}
-                  {filterPriceMax !== undefined && !isNaN(filterPriceMax) && (
+                  {filterPriceMax !== undefined && (
                     <Chip
-                      onDelete={() => deleteFilter("priceMax")}
+                      onDelete={() => setFilterPriceMax(undefined)}
                       label={`Max price: ${filterPriceMax}`}
                     />
                   )}
-                  {filterStockMin !== undefined && !isNaN(filterStockMin) && (
+                  {filterStockMin !== undefined && (
                     <Chip
-                      onDelete={() => deleteFilter("stockMin")}
+                      onDelete={() => setFilterStockMin(undefined)}
                       label={`Min stock: ${filterStockMin}`}
                     />
                   )}
-                  {filterStockMax !== undefined && !isNaN(filterStockMax) && (
+                  {filterStockMax !== undefined && (
                     <Chip
-                      onDelete={() => deleteFilter("stockMax")}
+                      onDelete={() => setFilterStockMax(undefined)}
                       label={`Max stock: ${filterStockMax}`}
                     />
                   )}
@@ -509,6 +514,13 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                 </Flex>
               )}
               <StyledPanelContents>
+                {
+                  //The Table component is used to display tabular data.
+                  //It allows you to display a list of items in a table format.
+                  //The table can be customized with different columns and actions.
+                  //The table also allows you to select items and perform actions on them.
+                  //In this case, the table is displaying a list of products.
+                }
                 <Table
                   columns={columns as any}
                   itemName="Products"
@@ -543,93 +555,34 @@ const PageFiltersAdvanced: FunctionComponent = () => {
           onClose={closeFilterModal}
           isOpen={isFilterModalOpen}
         >
-          <Form fullWidth marginBottom={"small"}>
-            <FormGroup>
-              <Box marginTop={"xxSmall"} marginBottom={"medium"}>
-                <MultiSelect
-                  multiple={true}
-                  label={"Category"}
-                  placeholder="Select a category"
-                  onOptionsChange={(selected) => {
-                    setFilterCategory(selected.map((sel) => sel));
-                  }}
-                  options={productCats.map((cat) => ({
-                    value: cat.id,
-                    content: cat.label,
-                  }))}
-                  value={filterCategory}
-                ></MultiSelect>
-              </Box>
-            </FormGroup>
-            <FormGroup>
-              <Fieldset legend={"Price range"}>
-                <Grid
-                  gridColumns={{
-                    mobile: "1fr",
-                    tablet: "1fr 1fr",
-                  }}
-                  gridGap="1rem"
-                >
-                  <StyledGridItem>
-                    <Input
-                      id="priceMin"
-                      type="number"
-                      value={filterPriceMin}
-                      onChange={(e) =>
-                        setFilterPriceMin(parseInt(e.target.value))
-                      }
-                      placeholder="Min."
-                    />
-                  </StyledGridItem>
-                  <StyledGridItem>
-                    <Input
-                      id="priceMax"
-                      type="number"
-                      value={filterPriceMax}
-                      onChange={(e) =>
-                        setFilterPriceMax(parseInt(e.target.value))
-                      }
-                      placeholder="Max."
-                    />
-                  </StyledGridItem>
-                </Grid>
-              </Fieldset>
-            </FormGroup>
-
-            <FormGroup>
-              <Fieldset legend={"Inventory"}>
-                <Grid
-                  gridColumns={{
-                    mobile: "1fr",
-                    tablet: "1fr 1fr",
-                  }}
-                  gridGap="1rem"
-                >
-                  <StyledGridItem>
-                    <Input
-                      id="invMin"
-                      type="number"
-                      value={filterStockMin}
-                      placeholder="Min."
-                      onChange={(e) =>
-                        setFilterStockMin(parseInt(e.target.value))
-                      }
-                    />
-                  </StyledGridItem>
-                  <StyledGridItem>
-                    <Input
-                      id="invMax"
-                      type="number"
-                      placeholder="Max."
-                      value={filterStockMax}
-                      onChange={(e) =>
-                        setFilterStockMax(parseInt(e.target.value))
-                      }
-                    />
-                  </StyledGridItem>
-                </Grid>
-              </Fieldset>
-            </FormGroup>
+          <Form fullWidth>
+            <Fieldset>
+              <Grid
+                gridColumns={{
+                  mobile: "100px 1fr",
+                  tablet: "100px 1fr 100px 1fr",
+                }}
+                gridGap="1rem"
+              >
+                <Input value="Where" disabled />
+                <Select
+                  maxHeight={300}
+                  onOptionChange={(value) => {}}
+                  options={[
+                    {
+                      value: "=",
+                      content: "=",
+                    },
+                    {
+                      value: "!=",
+                      content: "!=",
+                    },
+                  ]}
+                  placeholder="Filter by category"
+                  value={"="}
+                ></Select>
+              </Grid>
+            </Fieldset>
           </Form>
         </Modal>
       </Page>
@@ -637,4 +590,4 @@ const PageFiltersAdvanced: FunctionComponent = () => {
   );
 };
 
-export default PageFiltersAdvanced;
+export default PageFiltersAdvancedAdditive;
