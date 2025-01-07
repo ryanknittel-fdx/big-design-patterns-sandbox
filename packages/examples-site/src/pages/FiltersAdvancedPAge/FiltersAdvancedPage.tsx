@@ -440,6 +440,7 @@ const PageFiltersAdvanced: FunctionComponent = () => {
               </Box>
               {filtersApplied && (
                 <Flex
+                flexDirection={{mobile:"row"}}
                   display={"inline-flex"}
                   flexWrap={"wrap"}
                   marginBottom="medium"
