@@ -31,6 +31,10 @@ body {
     color: var(--bc-color-type-primary);
 }
 
+input {
+    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+
 html,
 body {
     height: 100%;

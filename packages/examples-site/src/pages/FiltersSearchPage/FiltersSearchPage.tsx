@@ -4,29 +4,24 @@ import {
   FlexItem,
   Box,
   Button,
-  ButtonGroup,
   Panel,
   Search,
   Table,
   TableItem,
   Text,
   Dropdown,
-  Modal,
-  AlertProps,
   ProgressCircle,
 } from "@bigcommerce/big-design";
 import { InfoIllustration } from "bigcommerce-design-patterns";
-import { AddIcon, MoreHorizIcon } from "@bigcommerce/big-design-icons";
+import { MoreHorizIcon } from "@bigcommerce/big-design-icons";
 import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { theme } from "@bigcommerce/big-design-theme";
-import { alertsManager } from "../../App";
 import {
   StyledPanelContents,
   StyledProductImage,
-  StyledBulkActions,
-} from "./CRUDListPage.styled";
+} from "./FiltersSearchPage.styled";
 
 import { DummyItem } from "../../data/dummyProducts";
 import { getCategories, getProducts } from "../../data/services";
@@ -67,14 +62,11 @@ const sort = (items: Item[], columnHash: string, direction: string) => {
 /**
  * PageList component - Displays a page with a list of items in a table.
  */
-const PageCRUDList: FunctionComponent = () => {
+const PageFiltersSearch: FunctionComponent = () => {
   // NAVIGATION
   const location = useLocation();
 
   const navigate = useNavigate();
-
-  // BULK ACTIONS
-  const [selectedItems, setSelectedItems] = useState<Item[]>([]);
 
   // TABLE HEADERS
   const columns = [
@@ -133,19 +125,18 @@ const PageCRUDList: FunctionComponent = () => {
           <Dropdown
             items={[
               {
-                content: "Edit",
-                onItemClick: (item) => {
-                  navigate(`/page-crud-edit/${url}`);
+                content: "Some action",
+                onItemClick: () => {
+                  return null;
                 },
-                hash: "edit",
+                hash: "edsome-action",
               },
               {
-                content: "Delete",
+                content: "Some other action",
                 onItemClick: () => {
-                  deleteItems([productId]);
+                  return null;
                 },
-                hash: "delete",
-                actionType: "destructive",
+                hash: "some-other-action",
               },
             ]}
             maxHeight={250}
@@ -163,10 +154,14 @@ const PageCRUDList: FunctionComponent = () => {
   // DATA HANDLING
   const [currentItems, setCurrentItems] = useState<Item[]>([]);
 
-  const setTableItems = (themItems: any, pageCurrent = currentPage, pageItemsNum = itemsPerPage) => {
-    const maxItems = pageCurrent * pageItemsNum;
+  const setTableItems = (
+    themItems: any,
+    thePage = currentPage,
+    itemCount = itemsPerPage
+  ) => {
+    const maxItems = thePage * itemCount;
     const lastItem = Math.min(maxItems, themItems.length);
-    const firstItem = Math.max(0, maxItems - pageItemsNum);
+    const firstItem = Math.max(0, maxItems - itemsPerPage);
 
     setCurrentItems(themItems.slice(firstItem, lastItem));
   };
@@ -200,10 +195,10 @@ const PageCRUDList: FunctionComponent = () => {
   const [searchValue, setSearchValue] = useState("");
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
-    setCurrentPage(1);
     // let's reset the items to the original data if the search value is empty
     if (!event.target.value) {
-      setTableItems(items, 1);
+      setItems(allItems);
+      setTableItems(allItems);
     }
   };
   // search submission handler
@@ -214,62 +209,9 @@ const PageCRUDList: FunctionComponent = () => {
         item.name.toLowerCase().includes(searchValue.toLowerCase())
       );
       // set the items
-      setCurrentItems(foundItems);
+      setItems(foundItems);
+      setTableItems(foundItems);
     }
-  };
-
-  // TABLE ACTIONS (DELETE ITEM)
-  const deleteItems = (ids: number[]) => {
-    // lets fire up an alert to confirm the destructive action
-    setItemsToDelete(ids);
-    setModalOpen(true);
-  };
-  // delete cofirmation modal
-  const [modalOpen, setModalOpen] = useState(false);
-  // let's set the item to delete in a state variable
-  const emptyIds: number[] = [];
-  const [itemsToDelete, setItemsToDelete] = useState(emptyIds);
-
-  const deleteConfimatonHandler = () => {
-    // let's delete the item
-    setTableItems(
-      items.filter((item) => !itemsToDelete.includes(item.productId))
-    );
-    // empty selected items
-    setSelectedItems([]);
-    // close the modal
-    setModalOpen(false);
-
-    // let's fire up an alert of successful deletion
-    const successAlert: AlertProps = {
-      messages: [
-        {
-          text:
-            itemsToDelete.length > 1
-              ? `Items ${itemsToDelete
-                  .map(
-                    (id) =>
-                      items.filter((item) => item.productId === id)[0].name
-                  )
-                  .join(", ")} deleted successfully`
-              : `Item ${itemsToDelete
-                  .map(
-                    (id) =>
-                      items.filter((item) => item.productId === id)[0].name
-                  )
-                  .join(", ")} deleted successfully`,
-        },
-      ],
-      type: "success",
-      onClose: () => null,
-    };
-
-    alertsManager.add(successAlert);
-  };
-
-  // ADD PRODUCT
-  const addProductHandler = () => {
-    navigate("/page-crud-add");
   };
 
   // EFFECTS
@@ -278,21 +220,18 @@ const PageCRUDList: FunctionComponent = () => {
 
   const [productCats, setProductCats] = useState<Category[]>([]);
   const [items, setItems] = useState<Item[]>([]);
+  const [allItems, setAllItems] = useState<Item[]>([]);
   useEffect(() => {
     Promise.all([getCategories(), getProducts()]).then(
       ([categories, products]) => {
         setProductCats(categories as Category[]);
+        setAllItems(products as Item[]);
         setItems(products as Item[]);
         setTableItems(products as Item[]);
       }
     );
   }, []);
 
-  // alerts
-  useEffect(() => {
-    const alert = location.state?.alert;
-    alert && alertsManager.add(alert);
-  }, [location]);
 
   // PAGE ELEMENTS
 
@@ -308,13 +247,7 @@ const PageCRUDList: FunctionComponent = () => {
         <ProgressCircle size="large" />
       ) : (
         // if products have been loaded, let's show the empty
-        <InfoIllustration
-          icon="empty"
-          actionSecondary={{
-            text: "Add item",
-            onClick: addProductHandler,
-          }}
-        >
+        <InfoIllustration icon="empty">
           <Text color="secondary60">
             {
               // differentiate from empty search or empty products and show a loader element if the data is being fetched
@@ -328,48 +261,13 @@ const PageCRUDList: FunctionComponent = () => {
     </Flex>
   );
 
-  // Bulk actions
-  const BulkActionButtons = (
-    <StyledBulkActions>
-      {selectedItems.length > 0 ? (
-        <ButtonGroup
-          actions={[
-            {
-              text: "Delete",
-              onClick: () => {
-                return deleteItems(
-                  selectedItems.map((item) => {
-                    return item.productId;
-                  })
-                );
-              },
-            },
-            { text: "Action 2" },
-            { text: "Action 3" },
-          ]}
-        />
-      ) : null}
-    </StyledBulkActions>
-  );
-
-  //header CTAs
-  const PageHeaderCTAs = [
-    {
-      text: "Add Item",
-      iconLeft: <AddIcon />,
-      mobileWidth: "100%",
-      onClick: addProductHandler,
-    },
-  ];
-
   return (
     <>
       <Page
         header={
           <Header
-            description="List pages are the bread and butter of an application, where you present a number of items to act upon"
-            title="List Page"
-            actions={PageHeaderCTAs}
+            description="Filtering data using simple search"
+            title="Simple search"
             backLink={{
               text: "Back to patterns",
               onClick: () => navigate("/"),
@@ -384,10 +282,7 @@ const PageCRUDList: FunctionComponent = () => {
               //The most common way of organizing information within the BigDesign patterns is with the use of panels.
               //In this case we only have one panel, but you can have multiple panels within a page.
             }
-            <Panel
-              header="Items list"
-              description="Common actions you'll create within a page"
-            >
+            <Panel header="Items list">
               {
                 //search
               }
@@ -419,61 +314,20 @@ const PageCRUDList: FunctionComponent = () => {
                     onItemsPerPageChange,
                     itemsPerPage,
                   }}
-                  selectable={{
-                    selectedItems,
-                    onSelectionChange: setSelectedItems,
-                  }}
                   sortable={{
                     columnHash,
                     direction,
                     onSort,
                   }}
                   emptyComponent={EmptyState}
-                  actions={BulkActionButtons}
                 />
               </StyledPanelContents>
             </Panel>
           </FlexItem>
         </Flex>
       </Page>
-      <Modal
-        actions={[
-          {
-            text: "Cancel",
-            variant: "subtle",
-            onClick: () => setModalOpen(false),
-          },
-          {
-            text: "Delete",
-            onClick: deleteConfimatonHandler,
-            actionType: "destructive",
-          },
-        ]}
-        closeOnClickOutside={false}
-        closeOnEscKey={true}
-        header="Delete item"
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        variant="dialog"
-      >
-        <Text>
-          You are about to delete
-          {itemsToDelete.length > 1
-            ? ` items ${itemsToDelete
-                .map(
-                  (id) => items.filter((item) => item.productId === id)[0].name
-                )
-                .join(", ")}. `
-            : ` item ${itemsToDelete
-                .map(
-                  (id) => items.filter((item) => item.productId === id)[0].name
-                )
-                .join(", ")}. `}
-          This action can't be undone
-        </Text>
-      </Modal>
     </>
   );
 };
 
-export default PageCRUDList;
+export default PageFiltersSearch;

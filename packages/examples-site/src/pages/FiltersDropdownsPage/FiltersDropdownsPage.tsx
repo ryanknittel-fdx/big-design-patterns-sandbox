@@ -2,31 +2,26 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import {
   Flex,
   FlexItem,
-  Box,
   Button,
-  ButtonGroup,
   Panel,
-  Search,
   Table,
   TableItem,
   Text,
   Dropdown,
-  Modal,
-  AlertProps,
   ProgressCircle,
+  Select,
+  Grid,
 } from "@bigcommerce/big-design";
 import { InfoIllustration } from "bigcommerce-design-patterns";
-import { AddIcon, MoreHorizIcon } from "@bigcommerce/big-design-icons";
+import { MoreHorizIcon } from "@bigcommerce/big-design-icons";
 import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { theme } from "@bigcommerce/big-design-theme";
-import { alertsManager } from "../../App";
 import {
   StyledPanelContents,
   StyledProductImage,
-  StyledBulkActions,
-} from "./CRUDListPage.styled";
+} from "./FiltersDropdownsPage.styled";
 
 import { DummyItem } from "../../data/dummyProducts";
 import { getCategories, getProducts } from "../../data/services";
@@ -67,14 +62,11 @@ const sort = (items: Item[], columnHash: string, direction: string) => {
 /**
  * PageList component - Displays a page with a list of items in a table.
  */
-const PageCRUDList: FunctionComponent = () => {
+const PageFiltersDropdowns: FunctionComponent = () => {
   // NAVIGATION
   const location = useLocation();
 
   const navigate = useNavigate();
-
-  // BULK ACTIONS
-  const [selectedItems, setSelectedItems] = useState<Item[]>([]);
 
   // TABLE HEADERS
   const columns = [
@@ -133,19 +125,18 @@ const PageCRUDList: FunctionComponent = () => {
           <Dropdown
             items={[
               {
-                content: "Edit",
-                onItemClick: (item) => {
-                  navigate(`/page-crud-edit/${url}`);
+                content: "Some action",
+                onItemClick: () => {
+                  return null;
                 },
-                hash: "edit",
+                hash: "edsome-action",
               },
               {
-                content: "Delete",
+                content: "Some other action",
                 onItemClick: () => {
-                  deleteItems([productId]);
+                  return null;
                 },
-                hash: "delete",
-                actionType: "destructive",
+                hash: "some-other-action",
               },
             ]}
             maxHeight={250}
@@ -162,11 +153,16 @@ const PageCRUDList: FunctionComponent = () => {
 
   // DATA HANDLING
   const [currentItems, setCurrentItems] = useState<Item[]>([]);
+  const [itemsLoaded, setItemsLoaded] = useState(false);
 
-  const setTableItems = (themItems: any, pageCurrent = currentPage, pageItemsNum = itemsPerPage) => {
-    const maxItems = pageCurrent * pageItemsNum;
+  const setTableItems = (
+    themItems: any,
+    thePage = currentPage,
+    itemCount = itemsPerPage
+  ) => {
+    const maxItems = thePage * itemCount;
     const lastItem = Math.min(maxItems, themItems.length);
-    const firstItem = Math.max(0, maxItems - pageItemsNum);
+    const firstItem = Math.max(0, maxItems - itemsPerPage);
 
     setCurrentItems(themItems.slice(firstItem, lastItem));
   };
@@ -197,79 +193,44 @@ const PageCRUDList: FunctionComponent = () => {
   };
 
   // SEARCH
-  const [searchValue, setSearchValue] = useState("");
-  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-    setCurrentPage(1);
-    // let's reset the items to the original data if the search value is empty
-    if (!event.target.value) {
-      setTableItems(items, 1);
+  const [filterApplied, setFilterApplied] = useState(false);
+  
+  // categroy state could be a number or undefined
+  const [chosenCategory, setChosenCategory] = useState<number | null>(null);
+  
+  const [chosenAvailability, setChosenAvailability] = useState<string | null>(null);
+
+  const handleCategoryChange = (category:number | null) => {
+    handleFiltering(category, chosenAvailability);
+  };
+
+  const handleAvailabilityChange = (availability:string | null) => {
+    handleFiltering(chosenCategory, availability);
+  };
+
+  const handleFiltering = (
+    category = chosenCategory,
+    availability = chosenAvailability
+  ) => {
+    setChosenCategory(category);
+    setChosenAvailability(availability);
+    let filteredItems = [...allItems];
+
+    if (category !== null) {
+      filteredItems = filteredItems.filter((item) => {
+        return item.categories.includes(category);
+      });
     }
-  };
-  // search submission handler
-  const onSearchSubmit = () => {
-    if (searchValue) {
-      // let's find the items
-      const foundItems = items.filter((item) =>
-        item.name.toLowerCase().includes(searchValue.toLowerCase())
-      );
-      // set the items
-      setCurrentItems(foundItems);
+
+    if (availability !== null) {
+      filteredItems = filteredItems.filter((item) => {
+        return availability === "in-stock" ? item.stock > 0 : item.stock === 0;
+      });
     }
-  };
 
-  // TABLE ACTIONS (DELETE ITEM)
-  const deleteItems = (ids: number[]) => {
-    // lets fire up an alert to confirm the destructive action
-    setItemsToDelete(ids);
-    setModalOpen(true);
-  };
-  // delete cofirmation modal
-  const [modalOpen, setModalOpen] = useState(false);
-  // let's set the item to delete in a state variable
-  const emptyIds: number[] = [];
-  const [itemsToDelete, setItemsToDelete] = useState(emptyIds);
-
-  const deleteConfimatonHandler = () => {
-    // let's delete the item
-    setTableItems(
-      items.filter((item) => !itemsToDelete.includes(item.productId))
-    );
-    // empty selected items
-    setSelectedItems([]);
-    // close the modal
-    setModalOpen(false);
-
-    // let's fire up an alert of successful deletion
-    const successAlert: AlertProps = {
-      messages: [
-        {
-          text:
-            itemsToDelete.length > 1
-              ? `Items ${itemsToDelete
-                  .map(
-                    (id) =>
-                      items.filter((item) => item.productId === id)[0].name
-                  )
-                  .join(", ")} deleted successfully`
-              : `Item ${itemsToDelete
-                  .map(
-                    (id) =>
-                      items.filter((item) => item.productId === id)[0].name
-                  )
-                  .join(", ")} deleted successfully`,
-        },
-      ],
-      type: "success",
-      onClose: () => null,
-    };
-
-    alertsManager.add(successAlert);
-  };
-
-  // ADD PRODUCT
-  const addProductHandler = () => {
-    navigate("/page-crud-add");
+    setItems(filteredItems as Item[]);
+    setTableItems(filteredItems);
+    setFilterApplied(true);
   };
 
   // EFFECTS
@@ -277,22 +238,46 @@ const PageCRUDList: FunctionComponent = () => {
   // fetch categories and product all at once
 
   const [productCats, setProductCats] = useState<Category[]>([]);
+  const [formattedCats, setFormattedCats] = useState<
+    { value: number; content: string }[]
+  >([]);
   const [items, setItems] = useState<Item[]>([]);
+  const [allItems, setAllItems] = useState<Item[]>([]);
+
+  const formatCats = (cats: Category[]) => {
+    const catsOutput: { value: number; content: string }[] = [];
+    // a recursive function to format the categories as a flat array
+    const format = (cat: Category, pre = "") => {
+      catsOutput.push({
+        value: cat.id,
+        content: pre + cat.label,
+      });
+      if (cat.children) {
+        pre += "- ";
+        cat.children.forEach((child) => {
+          format(child, pre);
+        });
+      }
+    };
+
+    cats.forEach((cat) => {
+      format(cat);
+    });
+
+    setFormattedCats(catsOutput);
+  };
   useEffect(() => {
     Promise.all([getCategories(), getProducts()]).then(
       ([categories, products]) => {
         setProductCats(categories as Category[]);
+        formatCats(categories as Category[]);
+        setAllItems(products as Item[]);
         setItems(products as Item[]);
         setTableItems(products as Item[]);
+        setItemsLoaded(true);
       }
     );
   }, []);
-
-  // alerts
-  useEffect(() => {
-    const alert = location.state?.alert;
-    alert && alertsManager.add(alert);
-  }, [location]);
 
   // PAGE ELEMENTS
 
@@ -303,23 +288,17 @@ const PageCRUDList: FunctionComponent = () => {
       paddingVertical="xxxLarge"
       marginBottom="xxxLarge"
     >
-      {items.length < 1 ? (
+      {items.length < 1 && !itemsLoaded ? (
         // if products havent been loaded, let's show a loader
         <ProgressCircle size="large" />
       ) : (
         // if products have been loaded, let's show the empty
-        <InfoIllustration
-          icon="empty"
-          actionSecondary={{
-            text: "Add item",
-            onClick: addProductHandler,
-          }}
-        >
+        <InfoIllustration icon="empty">
           <Text color="secondary60">
             {
               // differentiate from empty search or empty products and show a loader element if the data is being fetched
-              searchValue
-                ? `No products were found for query “${searchValue}”`
+              filterApplied
+                ? `No products were found for the criteria`
                 : "You have no products yet."
             }
           </Text>
@@ -328,48 +307,13 @@ const PageCRUDList: FunctionComponent = () => {
     </Flex>
   );
 
-  // Bulk actions
-  const BulkActionButtons = (
-    <StyledBulkActions>
-      {selectedItems.length > 0 ? (
-        <ButtonGroup
-          actions={[
-            {
-              text: "Delete",
-              onClick: () => {
-                return deleteItems(
-                  selectedItems.map((item) => {
-                    return item.productId;
-                  })
-                );
-              },
-            },
-            { text: "Action 2" },
-            { text: "Action 3" },
-          ]}
-        />
-      ) : null}
-    </StyledBulkActions>
-  );
-
-  //header CTAs
-  const PageHeaderCTAs = [
-    {
-      text: "Add Item",
-      iconLeft: <AddIcon />,
-      mobileWidth: "100%",
-      onClick: addProductHandler,
-    },
-  ];
-
   return (
     <>
       <Page
         header={
           <Header
-            description="List pages are the bread and butter of an application, where you present a number of items to act upon"
-            title="List Page"
-            actions={PageHeaderCTAs}
+            description="Filtering data using dropdowns"
+            title="Dropdown Filtering"
             backLink={{
               text: "Back to patterns",
               onClick: () => navigate("/"),
@@ -384,20 +328,45 @@ const PageCRUDList: FunctionComponent = () => {
               //The most common way of organizing information within the BigDesign patterns is with the use of panels.
               //In this case we only have one panel, but you can have multiple panels within a page.
             }
-            <Panel
-              header="Items list"
-              description="Common actions you'll create within a page"
-            >
+            <Panel header="Items list">
               {
-                //search
+                //dropdowns
               }
-              <Box marginBottom="medium">
-                <Search
-                  onChange={onSearchChange}
-                  onSubmit={onSearchSubmit}
-                  value={searchValue}
-                />
-              </Box>
+              <Grid marginBottom="medium" gridColumns="repeat(2, 1fr)">
+                <Select
+                  maxHeight={300}
+                  onOptionChange={handleCategoryChange}
+                  options={[
+                    {
+                      value: null,
+                      content: "All categories",
+                    },
+                    ...formattedCats,
+                  ]}
+                  placeholder="Filter by category"
+                  value={chosenCategory}
+                ></Select>
+                <Select
+                  maxHeight={300}
+                  onOptionChange={handleAvailabilityChange}
+                  options={[
+                    {
+                      value: null,
+                      content: "All products",
+                    },
+                    {
+                      value: "in-stock",
+                      content: "In Stock",
+                    },
+                    {
+                      value: "out-of-stock",
+                      content: "Out of Stock",
+                    },
+                  ]}
+                  placeholder="Filter by availability"
+                  value={chosenAvailability}
+                ></Select>
+              </Grid>
               <StyledPanelContents>
                 {
                   //The Table component is used to display tabular data.
@@ -419,61 +388,20 @@ const PageCRUDList: FunctionComponent = () => {
                     onItemsPerPageChange,
                     itemsPerPage,
                   }}
-                  selectable={{
-                    selectedItems,
-                    onSelectionChange: setSelectedItems,
-                  }}
                   sortable={{
                     columnHash,
                     direction,
                     onSort,
                   }}
                   emptyComponent={EmptyState}
-                  actions={BulkActionButtons}
                 />
               </StyledPanelContents>
             </Panel>
           </FlexItem>
         </Flex>
       </Page>
-      <Modal
-        actions={[
-          {
-            text: "Cancel",
-            variant: "subtle",
-            onClick: () => setModalOpen(false),
-          },
-          {
-            text: "Delete",
-            onClick: deleteConfimatonHandler,
-            actionType: "destructive",
-          },
-        ]}
-        closeOnClickOutside={false}
-        closeOnEscKey={true}
-        header="Delete item"
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        variant="dialog"
-      >
-        <Text>
-          You are about to delete
-          {itemsToDelete.length > 1
-            ? ` items ${itemsToDelete
-                .map(
-                  (id) => items.filter((item) => item.productId === id)[0].name
-                )
-                .join(", ")}. `
-            : ` item ${itemsToDelete
-                .map(
-                  (id) => items.filter((item) => item.productId === id)[0].name
-                )
-                .join(", ")}. `}
-          This action can't be undone
-        </Text>
-      </Modal>
     </>
   );
 };
 
-export default PageCRUDList;
+export default PageFiltersDropdowns;

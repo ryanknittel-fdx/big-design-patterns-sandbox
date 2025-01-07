@@ -7,7 +7,7 @@ export interface DummyItem {
   name: string;
   stock: number;
   image: string;
-  categories: string;
+  categories: number[];
   price: number;
   url: string;
 }
