@@ -16,7 +16,7 @@ import InstallScreenApp from "./pages/InstallScreenPage/AppExample";
 import InstallScreenChannel from "./pages/InstallScreenPage/ChannelExample";
 import PageFiltersSearch from "./pages/FiltersSearchPage/FiltersSearchPage";
 import PageFiltersDropdowns from "./pages/FiltersDropdownsPage/FiltersDropdownsPage";
-import PageFiltersAdvanced from "./pages/FiltersAdvancedPage/FiltersAdvancedPage";
+import PageFiltersAdvanced from "./pages/FiltersAdvPage/FiltersAdvancedPage";
 import PageFiltersAdvancedAdditive from "./pages/FiltersAdvancedAdditivePage/FiltersAdvancedAdditivePage";
 
 export const alertsManager = createAlertsManager();
