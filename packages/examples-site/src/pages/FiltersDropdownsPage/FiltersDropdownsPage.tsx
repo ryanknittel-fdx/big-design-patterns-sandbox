@@ -332,7 +332,7 @@ const PageFiltersDropdowns: FunctionComponent = () => {
               {
                 //dropdowns
               }
-              <Grid marginBottom="medium" gridColumns="repeat(2, 1fr)">
+              <Grid marginBottom="medium" gridColumns={{mobile:"repeat(1fr)", tablet:"repeat(2, 1fr)"}}>
                 <Select
                   maxHeight={300}
                   onOptionChange={handleCategoryChange}
