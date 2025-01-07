@@ -153,6 +153,7 @@ const PageFiltersSearch: FunctionComponent = () => {
 
   // DATA HANDLING
   const [currentItems, setCurrentItems] = useState<Item[]>([]);
+  const [itemsLoaded, setItemsLoaded] = useState(false);
 
   const setTableItems = (
     themItems: any,
@@ -228,10 +229,10 @@ const PageFiltersSearch: FunctionComponent = () => {
         setAllItems(products as Item[]);
         setItems(products as Item[]);
         setTableItems(products as Item[]);
+        setItemsLoaded(true);
       }
     );
   }, []);
-
 
   // PAGE ELEMENTS
 
@@ -242,7 +243,7 @@ const PageFiltersSearch: FunctionComponent = () => {
       paddingVertical="xxxLarge"
       marginBottom="xxxLarge"
     >
-      {items.length < 1 ? (
+      {items.length < 1 && !itemsLoaded ? (
         // if products havent been loaded, let's show a loader
         <ProgressCircle size="large" />
       ) : (

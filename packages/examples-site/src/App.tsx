@@ -16,7 +16,8 @@ import InstallScreenApp from "./pages/InstallScreenPage/AppExample";
 import InstallScreenChannel from "./pages/InstallScreenPage/ChannelExample";
 import PageFiltersSearch from "./pages/FiltersSearchPage/FiltersSearchPage";
 import PageFiltersDropdowns from "./pages/FiltersDropdownsPage/FiltersDropdownsPage";
-import PageFiltersAdvanced from "./pages/FiltersAdvancedPAge/FiltersAdvancedPage";
+import PageFiltersAdvanced from "./pages/FiltersAdvancedPage/FiltersAdvancedPage";
+import PageFiltersAdvancedAdditive from "./pages/FiltersAdvancedAdditivePage/FiltersAdvancedAdditivePage";
 
 export const alertsManager = createAlertsManager();
 
@@ -39,6 +40,10 @@ const RouteFC = () => {
     { path: "/filters-search", element: <PageFiltersSearch /> },
     { path: "/filters-dropdowns", element: <PageFiltersDropdowns /> },
     { path: "/filters-advanced", element: <PageFiltersAdvanced /> },
+    {
+      path: "/filters-advanced-additive",
+      element: <PageFiltersAdvancedAdditive />,
+    },
   ]);
   return routes;
 };
