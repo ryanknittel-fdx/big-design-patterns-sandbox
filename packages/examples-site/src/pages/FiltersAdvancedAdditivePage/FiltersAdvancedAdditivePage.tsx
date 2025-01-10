@@ -16,16 +16,15 @@ import {
   FormGroup,
   Grid,
   Modal,
-  Fieldset,
-  MultiSelect,
-  Select,
 } from "@bigcommerce/big-design";
 import { InfoIllustration } from "bigcommerce-design-patterns";
 import {
-  ArrowDropDownIcon,
+  AddCircleOutlineIcon,
+  AddIcon,
   CloseIcon,
   FilterListIcon,
   MoreHorizIcon,
+  RemoveCircleOutlineIcon,
   SearchIcon,
 } from "@bigcommerce/big-design-icons";
 import { Header, Page } from "@bigcommerce/big-design-patterns";
@@ -37,6 +36,7 @@ import {
   StyledFiltersLink,
   StyledPanelContents,
   StyledProductImage,
+  StyledModalContents,
 } from "./FiltersAdvancedAdditivePage.styled";
 
 import { DummyItem } from "../../data/dummyProducts";
@@ -44,6 +44,7 @@ import { getCategories, getProducts } from "../../data/services";
 import { Category } from "../../data/dummyCategories";
 import { findCategoryById } from "../../helpers/categories";
 import { formatPrice } from "../../helpers/price";
+import { FilterRow } from "./FilterRow";
 
 /**
  * Mock data for the items to be displayed in the table.
@@ -257,52 +258,16 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
   // FILTERING MODAL
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filtersApplied, setFiltersApplied] = useState(false);
-  const [filterCategory, setFilterCategory] = useState<number[]>([]);
-  const [filterPriceMin, setFilterPriceMin] = useState<number | undefined>(
-    undefined
-  );
-  const [filterPriceMax, setFilterPriceMax] = useState<number | undefined>(
-    undefined
-  );
-  const [filterStockMin, setFilterStockMin] = useState<number | undefined>(
-    undefined
-  );
-  const [filterStockMax, setFilterStockMax] = useState<number | undefined>(
-    undefined
-  );
-
-  const filteringCriteria = {
-    name: {
-      operators: ["=", "!="],
+  const [filterArray, setFilterArray] = useState([
+    {
+      logicalOperator: "where",
+      field: "category",
+      comparisonOperator: "=",
+      value: undefined,
     },
-    category: {
-      operators: ["=", "!="],
-    },
-    price: {
-      operators: ["=", "!=", ">", ">=", "<", "=<"],
-    },
-    stock: {
-      operators: ["=", "!=", ">", ">=", "<", "=<"],
-    },
-  };
+  ]);
 
   const applyFilters = () => {
-    console.log("Applying filters");
-    console.log("Name", searchValue);
-    console.log("Category", filterCategory);
-    console.log("Price range", filterPriceMin, filterPriceMax);
-    console.log("Stock range", filterStockMin, filterStockMax);
-
-    // let's find out if filters are applied
-    setFiltersApplied(
-      searchValue !== "" ||
-        filterCategory.length > 0 ||
-        filterPriceMin !== undefined ||
-        filterPriceMax !== undefined ||
-        filterStockMin !== undefined ||
-        filterStockMax !== undefined
-    );
-
     // filter the items
     handleFiltering();
 
@@ -312,18 +277,13 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
 
   const clearAllFilters = (e) => {
     e && e.preventDefault();
-    setSearchValue("");
-    setFilterCategory([]);
-    setFilterPriceMin(undefined);
-    setFilterPriceMax(undefined);
-    setFilterStockMin(undefined);
-    setFilterStockMax(undefined);
 
     handleFiltering(true);
     setFiltersApplied(false);
   };
 
-  const openFilterModal = () => {
+  const openFilterModal = (e) => {
+    e.preventDefault();
     setIsFilterModalOpen(true);
   };
   const closeFilterModal = () => {
@@ -381,6 +341,69 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
     setTableItems(filteredItems);
   };
 
+  const addFilterRow = (e) => {
+    e.preventDefault();
+    const newFilterArray = [...filterArray];
+    newFilterArray.push({
+      logicalOperator: "or",
+      field: "category",
+      comparisonOperator: "=",
+      value: undefined,
+    });
+    setFilterArray(newFilterArray);
+  };
+
+  const deleteFilterRow = (index) => {
+    console.log("Delete filter row", index);
+  };
+
+  // onchange prop for filter row
+  const updateFilters = (filter) => {
+    console.log("Filter updated", filter);
+  };
+
+  const filterBuilder = (
+    <StyledModalContents>
+      {filterArray.map((filter, index) => (
+        <Grid
+          gridColumns="1fr 32px"
+          gridGap="0.25rem"
+          key={index}
+          borderBottom="box"
+          paddingVertical={"xSmall"}
+          paddingHorizontal={"xLarge"}
+        >
+          <FilterRow
+            index={index}
+            filter={filter}
+            onChange={(value) => {
+              updateFilters(value);
+            }}
+            productCats={productCats}
+          />
+          {/* add or delete button */}
+          <Button
+              variant="utility"
+              onClick={() => {
+                deleteFilterRow(index);
+              }}
+              iconOnly={<RemoveCircleOutlineIcon />}
+              disabled={filterArray.length === 1}
+            />
+        </Grid>
+      ))}
+      <Box paddingVertical="medium" paddingHorizontal="xLarge">
+      <Button
+        variant="secondary"
+        onClick={addFilterRow}
+        iconLeft={<AddIcon />}
+      >
+      Add
+      </Button>
+      </Box>
+    </StyledModalContents>
+  );
+
   // Empty state
   const EmptyState = (
     <Flex
@@ -433,7 +456,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
                 //search and filtering
               }
               <Box marginBottom="medium">
-                <Grid gridColumns="1fr 120px" gridGap="1rem">
+                <Grid gridColumns="1fr 100px" gridGap="1rem">
                   <Form fullWidth onSubmit={onSearchSubmit}>
                     <FormGroup>
                       <Input
@@ -448,7 +471,6 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
                     variant="secondary"
                     onClick={openFilterModal}
                     iconLeft={<FilterListIcon />}
-                    iconRight={<ArrowDropDownIcon />}
                   >
                     Filter
                   </Button>
@@ -462,51 +484,12 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
                   marginBottom="medium"
                   alignItems={"center"}
                 >
-                  {/* let's showcase teh filters applied with chips here*/}
-                  {searchValue && (
-                    <Chip
-                      onDelete={() => setSearchValue("")}
-                      label={`Name: ${searchValue}`}
-                    />
-                  )}
-                  {filterCategory.map((catId) => {
-                    const cat = findCategoryById(productCats, catId);
-                    return (
-                      <Chip
-                        key={catId}
-                        onDelete={() =>
-                          setFilterCategory(
-                            filterCategory.filter((c) => c !== catId)
-                          )
-                        }
-                        label={`Category: ${cat?.label}`}
-                      />
-                    );
-                  })}
-                  {filterPriceMin !== undefined && (
-                    <Chip
-                      onDelete={() => setFilterPriceMin(undefined)}
-                      label={`Min price: ${filterPriceMin}`}
-                    />
-                  )}
-                  {filterPriceMax !== undefined && (
-                    <Chip
-                      onDelete={() => setFilterPriceMax(undefined)}
-                      label={`Max price: ${filterPriceMax}`}
-                    />
-                  )}
-                  {filterStockMin !== undefined && (
-                    <Chip
-                      onDelete={() => setFilterStockMin(undefined)}
-                      label={`Min stock: ${filterStockMin}`}
-                    />
-                  )}
-                  {filterStockMax !== undefined && (
-                    <Chip
+                  {/* let's showcase the filters applied with chips here*/}
+                  {/* <Chip
                       onDelete={() => setFilterStockMax(undefined)}
                       label={`Max stock: ${filterStockMax}`}
-                    />
-                  )}
+                    /> */}
+
                   <StyledFiltersLink href="#" onClick={clearAllFilters}>
                     <CloseIcon />
                     <span>Clear all filters</span>
@@ -555,35 +538,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
           onClose={closeFilterModal}
           isOpen={isFilterModalOpen}
         >
-          <Form fullWidth>
-            <Fieldset>
-              <Grid
-                gridColumns={{
-                  mobile: "100px 1fr",
-                  tablet: "100px 1fr 100px 1fr",
-                }}
-                gridGap="1rem"
-              >
-                <Input value="Where" disabled />
-                <Select
-                  maxHeight={300}
-                  onOptionChange={(value) => {}}
-                  options={[
-                    {
-                      value: "=",
-                      content: "=",
-                    },
-                    {
-                      value: "!=",
-                      content: "!=",
-                    },
-                  ]}
-                  placeholder="Filter by category"
-                  value={"="}
-                ></Select>
-              </Grid>
-            </Fieldset>
-          </Form>
+          {filterBuilder}
         </Modal>
       </Page>
     </>

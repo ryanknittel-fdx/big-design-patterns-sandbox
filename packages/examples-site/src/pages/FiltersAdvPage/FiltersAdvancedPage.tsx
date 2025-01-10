@@ -435,7 +435,7 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                 //search and filtering
               }
               <Box marginBottom="medium">
-                <Grid gridColumns="1fr 120px" gridGap="1rem">
+                <Grid gridColumns="1fr 100px" gridGap="1rem">
                   <Form fullWidth onSubmit={onSearchSubmit}>
                     <FormGroup>
                       <Input
@@ -451,7 +451,6 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                     variant="secondary"
                     onClick={openFilterModal}
                     iconLeft={<FilterListIcon />}
-                    iconRight={<ArrowDropDownIcon />}
                   >
                     Filter
                   </Button>
