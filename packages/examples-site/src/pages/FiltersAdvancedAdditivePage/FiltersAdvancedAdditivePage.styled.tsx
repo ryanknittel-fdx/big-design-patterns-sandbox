@@ -4,6 +4,14 @@ import { BoxProps } from "@bigcommerce/big-design";
 
 import { GridItem, Link } from "@bigcommerce/big-design";
 
+export const StyledModalContents = styled.div<BoxProps>`
+  margin-inline: -${({ theme }) => theme.spacing.medium};
+  border-top: ${({ theme }) => theme.border.box};
+  @media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
+    margin-inline: -${({ theme }) => theme.spacing.xLarge};
+  }
+`;
+
 export const StyledGridItem = styled(GridItem)`
   align-content: center;
 `;
@@ -53,12 +61,11 @@ export const StyledProductImage = styled.div<BoxProps>`
 
 StyledProductImage.defaultProps = { theme: defaultTheme };
 
-
 export const StyledBulkActions = styled.div<BoxProps>`
-display: block;
-@media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
-  min-width: 300px;
-}
+  display: block;
+  @media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
+    min-width: 300px;
+  }
 `;
 
 StyledBulkActions.defaultProps = { theme: defaultTheme };
