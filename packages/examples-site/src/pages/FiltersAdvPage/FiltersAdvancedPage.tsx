@@ -48,6 +48,14 @@ import { formatPrice } from "../../helpers/price";
  */
 interface Item extends DummyItem, TableItem {}
 
+interface Filter {
+  category: number[];
+  priceMin: number | undefined;
+  priceMax: number | undefined;
+  stockMin: number | undefined;
+  stockMax: number | undefined;
+}
+
 const sort = (items: Item[], columnHash: string, direction: string) => {
   return items
     .concat()
@@ -154,10 +162,11 @@ const PageFiltersAdvanced: FunctionComponent = () => {
     },
   ];
 
-  // DATA HANDLING
-  const [currentItems, setCurrentItems] = useState<Item[]>([]);
+  // knowing the items are loaded helps us to show the loader or an empty state when the items are empty
   const [itemsLoaded, setItemsLoaded] = useState(false);
 
+  // we use this state to hold the items to be displayed in the multiple pages of the table
+  const [currentItems, setCurrentItems] = useState<Item[]>([]);
   const setTableItems = (
     themItems: any,
     thePage = currentPage,
@@ -170,6 +179,29 @@ const PageFiltersAdvanced: FunctionComponent = () => {
     setCurrentItems(themItems.slice(firstItem, lastItem));
   };
 
+  // fetch categories and product all at once
+  const [productCats, setProductCats] = useState<Category[]>([]);
+
+  // we use this state to hold the total items in all pages of the dataset
+  const [items, setItems] = useState<Item[]>([]);
+
+  // we use the state to hold the original dataset
+  const [allItems, setAllItems] = useState<Item[]>([]);
+  useEffect(() => {
+    Promise.all([getCategories(), getProducts()]).then(
+      ([categories, products]) => {
+        setProductCats(categories as Category[]);
+        setAllItems(products as Item[]);
+        setItems(products as Item[]);
+        setTableItems(products as Item[]);
+        setItemsLoaded(true);
+      }
+    );
+  }, []);
+
+  /**
+   * DATASET HANDLING
+   */
   // PAGINATION
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPageOptions] = useState([10, 20, 30]);
@@ -219,170 +251,129 @@ const PageFiltersAdvanced: FunctionComponent = () => {
     }
   };
 
-  // EFFECTS
-
-  // fetch categories and product all at once
-  const [productCats, setProductCats] = useState<Category[]>([]);
-  const [items, setItems] = useState<Item[]>([]);
-  const [allItems, setAllItems] = useState<Item[]>([]);
-  useEffect(() => {
-    Promise.all([getCategories(), getProducts()]).then(
-      ([categories, products]) => {
-        setProductCats(categories as Category[]);
-        setAllItems(products as Item[]);
-        setItems(products as Item[]);
-        setTableItems(products as Item[]);
-        setItemsLoaded(true);
-      }
-    );
-  }, []);
-
-  // FILTERING MODAL
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [filtersApplied, setFiltersApplied] = useState(false);
-  const [filterCategory, setFilterCategory] = useState<number[]>([]);
-  const [filterPriceMin, setFilterPriceMin] = useState<number | undefined>(
-    undefined
-  );
-  const [filterPriceMax, setFilterPriceMax] = useState<number | undefined>(
-    undefined
-  );
-  const [filterStockMin, setFilterStockMin] = useState<number | undefined>(
-    undefined
-  );
-  const [filterStockMax, setFilterStockMax] = useState<number | undefined>(
-    undefined
-  );
-
-  const applyFilters = () => {
-    // let's find out if filters are applied
-    setFiltersApplied(
-      filterCategory.length > 0 ||
-        filterPriceMin !== undefined ||
-        filterPriceMax !== undefined ||
-        filterStockMin !== undefined ||
-        filterStockMax !== undefined
-    );
-
-    // filter the items
-    handleFiltering();
-
-    // close the modal
-    closeFilterModal();
-  };
-
   const clearAllFilters = (e) => {
     e && e.preventDefault();
-    setFilterCategory([]);
-    setFilterPriceMin(undefined);
-    setFilterPriceMax(undefined);
-    setFilterStockMin(undefined);
-    setFilterStockMax(undefined);
+    setFilters({
+      category: [],
+      priceMin: undefined,
+      priceMax: undefined,
+      stockMin: undefined,
+      stockMax: undefined,
+    });
 
-    handleFiltering(true);
-    setFiltersApplied(false);
+    handleFiltering();
   };
 
-  const openFilterModal = () => {
-    setIsFilterModalOpen(true);
-  };
-  const closeFilterModal = () => {
-    setIsFilterModalOpen(false);
-  };
-
-  const handleFiltering = (clear = false) => {
+  const handleFiltering = () => {
     let filteredItems = [...allItems];
+    if (searchValue != "" && searchValue !== undefined) {
+      filteredItems = filteredItems.filter((item) =>
+        item.name.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
 
-    if (!clear) {
-      if (searchValue != "" && searchValue !== undefined) {
-        filteredItems = filteredItems.filter((item) =>
-          item.name.toLowerCase().includes(searchValue.toLowerCase())
-        );
-      }
-
-      if (filterCategory.length > 0) {
-        filteredItems = filteredItems.filter((item) => {
-          let found = false;
-          item.categories.forEach((cat) => {
-            if (filterCategory.includes(cat)) {
-              found = true;
-            }
-          });
-          return found;
+    if (filters.category.length > 0) {
+      filteredItems = filteredItems.filter((item) => {
+        let found = false;
+        item.categories.forEach((cat) => {
+          if (filters.category.includes(cat)) {
+            found = true;
+          }
         });
-      }
+        return found;
+      });
+    }
 
-      if (filterPriceMin !== undefined && !isNaN(filterPriceMin)) {
-        filteredItems = filteredItems.filter(
-          (item) => item.price >= filterPriceMin
-        );
-      }
+    if (filters.priceMin !== undefined && !isNaN(filters.priceMin)) {
+      filteredItems = filteredItems.filter(
+        (item) => item.price >= (filters.priceMin ?? 0)
+      );
+    }
 
-      if (filterPriceMax !== undefined && !isNaN(filterPriceMax)) {
-        filteredItems = filteredItems.filter(
-          (item) => item.price <= filterPriceMax
-        );
-      }
+    if (filters.priceMax !== undefined && !isNaN(filters.priceMax)) {
+      filteredItems = filteredItems.filter(
+        (item) => item.price <= (filters.priceMax ?? Infinity)
+      );
+    }
 
-      if (filterStockMin !== undefined && !isNaN(filterStockMin)) {
-        filteredItems = filteredItems.filter(
-          (item) => item.stock >= filterStockMin
-        );
-      }
+    if (filters.stockMin !== undefined && !isNaN(filters.stockMin)) {
+      filteredItems = filteredItems.filter(
+        (item) => item.stock >= (filters.stockMin ?? 0)
+      );
+    }
 
-      if (filterStockMax !== undefined && !isNaN(filterStockMax)) {
-        filteredItems = filteredItems.filter(
-          (item) => item.stock <= filterStockMax
-        );
-      }
+    if (filters.stockMax !== undefined && !isNaN(filters.stockMax)) {
+      filteredItems = filteredItems.filter(
+        (item) => item.stock <= (filters.stockMax ?? Infinity)
+      );
     }
 
     setItems(filteredItems as Item[]);
     setTableItems(filteredItems);
   };
 
-  const deleteFilter = (type: string, value?: number) => {
-    let checkCategory = [...filterCategory];
-    let checkPriceMin = filterPriceMin;
-    let checkPriceMax = filterPriceMax;
-    let checkStockMin = filterStockMin;
-    let checkStockMax = filterStockMax;
-
-    switch (type) {
-      case "category":
-        checkCategory = checkCategory.filter((cat) => cat !== value);
-        setFilterCategory(checkCategory);
-        break;
-      case "priceMin":
-        setFilterPriceMin(undefined);
-        checkPriceMin = undefined;
-        break;
-      case "priceMax":
-        setFilterPriceMax(undefined);
-        checkPriceMax = undefined;
-        break;
-      case "stockMin":
-        setFilterStockMin(undefined);
-        checkStockMin = undefined;
-        break;
-      case "stockMax":
-        setFilterStockMax(undefined);
-        checkStockMax = undefined;
-        break;
-      default:
-        break;
+  const deleteChip = (type: string, value?: number) => {
+    const currentFilters = { ...filters };
+    if (type === "category") {
+      currentFilters.category = currentFilters.category.filter(
+        (cat) => cat !== value
+      );
+    } else {
+      currentFilters[type] = value;
     }
-
-    setFiltersApplied(
-      checkCategory.length > 0 ||
-        checkPriceMin !== undefined ||
-        checkPriceMax !== undefined ||
-        checkStockMin !== undefined ||
-        checkStockMax !== undefined
-    );
+    setFilters(currentFilters);
   };
 
-  // Empty state
+  /**
+   * FILTERING MODAL
+   */
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [filters, setFilters] = useState<Filter>({
+    category: [],
+    priceMin: undefined,
+    priceMax: undefined,
+    stockMin: undefined,
+    stockMax: undefined,
+  });
+  useEffect(() => {
+    handleFiltering();
+  }, [filters]);
+
+  const [modalFilters, setModalFilters] = useState<Filter>({
+    category: [],
+    priceMin: undefined,
+    priceMax: undefined,
+    stockMin: undefined,
+    stockMax: undefined,
+  });
+  const assignModalFilter = (key, value) => {
+    setModalFilters({ ...modalFilters, [key]: value });
+  };
+
+  const applyModalFilters = () => {
+    setFilters({
+      category: modalFilters.category,
+      priceMin: modalFilters.priceMin,
+      priceMax: modalFilters.priceMax,
+      stockMin: modalFilters.stockMin,
+      stockMax: modalFilters.stockMax,
+    });
+
+    // close the modal
+    closeFilterModal();
+  };
+
+  const openFilterModal = () => {
+    setModalFilters(filters);
+    setIsFilterModalOpen(true);
+  };
+  const closeFilterModal = () => {
+    setIsFilterModalOpen(false);
+  };
+
+  /**
+   * EMPTY STATE
+   */
   const EmptyState = (
     <Flex
       justifyContent="center"
@@ -398,7 +389,11 @@ const PageFiltersAdvanced: FunctionComponent = () => {
           <Text color="secondary60">
             {
               // differentiate from empty search or empty products and show a loader element if the data is being fetched
-              filtersApplied
+              filters.category.length > 0 ||
+              filters.priceMin !== undefined ||
+              filters.priceMax !== undefined ||
+              filters.stockMin !== undefined ||
+              filters.stockMax !== undefined
                 ? `No products were found for the criteria`
                 : "You have no products yet."
             }
@@ -455,7 +450,11 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                   </Button>
                 </Grid>
               </Box>
-              {filtersApplied && (
+              {filters.category.length > 0 ||
+              filters.priceMin !== undefined ||
+              filters.priceMax !== undefined ||
+              filters.stockMin !== undefined ||
+              filters.stockMax !== undefined ? (
                 <Flex
                   flexDirection={{ mobile: "row" }}
                   display={"inline-flex"}
@@ -464,48 +463,52 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                   alignItems={"center"}
                 >
                   {/* let's showcase the filters applied with chips here*/}
-                  {filterCategory.map((catId) => {
+                  {filters.category.map((catId) => {
                     const cat = findCategoryById(productCats, catId);
                     return (
                       <Chip
                         key={catId}
                         onDelete={() => {
-                          deleteFilter("category", catId);
+                          deleteChip("category", catId);
                         }}
                         label={`Category: ${cat?.label}`}
                       />
                     );
                   })}
-                  {filterPriceMin !== undefined && !isNaN(filterPriceMin) && (
-                    <Chip
-                      onDelete={() => deleteFilter("priceMin")}
-                      label={`Min price: ${filterPriceMin}`}
-                    />
-                  )}
-                  {filterPriceMax !== undefined && !isNaN(filterPriceMax) && (
-                    <Chip
-                      onDelete={() => deleteFilter("priceMax")}
-                      label={`Max price: ${filterPriceMax}`}
-                    />
-                  )}
-                  {filterStockMin !== undefined && !isNaN(filterStockMin) && (
-                    <Chip
-                      onDelete={() => deleteFilter("stockMin")}
-                      label={`Min stock: ${filterStockMin}`}
-                    />
-                  )}
-                  {filterStockMax !== undefined && !isNaN(filterStockMax) && (
-                    <Chip
-                      onDelete={() => deleteFilter("stockMax")}
-                      label={`Max stock: ${filterStockMax}`}
-                    />
-                  )}
+                  {filters.priceMin !== undefined &&
+                    !isNaN(filters.priceMin) && (
+                      <Chip
+                        onDelete={() => deleteChip("priceMin")}
+                        label={`Min price: ${filters.priceMin}`}
+                      />
+                    )}
+                  {filters.priceMax !== undefined &&
+                    !isNaN(filters.priceMax) && (
+                      <Chip
+                        onDelete={() => deleteChip("priceMax")}
+                        label={`Max price: ${filters.priceMax}`}
+                      />
+                    )}
+                  {filters.stockMin !== undefined &&
+                    !isNaN(filters.stockMin) && (
+                      <Chip
+                        onDelete={() => deleteChip("stockMin")}
+                        label={`Min stock: ${filters.stockMin}`}
+                      />
+                    )}
+                  {filters.stockMax !== undefined &&
+                    !isNaN(filters.stockMax) && (
+                      <Chip
+                        onDelete={() => deleteChip("stockMax")}
+                        label={`Max stock: ${filters.stockMax}`}
+                      />
+                    )}
                   <StyledFiltersLink href="#" onClick={clearAllFilters}>
                     <CloseIcon />
                     <span>Clear all filters</span>
                   </StyledFiltersLink>
                 </Flex>
-              )}
+              ) : null}
               <StyledPanelContents>
                 <Table
                   columns={columns as any}
@@ -534,7 +537,7 @@ const PageFiltersAdvanced: FunctionComponent = () => {
         <Modal
           actions={[
             { text: "Cancel", variant: "subtle", onClick: closeFilterModal },
-            { text: "Apply", variant: "primary", onClick: applyFilters },
+            { text: "Apply", variant: "primary", onClick: applyModalFilters },
           ]}
           closeOnEscKey={true}
           header="Filter products"
@@ -549,13 +552,16 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                   label={"Category"}
                   placeholder="Select a category"
                   onOptionsChange={(selected) => {
-                    setFilterCategory(selected.map((sel) => sel));
+                    assignModalFilter(
+                      "category",
+                      selected.map((sel) => sel)
+                    );
                   }}
                   options={productCats.map((cat) => ({
                     value: cat.id,
                     content: cat.label,
                   }))}
-                  value={filterCategory}
+                  value={modalFilters.category}
                 ></MultiSelect>
               </Box>
             </FormGroup>
@@ -572,9 +578,9 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                     <Input
                       id="priceMin"
                       type="number"
-                      value={filterPriceMin}
+                      value={modalFilters.priceMin}
                       onChange={(e) =>
-                        setFilterPriceMin(parseInt(e.target.value))
+                        assignModalFilter("priceMin", parseInt(e.target.value))
                       }
                       placeholder="Min."
                     />
@@ -583,9 +589,9 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                     <Input
                       id="priceMax"
                       type="number"
-                      value={filterPriceMax}
+                      value={modalFilters.priceMax}
                       onChange={(e) =>
-                        setFilterPriceMax(parseInt(e.target.value))
+                        assignModalFilter("priceMax", parseInt(e.target.value))
                       }
                       placeholder="Max."
                     />
@@ -607,10 +613,10 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                     <Input
                       id="invMin"
                       type="number"
-                      value={filterStockMin}
+                      value={modalFilters.stockMin}
                       placeholder="Min."
                       onChange={(e) =>
-                        setFilterStockMin(parseInt(e.target.value))
+                        assignModalFilter("invMin", parseInt(e.target.value))
                       }
                     />
                   </StyledGridItem>
@@ -619,9 +625,9 @@ const PageFiltersAdvanced: FunctionComponent = () => {
                       id="invMax"
                       type="number"
                       placeholder="Max."
-                      value={filterStockMax}
+                      value={modalFilters.stockMax}
                       onChange={(e) =>
-                        setFilterStockMax(parseInt(e.target.value))
+                        assignModalFilter("stockMax", parseInt(e.target.value))
                       }
                     />
                   </StyledGridItem>
