@@ -49,6 +49,7 @@ import { formatPrice } from "../../helpers/price";
 interface Item extends DummyItem, TableItem {}
 
 interface Filter {
+  name?: string;
   category: number[];
   priceMin: number | undefined;
   priceMax: number | undefined;
@@ -233,27 +234,19 @@ const PageFiltersAdvanced: FunctionComponent = () => {
     setSearchValue(event.target.value);
     // let's reset the items to the original data if the search value is empty
     if (!event.target.value) {
-      setItems(allItems);
-      setTableItems(allItems);
+      handleFiltering();
     }
   };
   // search submission handler
   const onSearchSubmit = (e) => {
     e.preventDefault();
-    if (searchValue) {
-      // let's find the items
-      const foundItems = items.filter((item) =>
-        item.name.toLowerCase().includes(searchValue.toLowerCase())
-      );
-      // set the items
-      setItems(foundItems);
-      setTableItems(foundItems);
-    }
+    handleFiltering();
   };
 
   const clearAllFilters = (e) => {
     e && e.preventDefault();
     setFilters({
+      name: filters.name,
       category: [],
       priceMin: undefined,
       priceMax: undefined,
@@ -329,6 +322,7 @@ const PageFiltersAdvanced: FunctionComponent = () => {
    */
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<Filter>({
+    name: undefined,
     category: [],
     priceMin: undefined,
     priceMax: undefined,
@@ -352,6 +346,7 @@ const PageFiltersAdvanced: FunctionComponent = () => {
 
   const applyModalFilters = () => {
     setFilters({
+      name: filters.name,
       category: modalFilters.category,
       priceMin: modalFilters.priceMin,
       priceMax: modalFilters.priceMax,

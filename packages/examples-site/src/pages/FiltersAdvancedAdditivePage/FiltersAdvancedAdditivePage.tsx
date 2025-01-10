@@ -220,8 +220,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
     setSearchValue(event.target.value);
     // let's reset the items to the original data if the search value is empty
     if (!event.target.value) {
-      setItems(allItems);
-      setTableItems(allItems);
+      setFilterArray(filterArray);
     }
   };
   // search submission handler
@@ -229,12 +228,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
     e.preventDefault();
     if (searchValue) {
       // let's find the items
-      const foundItems = items.filter((item) =>
-        item.name.toLowerCase().includes(searchValue.toLowerCase())
-      );
-      // set the items
-      setItems(foundItems);
-      setTableItems(foundItems);
+      setFilterArray(filterArray);
     }
   };
 
@@ -265,6 +259,13 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
   const [filterArray, setFilterArray] = useState<Filter[]>([]);
   useEffect(() => {
     let filteredItems = [...allItems];
+
+    // lets include search
+    if (searchValue) {
+      filteredItems = filteredItems.filter((item) =>
+        item.name.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
 
     const filterfunction = (baseArray, filter) => {
       return baseArray.filter((item) => {
@@ -454,8 +455,8 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
       <Page
         header={
           <Header
-            description="There are instances where numerous filterable dimensions are not necessarily exposed in the displayed dataset. In such cases, we need to offer users the capability to obtain a subset of the data and easily view and modify the filtering parameters."
-            title="Advanced filters"
+            description="To be used wen you want to configure filters very precisely in additive mode and save teh views for later use."
+            title="Advanced additive filters with views"
             backLink={{
               text: "Back to patterns",
               onClick: () => navigate("/"),
@@ -510,7 +511,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
                       filter.field.slice(1);
                     const filterLogicalOperatorUppercase =
                       filter.logicalOperator.toUpperCase();
-                    if (filter.field === "category") {
+                    if (filter.field === "categories") {
                       const cat =
                         filter.value !== undefined
                           ? findCategoryById(productCats, Number(filter.value))
