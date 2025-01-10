@@ -235,7 +235,6 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
       // set the items
       setItems(foundItems);
       setTableItems(foundItems);
-      setFiltersApplied(true);
     }
   };
 
@@ -262,7 +261,6 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
 
   // FILTERING MODAL
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [filtersApplied, setFiltersApplied] = useState(false);
 
   const [filterArray, setFilterArray] = useState<Filter[]>([]);
   useEffect(() => {
@@ -305,7 +303,6 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
       }
     });
 
-    setFiltersApplied(true);
     setItems(filteredItems as Item[]);
     setTableItems(filteredItems);
   }, [filterArray]);
@@ -321,18 +318,22 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
   const clearAllFilters = (e) => {
     e && e.preventDefault();
     setFilterArray([]);
-    setFiltersApplied(false);
   };
 
   const openFilterModal = (e) => {
     e.preventDefault();
     // set the modal filter array to the current filter array
-    const modalFilters = filterArray.length > 0 ? filterArray : [{
-      logicalOperator: "where",
-      field: "categories",
-      comparisonOperator: "contains",
-      value: undefined,
-    }];
+    const modalFilters =
+      filterArray.length > 0
+        ? filterArray
+        : [
+            {
+              logicalOperator: "where",
+              field: "categories",
+              comparisonOperator: "contains",
+              value: undefined,
+            },
+          ];
     setModalFilterArray(modalFilters);
     setIsFilterModalOpen(true);
   };
@@ -438,7 +439,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
           <Text color="secondary60">
             {
               // differentiate from empty search or empty products and show a loader element if the data is being fetched
-              filtersApplied
+              filterArray.length > 0
                 ? `No products were found for the criteria`
                 : "You have no products yet."
             }
@@ -494,7 +495,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
                   </Button>
                 </Grid>
               </Box>
-              {filtersApplied && (
+              {filterArray.length > 0 && (
                 <Flex
                   flexDirection={{ mobile: "row" }}
                   display={"inline-flex"}
@@ -503,40 +504,20 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
                   alignItems={"center"}
                 >
                   {/* let's showcase the filters applied with chips here*/}
-                  {filterArray.length > 0 &&
-                    filterArray.map((filter: Filter, index) => {
-                      const filterFieldCapitalized =
-                        filter.field.charAt(0).toUpperCase() +
-                        filter.field.slice(1);
-                      const filterLogicalOperatorUppercase =
-                        filter.logicalOperator.toUpperCase();
-                      if (filter.field === "category") {
-                        const cat =
-                          filter.value !== undefined
-                            ? findCategoryById(
-                                productCats,
-                                Number(filter.value)
-                              )
-                            : undefined;
-                        return (
-                          <Chip
-                            key={filter.value}
-                            onDelete={() => {
-                              deleteChip(index);
-                            }}
-                            label={`${
-                              filter.logicalOperator !== "where"
-                                ? filterLogicalOperatorUppercase
-                                : ""
-                            } ${filterFieldCapitalized} ${
-                              filter.comparisonOperator
-                            } ${cat?.label}`}
-                          />
-                        );
-                      }
+                  {filterArray.map((filter: Filter, index) => {
+                    const filterFieldCapitalized =
+                      filter.field.charAt(0).toUpperCase() +
+                      filter.field.slice(1);
+                    const filterLogicalOperatorUppercase =
+                      filter.logicalOperator.toUpperCase();
+                    if (filter.field === "category") {
+                      const cat =
+                        filter.value !== undefined
+                          ? findCategoryById(productCats, Number(filter.value))
+                          : undefined;
                       return (
                         <Chip
-                          key={index}
+                          key={filter.value}
                           onDelete={() => {
                             deleteChip(index);
                           }}
@@ -546,10 +527,26 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
                               : ""
                           } ${filterFieldCapitalized} ${
                             filter.comparisonOperator
-                          } ${filter.value}`}
+                          } ${cat?.label}`}
                         />
                       );
-                    })}
+                    }
+                    return (
+                      <Chip
+                        key={index}
+                        onDelete={() => {
+                          deleteChip(index);
+                        }}
+                        label={`${
+                          filter.logicalOperator !== "where"
+                            ? filterLogicalOperatorUppercase
+                            : ""
+                        } ${filterFieldCapitalized} ${
+                          filter.comparisonOperator
+                        } ${filter.value}`}
+                      />
+                    );
+                  })}
                   {filterArray.length > 0 && (
                     <StyledFiltersLink href="#" onClick={clearAllFilters}>
                       <CloseIcon />
