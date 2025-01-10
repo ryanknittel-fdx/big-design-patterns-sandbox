@@ -19,7 +19,6 @@ import {
 } from "@bigcommerce/big-design";
 import { InfoIllustration } from "bigcommerce-design-patterns";
 import {
-  AddCircleOutlineIcon,
   AddIcon,
   CloseIcon,
   FilterListIcon,
@@ -32,7 +31,6 @@ import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { theme } from "@bigcommerce/big-design-theme";
 import {
-  StyledGridItem,
   StyledFiltersLink,
   StyledPanelContents,
   StyledProductImage,
@@ -50,6 +48,13 @@ import { FilterRow } from "./FilterRow";
  * Mock data for the items to be displayed in the table.
  */
 interface Item extends DummyItem, TableItem {}
+
+interface Filter {
+  logicalOperator: string;
+  field: string;
+  comparisonOperator: string;
+  value: string | number | undefined;
+}
 
 /**
  * Column definitions for the table.
@@ -258,18 +263,56 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
   // FILTERING MODAL
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filtersApplied, setFiltersApplied] = useState(false);
-  const [filterArray, setFilterArray] = useState([
-    {
-      logicalOperator: "where",
-      field: "category",
-      comparisonOperator: "=",
-      value: undefined,
-    },
-  ]);
+
+  const [filterArray, setFilterArray] = useState<Filter[]>([]);
+  useEffect(() => {
+    let filteredItems = [...allItems];
+
+    const filterfunction = (baseArray, filter) => {
+      return baseArray.filter((item) => {
+        // let's switch through the comparison operators
+        switch (filter.comparisonOperator) {
+          case "=":
+            return item[filter.field] == filter.value;
+          case "!=":
+            // here we could be either looking at an array or a single value
+            return item[filter.field] != filter.value;
+          case ">":
+            return item[filter.field] > filter.value;
+          case "<":
+            return item[filter.field] < filter.value;
+          case "contains":
+            return item[filter.field].includes(filter.value);
+          case "excludes":
+            return !item[filter.field].includes(filter.value);
+          default:
+            return false;
+        }
+      });
+    };
+    filterArray.forEach((filter) => {
+      // let's start by analyzing the logical operator
+      if (filter.logicalOperator === "where") {
+        // this is the first filter, so we start from here
+        filteredItems = filterfunction(filteredItems, filter);
+      } else if (filter.logicalOperator === "and") {
+        // we add the filter to the current filtered items
+        filteredItems = filterfunction(filteredItems, filter);
+      } else {
+        // this would be "or" logical operator, so we need to merge the current filtered items with the new filter
+        const newFilteredItems = filterfunction(allItems, filter);
+        filteredItems = [...filteredItems, ...newFilteredItems];
+      }
+    });
+
+    setFiltersApplied(true);
+    setItems(filteredItems as Item[]);
+    setTableItems(filteredItems);
+  }, [filterArray]);
 
   const applyFilters = () => {
-    // filter the items
-    handleFiltering();
+    // set the filter Array to the modal filter array
+    setFilterArray(modalFilterArray);
 
     // close the modal
     closeFilterModal();
@@ -277,94 +320,69 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
 
   const clearAllFilters = (e) => {
     e && e.preventDefault();
-
-    handleFiltering(true);
+    setFilterArray([]);
     setFiltersApplied(false);
   };
 
   const openFilterModal = (e) => {
     e.preventDefault();
+    // set the modal filter array to the current filter array
+    const modalFilters = filterArray.length > 0 ? filterArray : [{
+      logicalOperator: "where",
+      field: "categories",
+      comparisonOperator: "contains",
+      value: undefined,
+    }];
+    setModalFilterArray(modalFilters);
     setIsFilterModalOpen(true);
   };
   const closeFilterModal = () => {
     setIsFilterModalOpen(false);
   };
 
-  const handleFiltering = (clear = false) => {
-    let filteredItems = [...allItems];
-
-    if (!clear) {
-      if (searchValue != "" && searchValue !== undefined) {
-        filteredItems = filteredItems.filter((item) =>
-          item.name.toLowerCase().includes(searchValue.toLowerCase())
-        );
-      }
-
-      if (filterCategory.length > 0) {
-        filteredItems = filteredItems.filter((item) => {
-          let found = false;
-          item.categories.forEach((cat) => {
-            if (filterCategory.includes(cat)) {
-              found = true;
-            }
-          });
-          return found;
-        });
-      }
-
-      if (filterPriceMin !== undefined) {
-        filteredItems = filteredItems.filter(
-          (item) => item.price >= filterPriceMin
-        );
-      }
-
-      if (filterPriceMax !== undefined) {
-        filteredItems = filteredItems.filter(
-          (item) => item.price <= filterPriceMax
-        );
-      }
-
-      if (filterStockMin !== undefined) {
-        filteredItems = filteredItems.filter(
-          (item) => item.stock >= filterStockMin
-        );
-      }
-
-      if (filterStockMax !== undefined) {
-        filteredItems = filteredItems.filter(
-          (item) => item.stock <= filterStockMax
-        );
-      }
-    }
-
-    setItems(filteredItems as Item[]);
-    setTableItems(filteredItems);
-  };
-
+  // temporaty state for filters in modal
+  const [modalFilterArray, setModalFilterArray] = useState<Filter[]>([]);
   const addFilterRow = (e) => {
     e.preventDefault();
-    const newFilterArray = [...filterArray];
+    const newFilterArray = [...modalFilterArray];
     newFilterArray.push({
       logicalOperator: "or",
-      field: "category",
-      comparisonOperator: "=",
+      field: "categories",
+      comparisonOperator: "contains",
       value: undefined,
     });
-    setFilterArray(newFilterArray);
+    setModalFilterArray(newFilterArray);
   };
 
   const deleteFilterRow = (index) => {
-    console.log("Delete filter row", index);
+    setModalFilterArray((prevFilterArray) => {
+      const updatedFilterArray = prevFilterArray.filter((_, i) => i !== index);
+      return updatedFilterArray;
+    });
   };
 
-  // onchange prop for filter row
-  const updateFilters = (filter) => {
-    console.log("Filter updated", filter);
+  const updateModalFilters = (filter) => {
+    setModalFilterArray((prevFilterArray) => {
+      const updatedFilterArray = prevFilterArray.map((prevFilter, i) => {
+        if (i === filter.index) {
+          return filter;
+        }
+        return prevFilter;
+      });
+      return updatedFilterArray;
+    });
+  };
+
+  const deleteChip = (index) => {
+    setFilterArray((prevFilterArray) => {
+      const updatedFilterArray = prevFilterArray.filter((_, i) => i !== index);
+      return updatedFilterArray;
+    });
   };
 
   const filterBuilder = (
     <StyledModalContents>
-      {filterArray.map((filter, index) => (
+      {modalFilterArray.map((filter, index) => (
         <Grid
           gridColumns="1fr 32px"
           gridGap="0.25rem"
@@ -377,29 +395,29 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
             index={index}
             filter={filter}
             onChange={(value) => {
-              updateFilters(value);
+              updateModalFilters(value);
             }}
             productCats={productCats}
           />
           {/* add or delete button */}
           <Button
-              variant="utility"
-              onClick={() => {
-                deleteFilterRow(index);
-              }}
-              iconOnly={<RemoveCircleOutlineIcon />}
-              disabled={filterArray.length === 1}
-            />
+            variant="utility"
+            onClick={() => {
+              deleteFilterRow(index);
+            }}
+            iconOnly={<RemoveCircleOutlineIcon />}
+            disabled={filterArray.length === 1}
+          />
         </Grid>
       ))}
       <Box paddingVertical="medium" paddingHorizontal="xLarge">
-      <Button
-        variant="secondary"
-        onClick={addFilterRow}
-        iconLeft={<AddIcon />}
-      >
-      Add
-      </Button>
+        <Button
+          variant="secondary"
+          onClick={addFilterRow}
+          iconLeft={<AddIcon />}
+        >
+          Add
+        </Button>
       </Box>
     </StyledModalContents>
   );
@@ -485,15 +503,59 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
                   alignItems={"center"}
                 >
                   {/* let's showcase the filters applied with chips here*/}
-                  {/* <Chip
-                      onDelete={() => setFilterStockMax(undefined)}
-                      label={`Max stock: ${filterStockMax}`}
-                    /> */}
-
-                  <StyledFiltersLink href="#" onClick={clearAllFilters}>
-                    <CloseIcon />
-                    <span>Clear all filters</span>
-                  </StyledFiltersLink>
+                  {filterArray.length > 0 &&
+                    filterArray.map((filter: Filter, index) => {
+                      const filterFieldCapitalized =
+                        filter.field.charAt(0).toUpperCase() +
+                        filter.field.slice(1);
+                      const filterLogicalOperatorUppercase =
+                        filter.logicalOperator.toUpperCase();
+                      if (filter.field === "category") {
+                        const cat =
+                          filter.value !== undefined
+                            ? findCategoryById(
+                                productCats,
+                                Number(filter.value)
+                              )
+                            : undefined;
+                        return (
+                          <Chip
+                            key={filter.value}
+                            onDelete={() => {
+                              deleteChip(index);
+                            }}
+                            label={`${
+                              filter.logicalOperator !== "where"
+                                ? filterLogicalOperatorUppercase
+                                : ""
+                            } ${filterFieldCapitalized} ${
+                              filter.comparisonOperator
+                            } ${cat?.label}`}
+                          />
+                        );
+                      }
+                      return (
+                        <Chip
+                          key={index}
+                          onDelete={() => {
+                            deleteChip(index);
+                          }}
+                          label={`${
+                            filter.logicalOperator !== "where"
+                              ? filterLogicalOperatorUppercase
+                              : ""
+                          } ${filterFieldCapitalized} ${
+                            filter.comparisonOperator
+                          } ${filter.value}`}
+                        />
+                      );
+                    })}
+                  {filterArray.length > 0 && (
+                    <StyledFiltersLink href="#" onClick={clearAllFilters}>
+                      <CloseIcon />
+                      <span>Clear all filters</span>
+                    </StyledFiltersLink>
+                  )}
                 </Flex>
               )}
               <StyledPanelContents>

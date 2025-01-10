@@ -5,8 +5,11 @@ import { BoxProps } from "@bigcommerce/big-design";
 import { GridItem, Link } from "@bigcommerce/big-design";
 
 export const StyledModalContents = styled.div<BoxProps>`
-  margin-inline: -${({ theme }) => theme.spacing.xLarge};
+  margin-inline: -${({ theme }) => theme.spacing.medium};
   border-top: ${({ theme }) => theme.border.box};
+  @media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
+    margin-inline: -${({ theme }) => theme.spacing.xLarge};
+  }
 `;
 
 export const StyledGridItem = styled(GridItem)`

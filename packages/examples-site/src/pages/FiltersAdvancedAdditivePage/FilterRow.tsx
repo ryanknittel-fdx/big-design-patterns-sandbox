@@ -1,11 +1,9 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
-import { Input, Grid, Fieldset, Select } from "@bigcommerce/big-design";
-
+import React, { FunctionComponent, useState, useRef } from "react";
+import { Input, Grid, Select } from "@bigcommerce/big-design";
 import { Category } from "../../data/dummyCategories";
 
 export interface FilterRowProps {
-  /** ReactNode - Children elements or components to be rendered within the ActionBar. */
-  onChange: (value) => void;
+  onChange: (value: any) => void;
   productCats: Category[];
   index: number;
   filter: {
@@ -16,136 +14,86 @@ export interface FilterRowProps {
   };
 }
 
-//const filterRow = (isFirst = false, onChange = () => {}) => {
 export const FilterRow: FunctionComponent<FilterRowProps> = ({
   onChange,
   productCats,
   index,
   filter,
 }) => {
-  const elementRef = React.useRef<HTMLDivElement>(null);
+  const elementRef = useRef<HTMLDivElement>(null);
+
   const filteringCriteria = {
-    category: {
+    categories: {
       type: "select",
       comparisonOperators: [
-        {
-          operator: "=",
-          label: "is",
-        },
-        {
-          operator: "!=",
-          label: "is not",
-        },
+        { operator: "contains", label: "has" },
+        { operator: "excludes", label: "doesn't have" },
       ],
-      options: productCats.map((cat) => ({
-        value: cat.id,
-        content: cat.label,
-      })),
-      onChange: () => {},
+      options: productCats.map((cat) => ({ value: cat.id, content: cat.label })),
     },
     price: {
       type: "number",
       comparisonOperators: [
-        {
-          operator: "=",
-          label: "is",
-        },
-        {
-          operator: "!=",
-          label: "is not",
-        },
-        {
-          operator: ">",
-          label: "greater than",
-        },
-        {
-          operator: "<",
-          label: "less than",
-        },
+        { operator: "=", label: "is" },
+        { operator: "!=", label: "is not" },
+        { operator: ">", label: "greater than" },
+        { operator: "<", label: "less than" },
       ],
-      onChange: () => {},
     },
     stock: {
       type: "number",
       comparisonOperators: [
-        {
-          operator: "=",
-          label: "is",
-        },
-        {
-          operator: "!=",
-          label: "is not",
-        },
-        {
-          operator: ">",
-          label: "greater than",
-        },
-        {
-          operator: "<",
-          label: "less than",
-        },
+        { operator: "=", label: "is" },
+        { operator: "!=", label: "is not" },
+        { operator: ">", label: "greater than" },
+        { operator: "<", label: "less than" },
       ],
     },
   };
 
-  const baseFilter = filter.field;
-  const baseComparisonOperator = filter.comparisonOperator;
-  const [logicalOperator, setLogicalOperator] = useState(
-    filter.logicalOperator
-  );
+  const [logicalOperator, setLogicalOperator] = useState(filter.logicalOperator);
   const [queryField, setQueryField] = useState(filter.field);
-  const [comparisonOperator, setComparisonOperator] = useState(
-    filter.comparisonOperator
-  );
+  const [comparisonOperator, setComparisonOperator] = useState(filter.comparisonOperator);
+  const [queryValue, setQueryValue] = useState<number | string | undefined>(filter.value);
 
-  // the query value can be either a number or a string
-  const [queryValue, setQueryValue] = useState<number | string | undefined>(
-    filter.value
-  );
-
-  const handleFiledChange = (field: string, value: any) => {
-    const onChangeObject = {
+  const handleFieldChange = (field: string, value: any) => {
+    const updatedFilter = {
+      index,
       field: queryField,
-      logicalOperator: logicalOperator,
-      comparisonOperator: comparisonOperator,
+      logicalOperator,
+      comparisonOperator,
       value: queryValue,
     };
 
     switch (field) {
       case "operator":
         setLogicalOperator(value);
-        onChangeObject.logicalOperator = value;
+        updatedFilter.logicalOperator = value;
         break;
       case "field":
         setQueryField(value);
-        // setBaseFilterType(filteringCriteria[value].type);
-        setComparisonOperator(
-          filteringCriteria[value].comparisonOperators[0].operator
-        );
-        onChangeObject.field = value;
+        setComparisonOperator(filteringCriteria[value].comparisonOperators[0].operator);
+        updatedFilter.field = value;
         break;
       case "operatorValue":
         setComparisonOperator(value);
-        onChangeObject.comparisonOperator = value;
+        updatedFilter.comparisonOperator = value;
         break;
       case "value":
         setQueryValue(value);
-        onChangeObject.value = value;
+        updatedFilter.value = value;
         break;
       default:
         break;
     }
 
-    onChange(onChangeObject);
+    onChange(updatedFilter);
   };
 
   return (
     <Grid
       ref={elementRef}
-      gridColumns={{
-        mobile: "60px 1fr",
-        tablet: "60px 1fr 120px 1fr",
-      }}
+      gridColumns={{ mobile: "120px 1fr", tablet: "80px 1fr 120px 1fr" }}
       gridGap="1rem"
     >
       {index === 0 ? (
@@ -156,59 +104,41 @@ export const FilterRow: FunctionComponent<FilterRowProps> = ({
             { content: "And", value: "and" },
             { content: "Or", value: "or" },
           ]}
-          onOptionChange={(value) => {
-            handleFiledChange("operator", value);
-          }}
+          onOptionChange={(value) => handleFieldChange("operator", value)}
           value={logicalOperator}
         />
       )}
       <Select
-        options={Object.keys(filteringCriteria).map((dim) => {
-          return {
-            content: dim.charAt(0).toUpperCase() + dim.slice(1),
-            value: dim,
-          };
-        })}
+        options={Object.keys(filteringCriteria).map((dim) => ({
+          content: dim.charAt(0).toUpperCase() + dim.slice(1),
+          value: dim,
+        }))}
         value={queryField}
-        onOptionChange={(value) => {
-          handleFiledChange("field", value);
-        }}
+        onOptionChange={(value) => handleFieldChange("field", value)}
       />
       <Select
-        options={
-          filteringCriteria[queryField].comparisonOperators.map((op) => {
-            return {
-              content: op.label,
-              value: op.operator,
-            };
-          }) || []
-        }
+        options={filteringCriteria[queryField]?.comparisonOperators.map((op) => ({
+          content: op.label,
+          value: op.operator,
+        }))}
         value={comparisonOperator}
-        onOptionChange={(value) => {
-          handleFiledChange("operatorValue", value);
-        }}
+        onOptionChange={(value) => handleFieldChange("operatorValue", value)}
       />
-      {filteringCriteria[queryField].type === "text" ? (
+      {filteringCriteria[queryField]?.type === "text" ? (
         <Input
-          onChange={(e) => {
-            handleFiledChange("value", e.target.value);
-          }}
+          onChange={(e) => handleFieldChange("value", e.target.value)}
           value={queryValue}
         />
-      ) : filteringCriteria[queryField].type === "number" ? (
+      ) : filteringCriteria[queryField]?.type === "number" ? (
         <Input
           type="number"
-          onChange={(e) => {
-            handleFiledChange("value", e.target.value);
-          }}
+          onChange={(e) => handleFieldChange("value", e.target.value)}
           value={queryValue as number}
         />
       ) : (
         <Select
-          options={filteringCriteria[queryField].options}
-          onOptionChange={(value) => {
-            handleFiledChange("value", value);
-          }}
+          options={filteringCriteria[queryField]?.options || []}
+          onOptionChange={(value) => handleFieldChange("value", value)}
           value={queryValue as string | number | undefined}
         />
       )}

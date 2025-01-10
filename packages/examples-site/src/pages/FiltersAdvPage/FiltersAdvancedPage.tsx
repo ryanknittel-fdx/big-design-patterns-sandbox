@@ -21,7 +21,6 @@ import {
 } from "@bigcommerce/big-design";
 import { InfoIllustration } from "bigcommerce-design-patterns";
 import {
-  ArrowDropDownIcon,
   CloseIcon,
   FilterListIcon,
   MoreHorizIcon,
