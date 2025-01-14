@@ -14,10 +14,10 @@ import PageAnchorNav from "./pages/AnchorNavPage/AnchorNavPage";
 import CardGridPage from "./pages/CardGridPage";
 import InstallScreenApp from "./pages/InstallScreenPage/AppExample";
 import InstallScreenChannel from "./pages/InstallScreenPage/ChannelExample";
-import PageFiltersSearch from "./pages/FiltersSearchPage/FiltersSearchPage";
-import PageFiltersDropdowns from "./pages/FiltersDropdownsPage/FiltersDropdownsPage";
-import PageFiltersAdvanced from "./pages/FiltersAdvPage/FiltersAdvancedPage";
-import PageFiltersAdvancedAdditive from "./pages/FiltersAdvancedAdditivePage/FiltersAdvancedAdditivePage";
+import PageFiltersSearch from "./pages/Filters/FiltersSearchPage/FiltersSearchPage";
+import PageFiltersDropdowns from "./pages/Filters/FiltersDropdownsPage/FiltersDropdownsPage";
+import PageFiltersAdvanced from "./pages/Filters/FiltersAdvPage/FiltersAdvancedPage";
+import PageFiltersAdvancedAdditive from "./pages/Filters/FiltersAdvancedAdditivePage/FiltersAdvancedAdditivePage";
 
 export const alertsManager = createAlertsManager();
 

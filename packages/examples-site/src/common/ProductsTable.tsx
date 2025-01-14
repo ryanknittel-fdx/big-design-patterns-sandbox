@@ -1,11 +1,7 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import {
   Flex,
-  FlexItem,
-  Box,
   Button,
-  Panel,
-  Search,
   Table,
   TableItem,
   Text,
@@ -14,25 +10,20 @@ import {
 } from "@bigcommerce/big-design";
 import { InfoIllustration } from "bigcommerce-design-patterns";
 import { MoreHorizIcon } from "@bigcommerce/big-design-icons";
-import { Header, Page } from "@bigcommerce/big-design-patterns";
-import { useNavigate } from "react-router";
-import { useLocation } from "react-router-dom";
 import { theme } from "@bigcommerce/big-design-theme";
 import {
   StyledPanelContents,
   StyledProductImage,
-} from "./FiltersSearchPage.styled";
+} from "./ProductsTable.styled";
 
-import { DummyItem } from "../../data/dummyProducts";
-import { getCategories, getProducts } from "../../data/services";
-import { Category } from "../../data/dummyCategories";
-import { findCategoryById } from "../../helpers/categories";
-import { formatPrice } from "../../helpers/price";
+import { DummyItem } from "../data/dummyProducts";
+import { findCategoryById } from "../helpers/categories";
+import { formatPrice } from "../helpers/price";
 
 /**
  * Mock data for the items to be displayed in the table.
  */
-interface Item extends DummyItem, TableItem {}
+export interface Item extends DummyItem, TableItem {}
 
 /**
  * Column definitions for the table.
@@ -59,15 +50,20 @@ const sort = (items: Item[], columnHash: string, direction: string) => {
     );
 };
 
-/**
- * PageList component - Displays a page with a list of items in a table.
- */
-const PageFiltersSearch: FunctionComponent = () => {
-  // NAVIGATION
-  const location = useLocation();
+interface ProductsTableProps {
+  items: Item[];
+  itemsLoaded: boolean;
+  productCats: any;
+  emptyFilterCriteria: boolean;
+}
 
-  const navigate = useNavigate();
-
+//const ProductsTable: FunctionComponent = () => {
+const ProductsTable: FunctionComponent<ProductsTableProps> = ({
+  items,
+  itemsLoaded,
+  productCats,
+  emptyFilterCriteria,
+}) => {
   // TABLE HEADERS
   const columns = [
     {
@@ -153,7 +149,6 @@ const PageFiltersSearch: FunctionComponent = () => {
 
   // DATA HANDLING
   const [currentItems, setCurrentItems] = useState<Item[]>([]);
-  const [itemsLoaded, setItemsLoaded] = useState(false);
 
   const setTableItems = (
     themItems: any,
@@ -192,49 +187,10 @@ const PageFiltersSearch: FunctionComponent = () => {
     setTableItems(orderedItems);
   };
 
-  // SEARCH
-  const [searchValue, setSearchValue] = useState("");
-  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-    // let's reset the items to the original data if the search value is empty
-    if (!event.target.value) {
-      setItems(allItems);
-      setTableItems(allItems);
-    }
-  };
-  // search submission handler
-  const onSearchSubmit = () => {
-    if (searchValue) {
-      // let's find the items
-      const foundItems = items.filter((item) =>
-        item.name.toLowerCase().includes(searchValue.toLowerCase())
-      );
-      // set the items
-      setItems(foundItems);
-      setTableItems(foundItems);
-    }
-  };
-
-  // EFFECTS
-
-  // fetch categories and product all at once
-
-  const [productCats, setProductCats] = useState<Category[]>([]);
-  const [items, setItems] = useState<Item[]>([]);
-  const [allItems, setAllItems] = useState<Item[]>([]);
+  // set the table items when the items change
   useEffect(() => {
-    Promise.all([getCategories(), getProducts()]).then(
-      ([categories, products]) => {
-        setProductCats(categories as Category[]);
-        setAllItems(products as Item[]);
-        setItems(products as Item[]);
-        setTableItems(products as Item[]);
-        setItemsLoaded(true);
-      }
-    );
-  }, []);
-
-  // PAGE ELEMENTS
+    setTableItems(items);
+  }, [items]);
 
   // Empty state
   const EmptyState = (
@@ -252,8 +208,8 @@ const PageFiltersSearch: FunctionComponent = () => {
           <Text color="secondary60">
             {
               // differentiate from empty search or empty products and show a loader element if the data is being fetched
-              searchValue
-                ? `No products were found for query “${searchValue}”`
+              emptyFilterCriteria
+                ? `No products were found for the criteria`
                 : "You have no products yet."
             }
           </Text>
@@ -263,72 +219,36 @@ const PageFiltersSearch: FunctionComponent = () => {
   );
 
   return (
-    <>
-      <Page
-        header={
-          <Header
-            description="Filtering data using simple search"
-            title="Simple search"
-            backLink={{
-              text: "Back to patterns",
-              onClick: () => navigate("/"),
-              href: "#",
-            }}
-          />
-        }
-      >
-        <Flex flexDirection="column" flexGap={theme.spacing.xLarge}>
-          <FlexItem>
-            {
-              //The most common way of organizing information within the BigDesign patterns is with the use of panels.
-              //In this case we only have one panel, but you can have multiple panels within a page.
-            }
-            <Panel header="Items list">
-              {
-                //search
-              }
-              <Box marginBottom="medium">
-                <Search
-                  onChange={onSearchChange}
-                  onSubmit={onSearchSubmit}
-                  value={searchValue}
-                />
-              </Box>
-              <StyledPanelContents>
-                {
-                  //The Table component is used to display tabular data.
-                  //It allows you to display a list of items in a table format.
-                  //The table can be customized with different columns and actions.
-                  //The table also allows you to select items and perform actions on them.
-                  //In this case, the table is displaying a list of products.
-                }
-                <Table
-                  columns={columns as any}
-                  itemName="Products"
-                  items={currentItems}
-                  keyField="sku"
-                  pagination={{
-                    currentPage,
-                    totalItems: items.length,
-                    onPageChange,
-                    itemsPerPageOptions,
-                    onItemsPerPageChange,
-                    itemsPerPage,
-                  }}
-                  sortable={{
-                    columnHash,
-                    direction,
-                    onSort,
-                  }}
-                  emptyComponent={EmptyState}
-                />
-              </StyledPanelContents>
-            </Panel>
-          </FlexItem>
-        </Flex>
-      </Page>
-    </>
+    <StyledPanelContents>
+      {
+        //The Table component is used to display tabular data.
+        //It allows you to display a list of items in a table format.
+        //The table can be customized with different columns and actions.
+        //The table also allows you to select items and perform actions on them.
+        //In this case, the table is displaying a list of products.
+      }
+      <Table
+        columns={columns as any}
+        itemName="Products"
+        items={currentItems}
+        keyField="sku"
+        pagination={{
+          currentPage,
+          totalItems: items.length,
+          onPageChange,
+          itemsPerPageOptions,
+          onItemsPerPageChange,
+          itemsPerPage,
+        }}
+        sortable={{
+          columnHash,
+          direction,
+          onSort,
+        }}
+        emptyComponent={EmptyState}
+      />
+    </StyledPanelContents>
   );
 };
 
-export default PageFiltersSearch;
+export default ProductsTable;
