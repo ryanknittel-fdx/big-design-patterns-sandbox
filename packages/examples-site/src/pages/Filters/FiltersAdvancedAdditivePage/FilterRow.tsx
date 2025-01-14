@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, useRef } from "react";
 import { Input, Grid, Select } from "@bigcommerce/big-design";
-import { Category } from "../../data/dummyCategories";
+import { Category } from "../../../data/dummyCategories";
 
 export interface FilterRowProps {
   onChange: (value: any) => void;
@@ -26,8 +26,8 @@ export const FilterRow: FunctionComponent<FilterRowProps> = ({
     categories: {
       type: "select",
       comparisonOperators: [
-        { operator: "contains", label: "has" },
-        { operator: "excludes", label: "doesn't have" },
+        { operator: "contains", label: "contains" },
+        { operator: "excludes", label: "excludes" },
       ],
       options: productCats.map((cat) => ({ value: cat.id, content: cat.label })),
     },
