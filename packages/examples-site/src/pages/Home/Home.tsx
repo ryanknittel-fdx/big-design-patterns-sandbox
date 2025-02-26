@@ -61,6 +61,9 @@ const PageHome: FunctionComponent = () => {
           <Link to={"/info-illustration"}>Info Illustrations</Link>
         </li>
         <li>
+          <Link to={"/category-shortcuts"}>Category Shortcuts</Link>
+        </li>
+        <li>
           <Box marginTop={'large'}>
           <H3>Install Screen</H3>
           <ul>

@@ -18,6 +18,7 @@ import PageFiltersSearch from "./pages/Filters/FiltersSearchPage/FiltersSearchPa
 import PageFiltersDropdowns from "./pages/Filters/FiltersDropdownsPage/FiltersDropdownsPage";
 import PageFiltersAdvanced from "./pages/Filters/FiltersAdvPage/FiltersAdvancedPage";
 import PageFiltersAdvancedAdditive from "./pages/Filters/FiltersAdvancedAdditivePage/FiltersAdvancedAdditivePage";
+import PageCategoryShortcuts from "./pages/CategoryShortcuts/CategoryShortcuts";
 
 export const alertsManager = createAlertsManager();
 
@@ -44,6 +45,10 @@ const RouteFC = () => {
       path: "/filters-advanced-additive",
       element: <PageFiltersAdvancedAdditive />,
     },
+    {
+      path: "/category-shortcuts",
+      element: <PageCategoryShortcuts />,
+    }
   ]);
   return routes;
 };
