@@ -1,17 +1,14 @@
 import React, { FunctionComponent, ReactNode } from "react";
-import { Panel, Text, Flex, FlexItem } from "@bigcommerce/big-design";
-import { AnchorNav } from "bigcommerce-design-patterns";
+import { Flex } from "@bigcommerce/big-design";
 import { useNavigate } from "react-router";
-import { Header, Page } from "@bigcommerce/big-design-patterns";
+import { Page } from "@bigcommerce/big-design-patterns";
 import {
   StoreIcon,
   ChevronRightIcon,
   FolderIcon,
 } from "@bigcommerce/big-design-icons";
 
-import { theme as defaultTheme } from "@bigcommerce/big-design-theme";
 import styled from "styled-components";
-import { BoxProps } from "@bigcommerce/big-design";
 
 // add props while extending a div element
 
@@ -46,7 +43,7 @@ const StyledFlex = styled.div`
 const PathElement: FunctionComponent<PathElementProps> = ({
   icon,
   label,
-    ...props
+  ...props
 }) => {
   return (
     // add props to styledflex
@@ -68,7 +65,7 @@ const StyledPathWrapper = styled.div`
   overflow: hidden;
   gap: 0.5rem;
   padding: 0.25rem 0.5rem;
-  transition: all 0.2s ease;
+  transition: grid-template-columns 250ms ease;
 `;
 
 const StyledPath = styled.div`
@@ -94,38 +91,40 @@ const Path: FunctionComponent<PathProps> = ({ path }) => {
     const before = Array.from(children).slice(0, index);
     // an array of the items after the hovered element
     const after = Array.from(children).slice(index + 1);
-    
+
     let gridColumnsGrid = ``;
     // add the number of items before the hovered element to the grid columns
     if (before.length > 0) {
-        gridColumnsGrid += `repeat(${before.length}, minmax(0, min-content)) `;
+      //gridColumnsGrid += `repeat(${before.length}, minmax(0, min-content)) `;
+      gridColumnsGrid += `${before
+        .map(() => `minmax(0, min-content) `)
+        .join(" ")} `;
     }
     // add the element being hovered to the grid columns
     gridColumnsGrid += `min-content `;
     // add the number of items after the hovered element to the grid columns
     if (after.length > 0) {
-        gridColumnsGrid += `repeat(${after.length}, minmax(0, min-content)) `;
+      gridColumnsGrid += `${after
+        .map(() => `minmax(0, min-content) `)
+        .join(" ")} `;
     }
 
     parent.style.gridTemplateColumns = gridColumnsGrid;
-  }
+  };
+  const baseStyle = `min-content ${middle
+    .map(() => `minmax(0, min-content) `)
+    .join(" ")}min-content`;
   const collapsePath = (e) => {
     const target = e.currentTarget;
     const parent = target.parentElement;
-    parent.style.gridTemplateColumns = `min-content repeat(${middle.length}, minmax(0, min-content)) min-content`;
-  }
+    parent.style.gridTemplateColumns = baseStyle;
+  };
   return (
     <StyledPath>
       <StyledPathWrapper
         style={{
-          gridTemplateColumns: `min-content repeat(${middle.length}, minmax(0, min-content)) min-content`,
+          gridTemplateColumns: baseStyle,
         }}
-        // onMouseOver={(e) => {
-        //   e.currentTarget.style.gridTemplateColumns = `repeat(${path.length}, min-content)`;
-        // }}
-        // onMouseOut={(e) => {
-        //   e.currentTarget.style.gridTemplateColumns = `min-content repeat(${middle.length}, minmax(0, min-content)) min-content`;
-        // }}
       >
         <PathElement
           icon={<StoreIcon color="primary" size="large" />}
