@@ -12,6 +12,7 @@ export interface ProductPageProps {
   headerTitle: string;
   headerDescription: string;
   filters: React.ReactNode;
+  panelHeader?: string | null;
   products: React.ReactNode;
 }
 
@@ -19,6 +20,7 @@ const ProductsPage: FunctionComponent<ProductPageProps> = ({
   headerTitle,
   headerDescription,
   filters,
+  panelHeader = "Items list",
   products,
 }) => {
   // NAVIGATION
@@ -45,7 +47,7 @@ const ProductsPage: FunctionComponent<ProductPageProps> = ({
               //The most common way of organizing information within the BigDesign patterns is with the use of panels.
               //In this case we only have one panel, but you can have multiple panels within a page.
             }
-            <Panel header="Items list">
+            <Panel header={panelHeader ? panelHeader : undefined}>
               {filters}
               {products}
             </Panel>

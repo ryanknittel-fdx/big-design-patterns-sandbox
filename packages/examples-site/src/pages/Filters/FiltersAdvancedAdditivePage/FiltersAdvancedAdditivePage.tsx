@@ -16,11 +16,14 @@ import {
   FilterListIcon,
   RemoveCircleOutlineIcon,
   SearchIcon,
+  SettingsIcon,
 } from "@bigcommerce/big-design-icons";
 import {
   StyledFiltersLink,
   StyledModalContents,
 } from "./FiltersAdvancedAdditivePage.styled";
+
+import { PillTabs } from "bigcommerce-design-patterns";
 
 import { getCategories, getProducts } from "../../../data/services";
 import { Category } from "../../../data/dummyCategories";
@@ -41,7 +44,6 @@ interface Filter {
  * PageList component - Displays a page with a list of items in a table.
  */
 const PageFiltersAdvancedAdditive: FunctionComponent = () => {
-
   // DATA HANDLING
   const [itemsLoaded, setItemsLoaded] = useState(false);
 
@@ -65,7 +67,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
     // let's reset the items to the original data if the search value is empty
-    console.log(!event.target.value)
+    console.log(!event.target.value);
     if (!event.target.value) {
       const newFilterArray = [...filterArray];
       setFilterArray(newFilterArray);
@@ -89,7 +91,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
     let filteredItems = [...allItems];
 
     // lets include search
-    console.log(searchValue)
+    console.log(searchValue);
     if (searchValue) {
       filteredItems = filteredItems.filter((item) =>
         item.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -252,8 +254,54 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
     </StyledModalContents>
   );
 
+  // PILL TABS
+
+  const allId = "all";
+
+  const groups = [
+    { items: [{ title: "All", id: allId }] },
+    {
+      label: "Standard Views",
+      items: [
+        { title: "Featured", id: "featured" },
+        { title: "Free shipping", id: "free-shipping" },
+        { title: "Out of stock", id: "out-of-stock" },
+        { title: "Inventory low", id: "inventory-low" },
+      ],
+    },
+    {
+      label: "Custom Views",
+      items: [
+        // { title: "Custom view 1", id: "custom-view-1" },
+        // { title: "Custom view 2", id: "custom-view-2" },
+        // { title: "Custom view 3", id: "custom-view-3" },
+      ],
+    },
+  ];
+
+  const dropDownItems = [
+    {
+      content: "Manage custom views",
+      onItemClick: () =>
+        alert("Imagine this is a modal to manage custom views"),
+      icon: <SettingsIcon />,
+    },
+  ];
+
+  const [activePills, setActivePills] = useState([allId]);
+
+  const setActivePill = (pillId: string) => setActivePills([pillId]);
+
   const filters = (
     <>
+      <Box style={{marginTop: "-1rem", marginBottom: "1.5rem"}}>
+        <PillTabs
+          activePills={activePills}
+          onPillClick={setActivePill}
+          items={groups}
+          dropDownItems={dropDownItems}
+        />
+      </Box>
       <Box marginBottom="medium">
         <Grid gridColumns="1fr 100px" gridGap="1rem">
           <Form fullWidth onSubmit={onSearchSubmit}>
@@ -343,6 +391,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
         headerDescription="To be used wen you want to configure filters very precisely in additive mode and save teh views for later use."
         headerTitle="Advanced additive filters with views"
         filters={filters}
+        panelHeader={null}
         products={
           <ProductsTable
             items={items}
