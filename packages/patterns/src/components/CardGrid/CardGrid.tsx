@@ -3,7 +3,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Button, Grid, Text, Flex, FlexItem } from "@bigcommerce/big-design";
 import { GridProps, GridItemProps, ButtonProps } from "@bigcommerce/big-design";
 import { ChevronRightIcon } from "@bigcommerce/big-design-icons";
-import { StyledCardGridItem } from "./styled";
+import { StyledCardGridItem, StyledCardGrid } from "./styled";
 
 /**
  * Interface for button props used within the CardGridItem component.
@@ -69,7 +69,17 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
   const theIcon = isLoading ? (
     <Skeleton width={45} height={45} />
   ) : (
-    icon && <FlexItem>{icon}</FlexItem>
+    icon && (
+      <FlexItem
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {icon}
+      </FlexItem>
+    )
   );
 
   const theHeading = isLoading ? (
@@ -77,7 +87,15 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
       <Skeleton width={150} />
     </FlexItem>
   ) : (
-    heading && <FlexItem flexGrow={1}>{heading}</FlexItem>
+    heading && (
+      <FlexItem
+        flexGrow={1}
+        style={{ minWidth: 0, overflow: "hidden" }}
+        className="heading-container"
+      >
+        {heading}
+      </FlexItem>
+    )
   );
 
   const theButton = isLoading ? (
@@ -95,14 +113,33 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
       <Skeleton count={2} />
     </Text>
   ) : (
-    description && <Text marginTop="medium">{description}</Text>
+    description && (
+      <Text
+        marginTop="medium"
+        style={{ overflowWrap: "break-word", wordWrap: "break-word" }}
+      >
+        {description}
+      </Text>
+    )
   );
 
   if (format === "action") {
     contents = (
       <>
-        <Flex flexGap="16px" flexDirection="row">
-          {theIcon}
+        <Flex
+          flexGap="16px"
+          flexDirection="row"
+          className="flex-row-mobile"
+          style={{ width: "100%" }}
+        >
+          {icon && (
+            <div
+              className="icon-container"
+              style={{ minHeight: "45px", minWidth: "45px" }}
+            >
+              {theIcon}
+            </div>
+          )}
           {theHeading}
           {theButton}
         </Flex>
@@ -113,14 +150,19 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
     const theChevron = isLoading ? (
       <Skeleton width={24} height={24} />
     ) : (
-      <FlexItem>
-        <ChevronRightIcon />
+      <FlexItem flexShrink={0}>
+        <ChevronRightIcon color="secondary70" />
       </FlexItem>
     );
 
     const itemContent = (
       <>
-        <Flex flexGap="16px" flexDirection="row">
+        <Flex
+          flexGap="16px"
+          flexDirection="row"
+          className="flex-row-mobile"
+          style={{ width: "100%" }}
+        >
           {theHeading}
           {theChevron}
         </Flex>
@@ -144,7 +186,7 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
 
   return (
     <StyledCardGridItem
-      className={`card-grid__item${href ? "--link" : ""}`}
+      className={`card-grid__item${href ? "--link" : ""} card-grid-item-mobile`}
       border={gridItemProps.border || "box"}
       borderRadius={gridItemProps.borderRadius || "normal"}
       padding={gridItemProps.padding || "medium"}
@@ -181,20 +223,28 @@ export const CardGrid: React.FC<CardGridProps> = ({
   const gridColumns = gridProps.gridColumns || {
     mobile: "repeat(1, 1fr)",
     tablet: "repeat(2, 1fr)",
+    desktop: "repeat(3, 1fr)",
+    wide: "repeat(4, 1fr)",
   };
 
-  const gridGap = gridProps.gridGap || "16px";
+  // On mobile we want no gap between items
+  const gridGap = gridProps.gridGap || {
+    mobile: "0",
+    tablet: "16px",
+  };
 
   gridProps = { ...gridProps, gridColumns, gridGap };
 
   return (
     items && (
-      <Grid {...gridProps}>
-        {items.map((item, i) => {
-          item.format = format;
-          return <CardGridItem key={i} format={format} {...item} />;
-        })}
-      </Grid>
+      <StyledCardGrid>
+        <Grid className="bd-grid" {...gridProps}>
+          {items.map((item, i) => {
+            item.format = format;
+            return <CardGridItem key={i} format={format} {...item} />;
+          })}
+        </Grid>
+      </StyledCardGrid>
     )
   );
 };
