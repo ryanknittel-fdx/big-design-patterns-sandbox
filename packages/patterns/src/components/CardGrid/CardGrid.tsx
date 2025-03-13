@@ -35,6 +35,8 @@ export interface CardGridItemProps extends GridItemProps {
   onClick?: () => void;
   /** Optional icon to be displayed */
   icon?: React.ReactNode;
+  /** Shadow to be applied, either 'raised' or 'floating' */
+  shadow?: "raised" | "floating";
 }
 
 /**
@@ -53,6 +55,7 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
   hrefTarget = "_self",
   onClick,
   icon,
+  shadow,
   ...gridItemProps
 }) => {
   let contents: React.ReactNode = null;
@@ -190,6 +193,7 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
       border={gridItemProps.border || "box"}
       borderRadius={gridItemProps.borderRadius || "normal"}
       padding={gridItemProps.padding || "medium"}
+      shadow={shadow}
       {...gridItemProps}
     >
       {contents}
@@ -206,6 +210,8 @@ export interface CardGridProps extends GridProps {
   items?: CardGridItemProps[];
   /** Format of all grid items, either 'content' or 'action' */
   format?: "content" | "action";
+  /** Shadow to be applied to all grid items, either 'raised' or 'floating' */
+  shadow?: "raised" | "floating";
 }
 
 /**
@@ -218,6 +224,7 @@ export interface CardGridProps extends GridProps {
 export const CardGrid: React.FC<CardGridProps> = ({
   items = [{}, {}],
   format = "content",
+  shadow,
   ...gridProps
 }) => {
   const gridColumns = gridProps.gridColumns || {
@@ -241,7 +248,9 @@ export const CardGrid: React.FC<CardGridProps> = ({
         <Grid className="bd-grid" {...gridProps}>
           {items.map((item, i) => {
             item.format = format;
-            return <CardGridItem key={i} format={format} {...item} />;
+            return (
+              <CardGridItem key={i} format={format} shadow={shadow} {...item} />
+            );
           })}
         </Grid>
       </StyledCardGrid>

@@ -36,6 +36,7 @@ const CardGridPage: FunctionComponent = () => {
         <Flex flexDirection="column" flexGap={theme.spacing.medium}>
           <FlexItem>
             <CardGrid
+              shadow="raised"
               items={[
                 {
                   heading: <H4>Helpful resource one</H4>,
