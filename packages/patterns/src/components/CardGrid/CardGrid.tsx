@@ -241,7 +241,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
 
   // On mobile we want no gap between items
   const gridGap = gridProps.gridGap || {
-    mobile: "0",
+    mobile: shadow === "raised" || shadow === "floating" ? "16px" : "0",
     tablet: "16px",
   };
 
@@ -249,7 +249,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
 
   return (
     items && (
-      <StyledCardGrid>
+      <StyledCardGrid shadow={shadow}>
         <Grid className="bd-grid" {...gridProps}>
           {items.map((item, i) => {
             item.format = format;
