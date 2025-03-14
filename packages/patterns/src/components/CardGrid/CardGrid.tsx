@@ -70,7 +70,7 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
   const isLoading = !heading && !description && !button && !icon;
 
   const theIcon = isLoading ? (
-    <Skeleton width={45} height={45} />
+    <Skeleton width={20} height={20} />
   ) : (
     icon && (
       <FlexItem
@@ -138,7 +138,12 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
           {icon && (
             <div
               className="icon-container"
-              style={{ minHeight: "45px", minWidth: "45px" }}
+              style={{
+                minHeight: "20px",
+                minWidth: "20px",
+                maxHeight: "45px",
+                maxWidth: "45px",
+              }}
             >
               {theIcon}
             </div>
@@ -151,10 +156,10 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
     );
   } else {
     const theChevron = isLoading ? (
-      <Skeleton width={24} height={24} />
+      <Skeleton width={16} height={16} />
     ) : (
       <FlexItem flexShrink={0}>
-        <ChevronRightIcon color="secondary70" />
+        <ChevronRightIcon color="secondary70" size="medium" />
       </FlexItem>
     );
 

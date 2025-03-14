@@ -58,7 +58,6 @@ export const StyledCardGrid = styled(Box)`
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: ${({ theme }) => theme.spacing.small};
       flex-shrink: 0;
     }
 
@@ -98,8 +97,13 @@ export const StyledCardGrid = styled(Box)`
         max-width: 100%;
       }
 
+      &:first-child {
+        border-top: 1px solid ${({ theme }) => theme.colors.secondary30};
+      }
+
       &:last-child {
-        border-bottom: none;
+        /* Keep the bottom border on the last card */
+        border-bottom: 1px solid ${({ theme }) => theme.colors.secondary30};
       }
     }
 
