@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import React, { FunctionComponent } from "react";
 import { BrowserRouter as Router, useRoutes } from "react-router-dom";
 import PageHome from "./pages/Home/Home";
@@ -18,6 +19,7 @@ import PageFiltersSearch from "./pages/Filters/FiltersSearchPage/FiltersSearchPa
 import PageFiltersDropdowns from "./pages/Filters/FiltersDropdownsPage/FiltersDropdownsPage";
 import PageFiltersAdvanced from "./pages/Filters/FiltersAdvPage/FiltersAdvancedPage";
 import PageFiltersAdvancedAdditive from "./pages/Filters/FiltersAdvancedAdditivePage/FiltersAdvancedAdditivePage";
+import PageStatelessTable from "./pages/StatelessTablePage/StatelessTablePage";
 
 export const alertsManager = createAlertsManager();
 
@@ -43,6 +45,10 @@ const RouteFC = () => {
     {
       path: "/filters-advanced-additive",
       element: <PageFiltersAdvancedAdditive />,
+    },
+    {
+      path: "/stateless-table",
+      element: <PageStatelessTable />,
     },
   ]);
   return routes;

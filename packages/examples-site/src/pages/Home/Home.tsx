@@ -46,7 +46,9 @@ const PageHome: FunctionComponent = () => {
           <Link to={"/filters-advanced"}>Advanced filtering</Link>
         </li>
         <li>
-          <Link to={"/filters-advanced-additive"}>Advanced additive filtering with views</Link>
+          <Link to={"/filters-advanced-additive"}>
+            Advanced additive filtering with views
+          </Link>
         </li>
       </ul>
       <H2>Pattern Components</H2>
@@ -61,16 +63,19 @@ const PageHome: FunctionComponent = () => {
           <Link to={"/info-illustration"}>Info Illustrations</Link>
         </li>
         <li>
-          <Box marginTop={'large'}>
-          <H3>Install Screen</H3>
-          <ul>
-            <li>
-              <Link to={"/install-screen-app"}>Install Apps</Link>
-            </li>
-            <li>
-              <Link to={"/install-screen-channel"}>Install Channels</Link>
-            </li>
-          </ul>
+          <Link to={"/stateless-table"}>Stateless Table</Link>
+        </li>
+        <li>
+          <Box marginTop={"large"}>
+            <H3>Install Screen</H3>
+            <ul>
+              <li>
+                <Link to={"/install-screen-app"}>Install Apps</Link>
+              </li>
+              <li>
+                <Link to={"/install-screen-channel"}>Install Channels</Link>
+              </li>
+            </ul>
           </Box>
         </li>
       </ul>

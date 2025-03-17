@@ -10,3 +10,5 @@ export * from './components/hero/Hero';
 export * from './components/InfoIllustration/InfoIllustration';
 export * from './components/InstallScreen';
 export * from './components/scroller/Scroller';
+export * from './components/PanelContents/PanelContents';
+export * from './components/StatelessTable/StatelessTable';
