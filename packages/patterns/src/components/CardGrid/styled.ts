@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Box } from "@bigcommerce/big-design";
 
 interface StyledCardGridProps {
-  shadow?: "raised" | "floating";
-  visualAppearance?: "raised" | "floating";
+  shadow?: "raised";
+  visualAppearance?: "raised";
   theme?: any;
 }
 
@@ -13,6 +13,7 @@ export const StyledCardGridItem = styled(Box)`
   max-width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
+  background-color: ${({ theme }) => theme.colors.white};
 
   /* Handle any potential overflow content */
   & img,
@@ -23,7 +24,6 @@ export const StyledCardGridItem = styled(Box)`
   }
 
   &.card-grid__item--link {
-    background-color: ${({ theme }) => theme.colors.transparent};
     cursor: pointer;
 
     & > a {
@@ -95,7 +95,7 @@ export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
     & .card-grid-item-mobile {
       border: none; /* Reset all borders first */
       border-bottom: ${({ visualAppearance, theme }) =>
-        visualAppearance === "raised" || visualAppearance === "floating"
+        visualAppearance === "raised"
           ? "none"
           : `1px solid ${theme.colors.secondary30}`};
       border-radius: 0;
@@ -113,14 +113,14 @@ export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
     /* Border styles for mobile view only */
     & .bd-grid > .card-grid-item-mobile:first-child {
       border-top: ${({ visualAppearance, theme }) =>
-        visualAppearance === "raised" || visualAppearance === "floating"
+        visualAppearance === "raised"
           ? "none"
           : `1px solid ${theme.colors.secondary30}`};
     }
 
     & .bd-grid > .card-grid-item-mobile:last-child {
       border-bottom: ${({ visualAppearance, theme }) =>
-        visualAppearance === "raised" || visualAppearance === "floating"
+        visualAppearance === "raised"
           ? "none"
           : `1px solid ${theme.colors.secondary30}`};
     }

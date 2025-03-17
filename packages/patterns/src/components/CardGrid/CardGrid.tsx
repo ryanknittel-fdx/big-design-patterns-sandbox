@@ -35,8 +35,8 @@ export interface CardGridItemProps extends GridItemProps {
   onClick?: () => void;
   /** Optional icon to be displayed */
   icon?: React.ReactNode;
-  /** Shadow to be applied, either 'raised' or 'floating' */
-  shadow?: "raised" | "floating";
+  /** Shadow to be applied */
+  shadow?: "raised";
 }
 
 /**
@@ -215,8 +215,8 @@ export interface CardGridProps extends GridProps {
   items?: CardGridItemProps[];
   /** Format of all grid items, either 'content' or 'action' */
   format?: "content" | "action";
-  /** Shadow to be applied to all grid items, either 'raised' or 'floating' */
-  shadow?: "raised" | "floating";
+  /** Shadow to be applied */
+  shadow?: "raised";
 }
 
 /**
@@ -239,9 +239,9 @@ export const CardGrid: React.FC<CardGridProps> = ({
     wide: "repeat(4, 1fr)",
   };
 
-  // On mobile we want no gap between items
+  // On mobile we want no gap between items if the shadow is raised
   const gridGap = gridProps.gridGap || {
-    mobile: shadow === "raised" || shadow === "floating" ? "16px" : "0",
+    mobile: shadow === "raised" ? "16px" : "0",
     tablet: "16px",
   };
 
