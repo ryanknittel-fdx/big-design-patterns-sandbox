@@ -46,7 +46,9 @@ const PageHome: FunctionComponent = () => {
           <Link to={"/filters-advanced"}>Advanced filtering</Link>
         </li>
         <li>
-          <Link to={"/filters-advanced-additive"}>Advanced additive filtering with views</Link>
+          <Link to={"/filters-advanced-additive"}>
+            Advanced additive filtering with views
+          </Link>
         </li>
       </ul>
       <H2>Pattern Components</H2>
@@ -61,10 +63,10 @@ const PageHome: FunctionComponent = () => {
           <Link to={"/info-illustration"}>Info Illustrations</Link>
         </li>
         <li>
-          <Link to={"/page-with-aside"}>Page with Aside</Link>
+          <Link to={"/dashboard"}>Dashboard</Link>
         </li>
         <li>
-          <Box marginTop={'large'}>
+          <Box marginTop={"large"}>
             <H3>Install Screen</H3>
             <ul>
               <li>
