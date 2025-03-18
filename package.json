@@ -6,6 +6,7 @@
     "start": "lerna run serve --scope examples-site",
     "build": "lerna run build",
     "build-site": "lerna run build --scope examples-site",
+    "prepare": "lerna run build",
     "publish": "pnpm publish packages/patterns"
   },
   "devDependencies": {
