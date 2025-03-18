@@ -18,7 +18,7 @@ import PageFiltersSearch from "./pages/Filters/FiltersSearchPage/FiltersSearchPa
 import PageFiltersDropdowns from "./pages/Filters/FiltersDropdownsPage/FiltersDropdownsPage";
 import PageFiltersAdvanced from "./pages/Filters/FiltersAdvPage/FiltersAdvancedPage";
 import PageFiltersAdvancedAdditive from "./pages/Filters/FiltersAdvancedAdditivePage/FiltersAdvancedAdditivePage";
-
+import Dashboard from "./pages/Dashboard";
 export const alertsManager = createAlertsManager();
 
 const RouteFC = () => {
@@ -40,6 +40,7 @@ const RouteFC = () => {
     { path: "/filters-search", element: <PageFiltersSearch /> },
     { path: "/filters-dropdowns", element: <PageFiltersDropdowns /> },
     { path: "/filters-advanced", element: <PageFiltersAdvanced /> },
+    { path: "/dashboard", element: <Dashboard /> },
     {
       path: "/filters-advanced-additive",
       element: <PageFiltersAdvancedAdditive />,

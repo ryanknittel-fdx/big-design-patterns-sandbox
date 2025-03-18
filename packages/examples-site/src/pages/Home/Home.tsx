@@ -61,16 +61,19 @@ const PageHome: FunctionComponent = () => {
           <Link to={"/info-illustration"}>Info Illustrations</Link>
         </li>
         <li>
+          <Link to={"/page-with-aside"}>Page with Aside</Link>
+        </li>
+        <li>
           <Box marginTop={'large'}>
-          <H3>Install Screen</H3>
-          <ul>
-            <li>
-              <Link to={"/install-screen-app"}>Install Apps</Link>
-            </li>
-            <li>
-              <Link to={"/install-screen-channel"}>Install Channels</Link>
-            </li>
-          </ul>
+            <H3>Install Screen</H3>
+            <ul>
+              <li>
+                <Link to={"/install-screen-app"}>Install Apps</Link>
+              </li>
+              <li>
+                <Link to={"/install-screen-channel"}>Install Channels</Link>
+              </li>
+            </ul>
           </Box>
         </li>
       </ul>
