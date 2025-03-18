@@ -10,7 +10,7 @@ export default function Dashboard() {
           This is the aside content that will appear on the right in desktop
           view and below the main content in mobile view.
         </Text>
-      </Panel>{" "}
+      </Panel>
       <Panel header="Aside Panel">
         <Text>
           This is the aside content that will appear on the right in desktop
@@ -24,10 +24,7 @@ export default function Dashboard() {
     <DashboardComponent
       aside={asideContent}
       header={
-        <Header
-          description="Page description (optional)"
-          title="Page with Aside"
-        />
+        <Header description="Page description (optional)" title="Dashboard" />
       }
     >
       <Panel header="Main contents">
