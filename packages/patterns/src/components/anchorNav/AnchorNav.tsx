@@ -18,6 +18,7 @@ export const AnchorNav: React.FC<AnchorNavProps> = ({ elements }) => {
   const suspendObserverRef = useRef(false);
   const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Initialize IntersectionObserver
   useEffect(() => {
     if (observerRef.current) {
       observerRef.current.disconnect();
@@ -32,7 +33,7 @@ export const AnchorNav: React.FC<AnchorNavProps> = ({ elements }) => {
           setActiveId(visible.target.id);
         }
       },
-      { rootMargin: '0px 0px -90% 0px', threshold: 0.1 }
+      { rootMargin: '0px 0px -70% 0px', threshold: 0.1 }
     );
 
     Object.entries(sectionRefs.current).forEach(([id, el]) => {
@@ -44,11 +45,20 @@ export const AnchorNav: React.FC<AnchorNavProps> = ({ elements }) => {
     return () => observerRef.current?.disconnect();
   }, [elements]);
 
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (resumeTimeoutRef.current) {
+        clearTimeout(resumeTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const scrollToSection = (id: string) => {
     const el = sectionRefs.current[id];
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
-      setActiveId(id);
+      setActiveId(id); // Force highlight
       suspendObserverRef.current = true;
 
       if (resumeTimeoutRef.current) {
@@ -99,3 +109,4 @@ export const AnchorNav: React.FC<AnchorNavProps> = ({ elements }) => {
     </StyledAnchorNav>
   );
 };
+
