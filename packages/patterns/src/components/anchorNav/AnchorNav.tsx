@@ -1,67 +1,98 @@
-import React, { FunctionComponent, ReactNode } from "react";
-import { StyledAnchorNav } from "./AnchorNav.styled";
-import { useIntersection } from "../../helpers/useIntersection";
+import React, { useEffect, useRef, useState } from 'react';
+import { StyledAnchorNav } from './AnchorNav.styled';
 
-export interface AnchorNavElement {
-  label: string;
-  element: ReactNode;
+type AnchorNavElement = {
   id: string;
-}
+  label: string;
+  element: React.ReactNode;
+};
 
-export interface AnchorNavProps {
+type AnchorNavProps = {
   elements: AnchorNavElement[];
-}
+};
 
-export const AnchorNav: FunctionComponent<AnchorNavProps> = ({ elements }) => {
-  const [anchorVisible, setAnchorVisible] = React.useState(0);
-  const handleVisibility = (elementIndex:number) => {
-    setAnchorVisible(elementIndex);
+export const AnchorNav: React.FC<AnchorNavProps> = ({ elements }) => {
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const suspendObserverRef = useRef(false);
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        if (suspendObserverRef.current) return;
+
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (visible?.target?.id) {
+          setActiveId(visible.target.id);
+        }
+      },
+      { rootMargin: '0px 0px -70% 0px', threshold: 0.1 }
+    );
+
+    elements.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) {
+        sectionRefs.current[id] = el;
+        observerRef.current?.observe(el);
+      }
+    });
+
+    return () => observerRef.current?.disconnect();
+  }, [elements]);
+
+  const scrollToSection = (id: string) => {
+    const el = sectionRefs.current[id];
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      // Force highlight
+      setActiveId(id);
+      // Suspend observer
+      suspendObserverRef.current = true;
+
+      if (resumeTimeoutRef.current) {
+        clearTimeout(resumeTimeoutRef.current);
+      }
+
+      resumeTimeoutRef.current = setTimeout(() => {
+        suspendObserverRef.current = false;
+      }, 2000); // Resume after 2s
+    }
   };
 
-  // let's use the intersection observer on the various element divs
-  // to trigger the anchor nav to highlight the corresponding anchor
-  // when the element is in view
-
-  const anchorPanels = elements.map((element, i) => {
-    const elementRef = React.useRef(null);
-    const isVisible = useIntersection(elementRef, "0px");
-
-    React.useEffect(() => {
-      if (isVisible) {
-        // highlight the anchor
-        handleVisibility(i);
-      }
-    }, [handleVisibility, isVisible]);
-
-    return (
-      <div key={element.id} ref={elementRef} id={element.id} className="anchor-nav__element">
-        {element.element}
-      </div>
-    );
-  });
   return (
     <StyledAnchorNav>
-      <nav className="anchor-nav__list">
+      <div className="anchor-nav__list">
         <ul>
-          {elements.map((element, i) => {
-            return (
-              <li key={element.id}>
-                <a
-                  className={i === anchorVisible ? `active` : ``}
-                  id={`anchor_${element.id}`}
-                  href={`#${element.id}`}
-                  onClick={() => setAnchorVisible(i)}
-                >
-                  {element.label}
-                </a>
-              </li>
-            );
-          })}
+          {elements.map(({ id, label }) => (
+            <li key={id}>
+              <a
+                href={`#${id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection(id);
+                }}
+                className={id === activeId ? 'active' : ''}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
         </ul>
-      </nav>
-      <div className="anchor-nav__elements">{anchorPanels}</div>
+      </div>
+
+      <div className="anchor-nav__elements">
+        {elements.map(({ id, element }) => (
+          <div key={id} id={id}>
+            {element}
+          </div>
+        ))}
+      </div>
     </StyledAnchorNav>
   );
 };
-
-export default AnchorNav;
