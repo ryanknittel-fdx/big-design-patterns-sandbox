@@ -32,13 +32,11 @@ export const AnchorNav: React.FC<AnchorNavProps> = ({ elements }) => {
           setActiveId(visible.target.id);
         }
       },
-      { rootMargin: '0px 0px -70% 0px', threshold: 0.1 }
+      { rootMargin: '0px 0px -90% 0px', threshold: 0.1 }
     );
 
-    elements.forEach(({ id }) => {
-      const el = document.getElementById(id);
+    Object.entries(sectionRefs.current).forEach(([id, el]) => {
       if (el) {
-        sectionRefs.current[id] = el;
         observerRef.current?.observe(el);
       }
     });
@@ -50,9 +48,7 @@ export const AnchorNav: React.FC<AnchorNavProps> = ({ elements }) => {
     const el = sectionRefs.current[id];
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
-      // Force highlight
       setActiveId(id);
-      // Suspend observer
       suspendObserverRef.current = true;
 
       if (resumeTimeoutRef.current) {
@@ -61,7 +57,7 @@ export const AnchorNav: React.FC<AnchorNavProps> = ({ elements }) => {
 
       resumeTimeoutRef.current = setTimeout(() => {
         suspendObserverRef.current = false;
-      }, 2000); // Resume after 2s
+      }, 2000);
     }
   };
 
@@ -88,7 +84,14 @@ export const AnchorNav: React.FC<AnchorNavProps> = ({ elements }) => {
 
       <div className="anchor-nav__elements">
         {elements.map(({ id, element }) => (
-          <div key={id} id={id}>
+          <div
+            key={id}
+            id={id}
+            ref={(el) => {
+              sectionRefs.current[id] = el;
+            }}
+            style={{ scrollMarginTop: '80px' }}
+          >
             {element}
           </div>
         ))}
