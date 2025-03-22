@@ -1,57 +1,82 @@
 name: release
  
- on:
-   push:
-     branches: [main]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Run in dry-run mode (no actual publish)'
+        type: boolean
+        default: true
  
- concurrency:
-   group: ${{ github.workflow }}-${{ github.ref }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
  
- jobs:
-   release:
-     runs-on: ubuntu-latest
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    # Determine if this is a test run or actual release
+    env:
+      DRY_RUN: ${{ github.event_name == 'pull_request' || github.event.inputs.dry-run == 'true' }}
  
-     permissions:
-       id-token: write
-       contents: write
-       packages: write
-       pull-requests: write
-       issues: read
+    permissions:
+      id-token: write
+      contents: write
+      packages: write
+      pull-requests: write
+      issues: read
  
-     steps:
-       - name: Checkout code
-         uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
  
-       - name: Setup pnpm
-         uses: pnpm/action-setup@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
  
-       - name: Setup Node.js
-         uses: actions/setup-node@v4
-         with:
-           node-version-file: .nvmrc
-           cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
  
-       - name: Install dependencies
-         run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm run build
  
-       - name: Build
-         run: pnpm run build
+      - name: Create .npmrc
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+            public-hoist-pattern[]=*eslint*
+          EOF
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
  
-       - name: Create .npmrc
-         run: |
-           cat << EOF > "$HOME/.npmrc"
-             //registry.npmjs.org/:_authToken=$NPM_TOKEN
-             public-hoist-pattern[]=*eslint*
-           EOF
-         env:
-           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
- 
-       - name: Create Release Pull Request or Publish to npm
-         uses: changesets/action@v1
-         with:
-           publish: pnpm exec changeset publish --dir packages/patterns
-           commit: "[ci] release"
-           title: "[ci] release"
-         env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Validation run (PR or manual dry-run)
+        if: env.DRY_RUN == 'true'
+        run: |
+          echo "🧪 Running in DRY-RUN mode"
+          echo "Would execute: pnpm exec changeset publish"
+          pnpm exec changeset status || echo "No pending changesets found"
+          echo "Skipping actual versioning and publishing"
+      
+      - name: Create Release Pull Request or Publish to npm
+        if: env.DRY_RUN != 'true'
+        uses: changesets/action@v1
+        with:
+          publish: pnpm exec changeset publish
+          commit: "[ci] release"
+          title: "[ci] release"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
