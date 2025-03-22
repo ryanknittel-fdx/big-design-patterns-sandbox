@@ -1,5 +1,6 @@
 {
-  "name": "examples-site",
+  "name": "bigcommerce-examples-site",
+  "private": true,
   "version": "0.5.0",
   "scripts": {
     "dev": "vite",
