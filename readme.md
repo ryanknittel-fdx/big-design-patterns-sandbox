@@ -32,6 +32,5 @@ To release a new version after making changes, run:
 
 The CLI will ask you to select which package(s) are being updated and if the packages should have a major or minor bump. After confirming these answers, a new changeset will be created in `/.changeset`.
 
-Once that changeset is merged into the main branch, the GitHub Action at '/.github/workflows/release.yml` will run, which creates a version bump PR.
-
+Once that changeset is merged into the main branch, the GitHub Action at `/.github/workflows/release.yml` will run, which creates a version bump PR.
 Merging the version bump PR will release the new package version to NPM.
