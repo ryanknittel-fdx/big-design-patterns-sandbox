@@ -379,6 +379,14 @@ const CardGridPage: FunctionComponent = () => {
                   "Defines the format of all card grid items, either 'action' or 'content'.",
                 required: false,
               },
+              {
+                propName: "shadow",
+                type: "'raised'",
+                default: "-",
+                description:
+                  "Shadow style to be applied to all card grid items.",
+                required: false,
+              },
             ]}
             stickyHeader
           />
