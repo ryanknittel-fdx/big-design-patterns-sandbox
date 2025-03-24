@@ -1,4 +1,4 @@
-import { Dashboard as DashboardComponent } from "bigcommerce-design-patterns";
+import { DashboardLayout } from "bigcommerce-design-patterns";
 import { Panel, Text } from "@bigcommerce/big-design";
 import { Header } from "@bigcommerce/big-design-patterns";
 
@@ -21,7 +21,7 @@ export default function Dashboard() {
   );
 
   return (
-    <DashboardComponent
+    <DashboardLayout
       aside={asideContent}
       header={
         <Header description="Page description (optional)" title="Dashboard" />
@@ -58,6 +58,6 @@ export default function Dashboard() {
           culpa qui officia deserunt mollit anim id est laborum.
         </Text>
       </Panel>
-    </DashboardComponent>
+    </DashboardLayout>
   );
 }

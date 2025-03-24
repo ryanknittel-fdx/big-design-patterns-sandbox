@@ -32,7 +32,7 @@ export interface DashboardProps extends PropsWithChildren {
   background?: Background;
 }
 
-export const Dashboard: React.FC<DashboardProps> = ({
+export const DashboardLayout: React.FC<DashboardProps> = ({
   aside,
   children,
   ...pageProps

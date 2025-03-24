@@ -63,7 +63,7 @@ const PageHome: FunctionComponent = () => {
           <Link to={"/info-illustration"}>Info Illustrations</Link>
         </li>
         <li>
-          <Link to={"/dashboard"}>Dashboard</Link>
+          <Link to={"/dashboard-layout"}>Dashboard Layout</Link>
         </li>
         <li>
           <Box marginTop={"large"}>
