@@ -15,7 +15,7 @@ const PageFeatureTags: FunctionComponent = () => {
     language: "jsx",
     showLineNumbers: true,
     startingLineNumber: 1,
-    wrapLines: true,
+    wrapLongLines: true,
     theme: codecolor,
     customStyle: {
       width: "100%",

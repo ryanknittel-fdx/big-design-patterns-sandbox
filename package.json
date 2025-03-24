@@ -9,6 +9,8 @@
     "publish": "pnpm publish packages/patterns"
   },
   "devDependencies": {
-    "lerna": "^8.1.8"
+    "@changesets/changelog-github": "^0.5.1",
+    "@changesets/cli": "^2.28.1",
+    "lerna": "^8.2.1"
   }
 }
