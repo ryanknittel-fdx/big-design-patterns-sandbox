@@ -37,8 +37,9 @@ jobs:
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
+          ref: main
 
-      - name: Setup correct git tracking
+      - name: Set upstream tracking
         run: |
           git fetch origin
           git branch --set-upstream-to=origin/main main
