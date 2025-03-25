@@ -1,5 +1,5 @@
 name: release
- 
+
 on:
   push:
     branches: [main]
@@ -9,50 +9,56 @@ on:
   workflow_dispatch:
     inputs:
       dry-run:
-        description: 'Run in dry-run mode (no actual publish)'
+        description: "Run in dry-run mode (no actual publish)"
         type: boolean
         default: true
- 
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
- 
+
 jobs:
   release:
     runs-on: ubuntu-latest
-    
+
     # Determine if this is a test run or actual release
     env:
       DRY_RUN: ${{ github.event_name == 'pull_request' || github.event.inputs.dry-run == 'true' }}
- 
+
     permissions:
       id-token: write
       contents: write
       packages: write
       pull-requests: write
       issues: read
- 
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
+          ref: main
+
+      - name: Explicitly fetch main
+        run: |
+          git fetch origin main:main
+          git branch --set-upstream-to=origin/main main
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
- 
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: pnpm
- 
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
- 
+
       - name: Build
         run: pnpm run build
- 
+
       - name: Create .npmrc
         run: |
           cat << EOF > "$HOME/.npmrc"
@@ -61,7 +67,7 @@ jobs:
           EOF
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
- 
+
       - name: Validation run (PR or manual dry-run)
         if: env.DRY_RUN == 'true'
         run: |
@@ -69,7 +75,7 @@ jobs:
           echo "Would execute: pnpm exec changeset publish"
           pnpm exec changeset status || echo "No pending changesets found"
           echo "Skipping actual versioning and publishing"
-      
+
       - name: Create Release Pull Request or Publish to npm
         if: env.DRY_RUN != 'true'
         uses: changesets/action@v1
