@@ -46,14 +46,8 @@ const MainContent = styled.main`
 `;
 
 const ContentArea = styled.div`
-  height: 100%;
+  height: calc(100vh - 3.5rem);
   overflow: auto;
-
-  &:last-child::after {
-    height: 3rem;
-    content: " ";
-    display: block;
-  }
 `;
 
 const HeaderContainer = styled(Box)`
