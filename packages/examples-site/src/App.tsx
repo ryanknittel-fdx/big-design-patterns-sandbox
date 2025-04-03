@@ -114,7 +114,7 @@ function Header() {
             e.preventDefault();
             navigate('/');
           }}>
-            <img src="/assets/images/icons/bigc-inverted-black.svg" alt="BigDesign Pattern Sandbox"
+            <img src="./assets/images/icons/bigc-inverted-black.svg" alt="BigDesign Pattern Sandbox"
               style={{
                 width: "24px",
                 height: "24px",
