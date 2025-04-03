@@ -128,5 +128,6 @@ export const menuItems: MenuItem[] = [
     label: "BigDesign AI Prompt",
     href: "https://github.com/bigcommerce/big-design-patterns-sandbox/tree/main/.github/prompts/BigDesignPatterns.prompt.md",
     icon: BiChip,
+    target: "_blank", // Open in a new tab
   },
 ];

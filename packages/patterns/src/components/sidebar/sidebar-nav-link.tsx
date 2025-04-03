@@ -20,12 +20,16 @@ const StyledLink = styled.a<{ isActive?: boolean }>`
   color: #313440;
   text-decoration: none;
 
-  ${props => !props.isActive && `
+  ${(props) =>
+    !props.isActive &&
+    `
   &:hover {
     background-color: #F0F3FF;
   }`}
 
-  ${props => props.isActive && `
+  ${(props) =>
+    props.isActive &&
+    `
     background-color: #DBE3FE;
     font-weight: 600;
     color:rgb(0, 36, 166);
@@ -33,11 +37,11 @@ const StyledLink = styled.a<{ isActive?: boolean }>`
 `;
 
 const LinkText = styled.span<{ isCollapsed?: boolean }>`
-  display: ${props => props.isCollapsed ? 'none' : 'inline-block'};
-  opacity: ${props => props.isCollapsed ? 0 : 1};
+  display: ${(props) => (props.isCollapsed ? "none" : "inline-block")};
+  opacity: ${(props) => (props.isCollapsed ? 0 : 1)};
   font-size: 1rem;
   flex-shrink: 1;
-  
+
   @media (min-width: 768px) {
     transition: opacity, display;
     transition-behavior: allow-discrete;
@@ -47,7 +51,7 @@ const LinkText = styled.span<{ isCollapsed?: boolean }>`
 const IconPlaceholder = styled.div`
   width: 24px;
   height: 24px;
-  
+
   flex-shrink: 0;
 `;
 
@@ -60,29 +64,30 @@ export const SidebarNavLink = memo(
   ({ className, isCollapsed, ...props }: SidebarNavLinkProps) => {
     const { Link } = useRouter();
     const Icon = props.icon;
-    
+
     if (props.href) {
       return (
         <StyledLink
-          as={Link}
+          as={props.target ? "a" : Link}
           href={props.href}
           isActive={props.isActive}
           className={className}
+          target={props.target}
         >
           {Icon ? (
             <IconWrapper>
               <Icon />
             </IconWrapper>
-          ) : <IconPlaceholder />}
-          
-          <LinkText isCollapsed={isCollapsed}>
-            {props.label}
-          </LinkText>
+          ) : (
+            <IconPlaceholder />
+          )}
+
+          <LinkText isCollapsed={isCollapsed}>{props.label}</LinkText>
         </StyledLink>
       );
     }
     return <div>{props.label}</div>;
-  },
+  }
 );
 
 SidebarNavLink.displayName = "SidebarNavLink";
