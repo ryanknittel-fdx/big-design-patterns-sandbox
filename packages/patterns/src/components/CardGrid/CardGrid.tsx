@@ -187,6 +187,13 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
       >
         {itemContent}
       </a>
+    ) : onClick ? (
+      <div 
+        className="card-grid__item--link" 
+        onClick={onClick}
+      >
+        {itemContent}
+      </div>
     ) : (
       itemContent
     );
@@ -194,7 +201,7 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
 
   return (
     <StyledCardGridItem
-      className={`card-grid__item${href ? "--link" : ""} card-grid-item-mobile`}
+      className={`card-grid__item${href || onClick ? "--link" : ""} card-grid-item-mobile`}
       border={gridItemProps.border || "box"}
       borderRadius={gridItemProps.borderRadius || "normal"}
       padding={gridItemProps.padding || "medium"}
