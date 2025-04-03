@@ -183,65 +183,6 @@ const CardGridPage: FunctionComponent = () => {
             </FlexItem>
           </Flex>
         </Panel>
-        <Panel headerTitle="Example: Stacked Layout">
-          <Flex flexDirection="column" flexGap={theme.spacing.medium}>
-            <FlexItem>
-              <CardGrid
-                items={[
-                  {
-                    heading: <H4>Stacked Item 1</H4>,
-                    description:
-                      "This item appears in a stacked layout with dividers between items.",
-                    href: "https://developer.bigcommerce.com",
-                    icon: <ChevronRightIcon size="large" color="primary" />,
-                  },
-                  {
-                    heading: <H4>Stacked Item 2</H4>,
-                    description:
-                      "This layout is ideal for resource lists in sidebars or narrow containers.",
-                    href: "https://developer.bigcommerce.com",
-                    icon: <ChevronRightIcon size="large" color="primary" />,
-                  },
-                  {
-                    heading: <H4>Stacked Item 3</H4>,
-                    description:
-                      "Items in the stack layout always span the full width and stack vertically.",
-                    href: "https://developer.bigcommerce.com",
-                    icon: <ChevronRightIcon size="large" color="primary" />,
-                  },
-                ]}
-              />
-            </FlexItem>
-            <FlexItem>
-              <HR />
-            </FlexItem>
-            <FlexItem>
-              <CopyBlock
-                {...copyBlockProps}
-                text={`import { CardGrid } from "bigcommerce-design-patterns";
-import { ChevronRightIcon } from "@bigcommerce/big-design-icons";
-
-// When shadow="raised" is not provided, it defaults to stacked layout
-<CardGrid
-  items={[
-    {
-      heading: <H4>Stacked Item 1</H4>,
-      description: "This item appears in a stacked layout with dividers between items.",
-      href: "https://developer.bigcommerce.com",
-      icon: <ChevronRightIcon size="large" color="primary" />,
-    },
-    {
-      heading: <H4>Stacked Item 2</H4>,
-      description: "This layout is ideal for resource lists in sidebars or narrow containers.",
-      href: "https://developer.bigcommerce.com",
-      icon: <ChevronRightIcon size="large" color="primary" />,
-    },
-  ]}
-/>`}
-              />
-            </FlexItem>
-          </Flex>
-        </Panel>
         <Panel headerTitle="Example: Skeleton">
           <Flex flexDirection="column" flexGap={theme.spacing.medium}>
             <H3>Content skeleton</H3>
@@ -391,7 +332,6 @@ import { ChevronRightIcon } from "@bigcommerce/big-design-icons";
                 description: "Text to display on the button.",
                 required: true,
               },
-              // Include other ButtonProps if needed
             ]}
             stickyHeader
           />
