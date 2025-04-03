@@ -1,5 +1,23 @@
 # bigcommerce-design-patterns
 
+## 0.11.1
+
+### Patch Changes
+
+- 8d399ef: Add BigDesign AI prompt nav item and updated home screen
+
+## 0.11.0
+
+### Minor Changes
+
+- 612d0ab: Add sidebar
+
+## 0.10.0
+
+### Minor Changes
+
+- c4b8704: DashboardLayout component added
+
 ## 0.9.0
 
 ### Minor Changes

@@ -201,13 +201,20 @@ export const CardGridItem = ({
       >
         {itemContent}
       </a>
+    ) : onClick ? (
+      <div 
+        className="card-grid__item--link" 
+        onClick={onClick}
+      >
+        {itemContent}
+      </div>
     ) : (
       itemContent
     );
   }
 
   // Only apply the card-grid__item--link class if there's an href and no button
-  const linkClass = href && !button ? "--link" : "";
+  const linkClass = (href || onClick) && !button ? "--link" : "";
 
   return (
     <StyledCardGridItem

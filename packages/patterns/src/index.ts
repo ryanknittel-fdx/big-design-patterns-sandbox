@@ -11,3 +11,4 @@ export * from "./components/InfoIllustration/InfoIllustration";
 export * from "./components/InstallScreen";
 export * from "./components/scroller/Scroller";
 export * from "./components/dashboardLayout/DashboardLayout";
+export * from "./components/sidebar";
