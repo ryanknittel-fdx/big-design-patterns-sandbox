@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.11.0
+
+### Minor Changes
+
+- 612d0ab: Add sidebar
+
 ## 0.10.0
 
 ### Minor Changes
