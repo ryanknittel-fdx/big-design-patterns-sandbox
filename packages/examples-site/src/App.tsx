@@ -148,7 +148,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
         </HeaderContainer>
         <MainContent>
           <Sidebar menuItems={menuItems} />
-          <ContentArea>{children}</ContentArea>
+          <ContentArea id="contentArea">{children}</ContentArea>
         </MainContent>
       </InnerContainer>
     </LayoutContainer>

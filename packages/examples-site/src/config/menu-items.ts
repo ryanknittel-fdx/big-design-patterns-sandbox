@@ -1,5 +1,5 @@
 import type { MenuItem } from "bigcommerce-design-patterns";
-import { BiBookContent, BiGrid, BiGridAlt, BiExtension, BiFoodMenu,BiJoystickButton } from "react-icons/bi";
+import { BiBookContent, BiChip, BiGrid, BiGridAlt, BiExtension, BiFoodMenu,BiJoystickButton } from "react-icons/bi";
 
 export const menuItems: MenuItem[] = [
   {
@@ -122,5 +122,11 @@ export const menuItems: MenuItem[] = [
         href: "/install-screen-channel",
       },
     ]
+  },
+  {
+    hash: "ai-prompt",
+    label: "BigDesign AI Prompt",
+    href: "https://github.com/bigcommerce/big-design-patterns-sandbox/tree/main/.github/prompts/BigDesignPatterns.prompt.md",
+    icon: BiChip,
   },
 ];
