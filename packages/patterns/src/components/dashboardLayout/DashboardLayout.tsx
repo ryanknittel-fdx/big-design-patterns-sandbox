@@ -32,11 +32,11 @@ export interface DashboardProps extends PropsWithChildren {
   background?: Background;
 }
 
-export const DashboardLayout: React.FC<DashboardProps> = ({
+export const DashboardLayout = ({
   aside,
   children,
   ...pageProps
-}: DashboardProps) => {
+}: DashboardProps): JSX.Element => {
   return (
     <StyledPageWrapper>
       <StyledContentContainer>
@@ -44,7 +44,9 @@ export const DashboardLayout: React.FC<DashboardProps> = ({
           <Page {...pageProps}>{children}</Page>
         </StyledPageContent>
 
-        {aside && <StyledAside>{aside}</StyledAside>}
+        {aside && (
+          <StyledAside className="dashboard-aside">{aside}</StyledAside>
+        )}
       </StyledContentContainer>
     </StyledPageWrapper>
   );

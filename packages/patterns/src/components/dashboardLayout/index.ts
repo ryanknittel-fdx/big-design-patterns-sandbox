@@ -1,2 +1,1 @@
-export { DashboardLayout } from "./dashboardLayout";
-export type { DashboardProps } from "./dashboardLayout";
+export { DashboardLayout } from "./DashboardLayout";

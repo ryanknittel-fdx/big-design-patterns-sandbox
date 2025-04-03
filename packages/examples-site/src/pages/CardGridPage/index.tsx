@@ -12,6 +12,7 @@ import { CardGrid, AdvancedPanel as Panel } from "bigcommerce-design-patterns";
 import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
+import { ChevronRightIcon } from "@bigcommerce/big-design-icons";
 
 import { CopyBlock, nord as codecolor } from "react-code-blocks";
 
@@ -175,6 +176,65 @@ const CardGridPage: FunctionComponent = () => {
           width="45"
         />
       ),
+    },
+  ]}
+/>`}
+              />
+            </FlexItem>
+          </Flex>
+        </Panel>
+        <Panel headerTitle="Example: Stacked Layout">
+          <Flex flexDirection="column" flexGap={theme.spacing.medium}>
+            <FlexItem>
+              <CardGrid
+                items={[
+                  {
+                    heading: <H4>Stacked Item 1</H4>,
+                    description:
+                      "This item appears in a stacked layout with dividers between items.",
+                    href: "https://developer.bigcommerce.com",
+                    icon: <ChevronRightIcon size="large" color="primary" />,
+                  },
+                  {
+                    heading: <H4>Stacked Item 2</H4>,
+                    description:
+                      "This layout is ideal for resource lists in sidebars or narrow containers.",
+                    href: "https://developer.bigcommerce.com",
+                    icon: <ChevronRightIcon size="large" color="primary" />,
+                  },
+                  {
+                    heading: <H4>Stacked Item 3</H4>,
+                    description:
+                      "Items in the stack layout always span the full width and stack vertically.",
+                    href: "https://developer.bigcommerce.com",
+                    icon: <ChevronRightIcon size="large" color="primary" />,
+                  },
+                ]}
+              />
+            </FlexItem>
+            <FlexItem>
+              <HR />
+            </FlexItem>
+            <FlexItem>
+              <CopyBlock
+                {...copyBlockProps}
+                text={`import { CardGrid } from "bigcommerce-design-patterns";
+import { ChevronRightIcon } from "@bigcommerce/big-design-icons";
+
+// When shadow="raised" is not provided, it defaults to stacked layout
+<CardGrid
+  items={[
+    {
+      heading: <H4>Stacked Item 1</H4>,
+      description: "This item appears in a stacked layout with dividers between items.",
+      href: "https://developer.bigcommerce.com",
+      icon: <ChevronRightIcon size="large" color="primary" />,
+    },
+    {
+      heading: <H4>Stacked Item 2</H4>,
+      description: "This layout is ideal for resource lists in sidebars or narrow containers.",
+      href: "https://developer.bigcommerce.com",
+      icon: <ChevronRightIcon size="large" color="primary" />,
     },
   ]}
 />`}
@@ -384,7 +444,7 @@ const CardGridPage: FunctionComponent = () => {
                 type: "'raised'",
                 default: "-",
                 description:
-                  "Shadow style to be applied to all card grid items.",
+                  "Shadow style to be applied to all card grid items. When set to 'raised', items will display in a grid with gaps. When not set, items will be stacked vertically with dividers.",
                 required: false,
               },
             ]}
