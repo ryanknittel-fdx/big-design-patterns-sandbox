@@ -1,5 +1,16 @@
 # bigcommerce-examples-site
 
+## 0.7.0
+
+### Minor Changes
+
+- 8d399ef: Add BigDesign AI prompt nav item and updated home screen
+
+### Patch Changes
+
+- Updated dependencies [8d399ef]
+  - bigcommerce-design-patterns@0.11.1
+
 ## 0.6.0
 
 ### Minor Changes
