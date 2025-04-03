@@ -1,5 +1,16 @@
 # bigcommerce-examples-site
 
+## 0.6.0
+
+### Minor Changes
+
+- 612d0ab: Add sidebar
+
+### Patch Changes
+
+- Updated dependencies [612d0ab]
+  - bigcommerce-design-patterns@0.11.0
+
 ## 0.5.3
 
 ### Patch Changes
