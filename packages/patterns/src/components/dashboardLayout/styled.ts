@@ -1,7 +1,8 @@
 import { Box } from "@bigcommerce/big-design";
 import styled from "styled-components";
+import { theme as defaultTheme } from "@bigcommerce/big-design-theme";
 
-const ASIDE_WIDTH = "320px";
+const ASIDE_WIDTH = "300px";
 
 export const StyledPageWrapper = styled(Box)`
   display: flex;
@@ -9,7 +10,7 @@ export const StyledPageWrapper = styled(Box)`
   width: 100%;
   height: auto;
   position: relative; /* For absolutely positioned pseudo-element */
-
+  background-color: ${({ theme }) => theme.colors.secondary10};
   /* Create a pseudo-element left aside border that extends from the aside to the bottom of the page */
   @media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
     min-height: 100vh;
@@ -69,8 +70,44 @@ export const StyledAside = styled(Box)`
   display: flex;
   flex-direction: column;
   z-index: 1;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 
-  @media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
-    padding: ${({ theme }) => theme.spacing.medium};
+  /* Ensure any child components respect the width of the aside */
+  & > * {
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  & .bd-grid {
+    /* Ensures proper display of stacked in the aside */
+    display: flex;
+    flex-direction: column;
+  }
+
+  & .in-aside.flat-cards .card-grid-item-mobile {
+    border: none; /* Reset all borders first */
+    border-bottom: ${({ theme }) => `1px solid ${theme.colors.secondary30}`};
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: ${(props) => props.theme?.spacing?.medium};
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+  & .flat-cards .bd-grid > .card-grid-item-mobile:first-child {
+    border-top: ${({ theme }) => `1px solid ${theme.colors.secondary30}`};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpointValues.tablet}) {
+    padding: ${(props) => props.theme?.spacing?.medium};
   }
 `;
+
+StyledPageWrapper.defaultProps = { theme: defaultTheme };
+StyledContentContainer.defaultProps = { theme: defaultTheme };
+StyledPageContent.defaultProps = { theme: defaultTheme };
+StyledAside.defaultProps = { theme: defaultTheme };

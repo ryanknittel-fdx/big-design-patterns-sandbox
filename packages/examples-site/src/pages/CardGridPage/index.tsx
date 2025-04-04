@@ -12,6 +12,7 @@ import { CardGrid, AdvancedPanel as Panel } from "bigcommerce-design-patterns";
 import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
+import { ChevronRightIcon } from "@bigcommerce/big-design-icons";
 
 import { CopyBlock, nord as codecolor } from "react-code-blocks";
 
@@ -331,7 +332,6 @@ const CardGridPage: FunctionComponent = () => {
                 description: "Text to display on the button.",
                 required: true,
               },
-              // Include other ButtonProps if needed
             ]}
             stickyHeader
           />
@@ -384,7 +384,7 @@ const CardGridPage: FunctionComponent = () => {
                 type: "'raised'",
                 default: "-",
                 description:
-                  "Shadow style to be applied to all card grid items.",
+                  "Shadow style to be applied to all card grid items. When set to 'raised', items will display in a grid with gaps. When not set, items will be stacked vertically with dividers.",
                 required: false,
               },
             ]}

@@ -4,6 +4,7 @@ import { Button, Grid, Text, Flex, FlexItem } from "@bigcommerce/big-design";
 import { GridProps, GridItemProps, ButtonProps } from "@bigcommerce/big-design";
 import { ChevronRightIcon } from "@bigcommerce/big-design-icons";
 import { StyledCardGridItem, StyledCardGrid } from "./styled";
+import React, { useRef, useEffect, useState } from "react";
 
 /**
  * Interface for button props used within the CardGridItem component.
@@ -46,7 +47,7 @@ export interface CardGridItemProps extends GridItemProps {
  * @param {CardGridItemProps} props - The props for the CardGridItem component.
  * @returns {JSX.Element} The rendered CardGridItem component.
  */
-export const CardGridItem: React.FC<CardGridItemProps> = ({
+export const CardGridItem = ({
   button,
   heading,
   description,
@@ -57,7 +58,7 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
   icon,
   shadow,
   ...gridItemProps
-}) => {
+}: CardGridItemProps): JSX.Element => {
   let contents: React.ReactNode = null;
 
   const buttonProps = button
@@ -126,21 +127,40 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
     )
   );
 
+  const theChevron = isLoading ? (
+    <Skeleton width={16} height={16} />
+  ) : (
+    // Only show chevron if there's a link (href) and no button
+    href &&
+    !button && (
+      <FlexItem
+        flexShrink={0}
+        style={{ display: "flex", alignItems: "center" }}
+      >
+        <ChevronRightIcon color="secondary70" size="medium" />
+      </FlexItem>
+    )
+  );
+
   if (format === "action") {
     contents = (
       <>
         <Flex
-          flexGap="16px"
+          flexGap="8px"
           flexDirection="row"
           className="flex-row-mobile"
-          style={{ width: "100%" }}
+          alignItems="center"
+          justifyContent="flex-start"
+          style={{
+            width: "100%",
+            alignSelf: "stretch",
+            display: "inline-flex",
+          }}
         >
           {icon && (
             <div
               className="icon-container"
               style={{
-                minHeight: "20px",
-                minWidth: "20px",
                 maxHeight: "45px",
                 maxWidth: "45px",
               }}
@@ -150,25 +170,19 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
           )}
           {theHeading}
           {theButton}
+          {theChevron}
         </Flex>
         {theDescription}
       </>
     );
   } else {
-    const theChevron = isLoading ? (
-      <Skeleton width={16} height={16} />
-    ) : (
-      <FlexItem flexShrink={0}>
-        <ChevronRightIcon color="secondary70" size="medium" />
-      </FlexItem>
-    );
-
     const itemContent = (
       <>
         <Flex
           flexGap="16px"
           flexDirection="row"
           className="flex-row-mobile"
+          alignItems="center"
           style={{ width: "100%" }}
         >
           {theHeading}
@@ -199,9 +213,12 @@ export const CardGridItem: React.FC<CardGridItemProps> = ({
     );
   }
 
+  // Only apply the card-grid__item--link class if there's an href and no button
+  const linkClass = (href || onClick) && !button ? "--link" : "";
+
   return (
     <StyledCardGridItem
-      className={`card-grid__item${href || onClick ? "--link" : ""} card-grid-item-mobile`}
+      className={`card-grid__item${linkClass} card-grid-item-mobile`}
       border={gridItemProps.border || "box"}
       borderRadius={gridItemProps.borderRadius || "normal"}
       padding={gridItemProps.padding || "medium"}
@@ -222,7 +239,7 @@ export interface CardGridProps extends GridProps {
   items?: CardGridItemProps[];
   /** Format of all grid items, either 'content' or 'action' */
   format?: "content" | "action";
-  /** Shadow to be applied */
+  /** Shadow to be applied. When "raised", items will be displayed in a grid with gaps. When not set, items will be stacked. */
   shadow?: "raised";
 }
 
@@ -233,30 +250,75 @@ export interface CardGridProps extends GridProps {
  * @param {CardGridProps} props - The props for the CardGrid component.
  * @returns {JSX.Element} The rendered CardGrid component.
  */
-export const CardGrid: React.FC<CardGridProps> = ({
+export const CardGrid = ({
   items = [{}, {}],
   format = "content",
   shadow,
   ...gridProps
-}) => {
-  const gridColumns = gridProps.gridColumns || {
-    mobile: "repeat(1, 1fr)",
-    tablet: "repeat(2, 1fr)",
-    desktop: "repeat(3, 1fr)",
-    wide: "repeat(4, 1fr)",
-  };
+}: CardGridProps): JSX.Element => {
+  // Create a ref to access the DOM element
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [isInAside, setIsInAside] = useState(false);
 
-  // On mobile we want no gap between items if the shadow is raised
+  // Check if this grid is inside the dashboard aside
+  useEffect(() => {
+    if (gridRef.current) {
+      // Check parent elements to see if any have dashboard-aside class
+      let parent = gridRef.current.parentElement;
+      let foundAside = false;
+
+      while (parent && !foundAside) {
+        if (parent.classList && parent.classList.contains("dashboard-aside")) {
+          foundAside = true;
+        }
+        parent = parent.parentElement;
+      }
+
+      setIsInAside(foundAside);
+    }
+  }, []);
+
+  // Default grid columns - all cards use the same grid layout on larger viewports
+  // If in aside, always use single column
+  const gridColumns =
+    gridProps.gridColumns ||
+    (isInAside
+      ? {
+          mobile: "repeat(1, 1fr)",
+          tablet: "repeat(1, 1fr)",
+          desktop: "repeat(1, 1fr)",
+          wide: "repeat(1, 1fr)",
+        }
+      : {
+          mobile: "repeat(1, 1fr)",
+          tablet: "repeat(2, 1fr)",
+          desktop: "repeat(3, 1fr)",
+          wide: "repeat(4, 1fr)",
+        });
+
+  // Set gap for all cards when in grid view
   const gridGap = gridProps.gridGap || {
-    mobile: shadow === "raised" ? "16px" : "0",
-    tablet: "16px",
+    mobile: shadow === "raised" ? "16px" : "0", // No gap on mobile (stacked)
+    tablet: shadow === "raised" || !isInAside ? "16px" : "0", // Only add gap for raised or non-aside
+    desktop: shadow === "raised" || !isInAside ? "16px" : "0", // Only add gap for raised or non-aside
+    wide: shadow === "raised" || !isInAside ? "16px" : "0", // Only add gap for raised or non-aside
   };
 
-  gridProps = { ...gridProps, gridColumns, gridGap };
+  gridProps = {
+    ...gridProps,
+    gridColumns,
+    gridGap,
+  };
 
   return (
     items && (
-      <StyledCardGrid shadow={shadow}>
+      <StyledCardGrid
+        shadow={shadow}
+        className={`${shadow === "raised" ? "raised-cards" : "flat-cards"} ${
+          isInAside ? "in-aside" : "in-main"
+        }`}
+        ref={gridRef}
+      >
         <Grid className="bd-grid" {...gridProps}>
           {items.map((item, i) => {
             item.format = format;

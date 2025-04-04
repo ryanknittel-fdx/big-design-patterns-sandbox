@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import {
   Flex,
   FlexItem,
@@ -24,7 +24,7 @@ export interface BackButtonProps {
 
 /**
  * BackButton component displays a button with an arrow icon and a label.
- * 
+ *
  * @param {BackButtonProps} props - The props for the BackButton component.
  * @returns {JSX.Element} The rendered BackButton component.
  */
@@ -64,7 +64,7 @@ export interface HeaderProps {
 
 /**
  * Header component displays a title, optional back button, badge, and additional content.
- * 
+ *
  * @param {HeaderProps} props - The props for the Header component.
  * @returns {JSX.Element} The rendered Header component.
  */
