@@ -1,5 +1,6 @@
 import { Box } from "@bigcommerce/big-design";
 import styled from "styled-components";
+import { theme as defaultTheme } from "@bigcommerce/big-design-theme";
 
 const ASIDE_WIDTH = "300px";
 
@@ -105,3 +106,8 @@ export const StyledAside = styled(Box)`
     padding: ${(props) => props.theme?.spacing?.medium};
   }
 `;
+
+StyledPageWrapper.defaultProps = { theme: defaultTheme };
+StyledContentContainer.defaultProps = { theme: defaultTheme };
+StyledPageContent.defaultProps = { theme: defaultTheme };
+StyledAside.defaultProps = { theme: defaultTheme };
