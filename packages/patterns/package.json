@@ -1,7 +1,7 @@
 {
   "name": "bigcommerce-design-patterns",
   "description": "Sandbox for Patterns",
-  "version": "0.11.1",
+  "version": "0.12.0",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
