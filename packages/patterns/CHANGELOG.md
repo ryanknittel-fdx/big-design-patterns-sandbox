@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.12.1
+
+### Patch Changes
+
+- 9239b1d: Add public publish config property to package.json
+
 ## 0.12.0
 
 ### Minor Changes
