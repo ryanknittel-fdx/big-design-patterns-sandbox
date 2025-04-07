@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.12.0
+
+### Minor Changes
+
+- 5c686f3: Modify package.json to allow package export
+
 ## 0.11.1
 
 ### Patch Changes
