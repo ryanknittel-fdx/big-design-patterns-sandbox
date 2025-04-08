@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { SidebarContext } from "./sidebar-context";
@@ -9,14 +9,11 @@ import { SidebarSubNav } from "./sidebar-subnav";
 import { useRouter } from "./hooks/router-context";
 import { MenuItem } from "./menu-items.types";
 
-import {
-  COLLAPSED_WIDTH,
-  EXPANDED_WIDTH,
-} from "./sidebar-constants";
+import { COLLAPSED_WIDTH, EXPANDED_WIDTH } from "./sidebar-constants";
 
 const StyledNav = styled.nav<{ width: string }>`
   height: 100%;
-  width: ${props => props.width};
+  width: ${(props) => props.width};
   transform-origin: left;
   transition: width 300ms ease-in-out;
 `;
@@ -28,8 +25,10 @@ const StyledMenuContainer = styled.div`
 export const SidebarMenu = ({ menuItems }: { menuItems: MenuItem[] }) => {
   const { isCollapsed } = useContext(SidebarContext);
   const { pathname } = useRouter();
-  
-  const navWidth = !isCollapsed ? `${EXPANDED_WIDTH}px` : `${COLLAPSED_WIDTH}px`;
+
+  const navWidth = !isCollapsed
+    ? `${EXPANDED_WIDTH}px`
+    : `${COLLAPSED_WIDTH}px`;
 
   return (
     <StyledNav width={navWidth}>
