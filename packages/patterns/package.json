@@ -6,9 +6,9 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "development": "./src/index.ts",
       "import": "./dist/es/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/es/index.js"
     }
   },
   "publishConfig": {
@@ -21,12 +21,13 @@
     "build": "pnpm run build:cjs && pnpm run build:es && pnpm run build:dt",
     "build:cjs": "NODE_ENV=production BABEL_ENV=cjs babel --extensions \".ts,.tsx\" ./src --out-dir ./dist/cjs",
     "build:es": "NODE_ENV=production BABEL_ENV=es babel --extensions \".ts,.tsx\" ./src --out-dir ./dist/es",
-    "build:dt": "tsc -p tsconfig.declarations.json --emitDeclarationOnly"
+    "build:dt": "tsc -p tsconfig.declarations.json --emitDeclarationOnly",
+    "build:watch": "babel --watch ./src --out-dir ./dist/es --extensions \".ts,.tsx\" --env-name es"
   },
   "dependencies": {
     "@babel/runtime": "^7.26.10",
-    "@bigcommerce/big-design": "^1.4.2",
-    "@bigcommerce/big-design-icons": "^1.1.0",
+    "@bigcommerce/big-design": "^1.7.1",
+    "@bigcommerce/big-design-icons": "^1.2.2",
     "@bigcommerce/big-design-patterns": "^2.0.0",
     "@bigcommerce/big-design-theme": "^1.1.0",
     "dompurify": "^3.2.4",
