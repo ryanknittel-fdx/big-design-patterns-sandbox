@@ -1,6 +1,11 @@
 "use client";
 
-import { useMemo, useReducer, type Dispatch, type ReactNode } from "react";
+import React, {
+  useMemo,
+  useReducer,
+  type Dispatch,
+  type ReactNode,
+} from "react";
 
 export type BooleanHandlers = {
   toggle: Dispatch<boolean>;
@@ -17,7 +22,7 @@ export const useToggle = (initialValue: boolean = false) => {
 };
 
 export const useBoolean = (
-  initialValue: boolean = false,
+  initialValue: boolean = false
 ): [boolean, BooleanHandlers] => {
   const [value, toggle] = useToggle(initialValue);
 
@@ -27,7 +32,7 @@ export const useBoolean = (
       on: () => toggle(true),
       off: () => toggle(false),
     }),
-    [toggle],
+    [toggle]
   );
 
   return [value, handlers];

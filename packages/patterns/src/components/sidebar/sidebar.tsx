@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { SidebarContext } from "./sidebar-context";
@@ -12,10 +12,10 @@ const DesktopAside = styled.aside`
   position: relative;
   z-index: 10;
   display: none;
-  border-right: 1px solid #D9DCE9;
+  border-right: 1px solid #d9dce9;
   padding: 0.5rem;
   background-color: white;
-  
+
   @media (min-width: 720px) {
     display: block;
   }
@@ -27,11 +27,12 @@ const MobileAside = styled.aside<{ isCollapsed: boolean }>`
   left: 0;
   top: 57px;
   z-index: 50;
-  border-right: 1px solid #D9DCE9;
+  border-right: 1px solid #d9dce9;
   background-color: white;
   transition: transform 0.3s;
-  transform: ${props => props.isCollapsed ? 'translateX(-100%)' : 'translateX(0)'};
-  
+  transform: ${(props) =>
+    props.isCollapsed ? "translateX(-100%)" : "translateX(0)"};
+
   @media (min-width: 720px) {
     display: none;
   }
@@ -44,7 +45,7 @@ const Overlay = styled.div`
   z-index: 40;
   display: block;
   background-color: rgba(0, 0, 0, 0.4);
-  
+
   @media (min-width: 768px) {
     display: none;
   }
@@ -72,7 +73,11 @@ function SidebarMobile({ menuItems }: { menuItems: MenuItem[] }) {
   );
 }
 
-export default function Sidebar({ menuItems = [] }: { menuItems?: MenuItem[] }) {
+export default function Sidebar({
+  menuItems = [],
+}: {
+  menuItems?: MenuItem[];
+}) {
   return (
     <>
       <SidebarDesktop menuItems={menuItems} />

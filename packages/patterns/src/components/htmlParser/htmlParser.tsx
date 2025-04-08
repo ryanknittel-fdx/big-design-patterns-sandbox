@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import parse, {
   HTMLReactParserOptions,
   Element,
@@ -21,16 +21,24 @@ export const HTMLParser: FunctionComponent<HTMLParserProps> = ({ html }) => {
         );
       }
       if (domNode instanceof Element && domNode.name === "h2") {
-        return <H2>{domToReact((domNode as Element).children as DOMNode[])}</H2>;
+        return (
+          <H2>{domToReact((domNode as Element).children as DOMNode[])}</H2>
+        );
       }
       if (domNode instanceof Element && domNode.name === "h3") {
-        return <H3>{domToReact((domNode as Element).children as DOMNode[])}</H3>;
+        return (
+          <H3>{domToReact((domNode as Element).children as DOMNode[])}</H3>
+        );
       }
       if (domNode instanceof Element && domNode.name === "h4") {
-        return <H4>{domToReact((domNode as Element).children as DOMNode[])}</H4>;
+        return (
+          <H4>{domToReact((domNode as Element).children as DOMNode[])}</H4>
+        );
       }
       if (domNode instanceof Element && domNode.name === "p") {
-        return <Text>{domToReact((domNode as Element).children as DOMNode[])}</Text>;
+        return (
+          <Text>{domToReact((domNode as Element).children as DOMNode[])}</Text>
+        );
       }
       if (domNode instanceof Element && domNode.name === "hr") {
         return <HR />;

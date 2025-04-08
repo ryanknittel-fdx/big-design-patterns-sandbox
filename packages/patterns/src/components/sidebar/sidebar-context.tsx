@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, ReactNode, useEffect } from "react";
+import React, { createContext, ReactNode, useEffect } from "react";
 
 import { useBoolean } from "./hooks/use-toggle";
 import { useWindowSize } from "./hooks/use-window-size";
