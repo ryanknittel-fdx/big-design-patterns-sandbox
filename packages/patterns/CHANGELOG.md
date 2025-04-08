@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.12.2
+
+### Patch Changes
+
+- 9b79a3a: Fix package.json so patterns work in dev environment
+
 ## 0.12.1
 
 ### Patch Changes

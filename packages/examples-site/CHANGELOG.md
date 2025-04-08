@@ -1,5 +1,12 @@
 # bigcommerce-examples-site
 
+## 0.7.3
+
+### Patch Changes
+
+- Updated dependencies [9b79a3a]
+  - bigcommerce-design-patterns@0.12.2
+
 ## 0.7.2
 
 ### Patch Changes
