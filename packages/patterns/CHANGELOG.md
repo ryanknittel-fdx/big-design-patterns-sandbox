@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.12.3
+
+### Patch Changes
+
+- 35f1e83: Adds missing React imports to components
+
 ## 0.12.2
 
 ### Patch Changes
