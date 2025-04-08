@@ -1,10 +1,18 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Button, Grid, Text, Flex, FlexItem } from "@bigcommerce/big-design";
+import {
+  Button,
+  Grid,
+  Text,
+  Flex,
+  FlexItem,
+  H4,
+} from "@bigcommerce/big-design";
 import { GridProps, GridItemProps, ButtonProps } from "@bigcommerce/big-design";
 import { ChevronRightIcon } from "@bigcommerce/big-design-icons";
 import { StyledCardGridItem, StyledCardGrid } from "./styled";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef } from "react";
+import { HeadingTag } from "@bigcommerce/big-design/dist/components/Typography/types";
 
 /**
  * Interface for button props used within the CardGridItem component.
@@ -24,6 +32,8 @@ export interface CardGridItemProps extends GridItemProps {
   button?: CardGridButtonProps;
   /** Heading content, can be a string or React node */
   heading?: React.ReactNode;
+  /** Heading tag, defaults to 'h4' */
+  headingTag?: HeadingTag;
   /** Description text */
   description?: string;
   /** Format of the item, either 'action' or 'content' */
@@ -50,6 +60,7 @@ export interface CardGridItemProps extends GridItemProps {
 export const CardGridItem = ({
   button,
   heading,
+  headingTag = "h4",
   description,
   format = "content",
   href,
@@ -97,7 +108,9 @@ export const CardGridItem = ({
         style={{ minWidth: 0, overflow: "hidden" }}
         className="heading-container"
       >
-        {heading}
+        <H4 marginBottom="none" as={headingTag}>
+          {heading}
+        </H4>
       </FlexItem>
     )
   );
@@ -202,10 +215,7 @@ export const CardGridItem = ({
         {itemContent}
       </a>
     ) : onClick ? (
-      <div 
-        className="card-grid__item--link" 
-        onClick={onClick}
-      >
+      <div className="card-grid__item--link" onClick={onClick}>
         {itemContent}
       </div>
     ) : (
@@ -256,52 +266,21 @@ export const CardGrid = ({
   shadow,
   ...gridProps
 }: CardGridProps): JSX.Element => {
-  // Create a ref to access the DOM element
   const gridRef = useRef<HTMLDivElement>(null);
-  const [isInAside, setIsInAside] = useState(false);
 
-  // Check if this grid is inside the dashboard aside
-  useEffect(() => {
-    if (gridRef.current) {
-      // Check parent elements to see if any have dashboard-aside class
-      let parent = gridRef.current.parentElement;
-      let foundAside = false;
-
-      while (parent && !foundAside) {
-        if (parent.classList && parent.classList.contains("dashboard-aside")) {
-          foundAside = true;
-        }
-        parent = parent.parentElement;
-      }
-
-      setIsInAside(foundAside);
-    }
-  }, []);
-
-  // Default grid columns - all cards use the same grid layout on larger viewports
-  // If in aside, always use single column
-  const gridColumns =
-    gridProps.gridColumns ||
-    (isInAside
-      ? {
-          mobile: "repeat(1, 1fr)",
-          tablet: "repeat(1, 1fr)",
-          desktop: "repeat(1, 1fr)",
-          wide: "repeat(1, 1fr)",
-        }
-      : {
-          mobile: "repeat(1, 1fr)",
-          tablet: "repeat(2, 1fr)",
-          desktop: "repeat(3, 1fr)",
-          wide: "repeat(4, 1fr)",
-        });
+  const gridColumns = gridProps.gridColumns || {
+    mobile: "repeat(1, 1fr)",
+    tablet: "repeat(2, 1fr)",
+    desktop: "repeat(3, 1fr)",
+    wide: "repeat(4, 1fr)",
+  };
 
   // Set gap for all cards when in grid view
   const gridGap = gridProps.gridGap || {
-    mobile: shadow === "raised" ? "16px" : "0", // No gap on mobile (stacked)
-    tablet: shadow === "raised" || !isInAside ? "16px" : "0", // Only add gap for raised or non-aside
-    desktop: shadow === "raised" || !isInAside ? "16px" : "0", // Only add gap for raised or non-aside
-    wide: shadow === "raised" || !isInAside ? "16px" : "0", // Only add gap for raised or non-aside
+    mobile: shadow === "raised" ? "16px" : "0",
+    tablet: shadow === "raised" ? "16px" : "0",
+    desktop: shadow === "raised" ? "16px" : "0",
+    wide: shadow === "raised" ? "16px" : "0",
   };
 
   gridProps = {
@@ -314,9 +293,73 @@ export const CardGrid = ({
     items && (
       <StyledCardGrid
         shadow={shadow}
-        className={`${shadow === "raised" ? "raised-cards" : "flat-cards"} ${
-          isInAside ? "in-aside" : "in-main"
-        }`}
+        className={`${shadow === "raised" ? "raised-cards" : "flat-cards"}`}
+        ref={gridRef}
+      >
+        <Grid className="bd-grid" {...gridProps}>
+          {items.map((item, i) => {
+            item.format = format;
+            return (
+              <CardGridItem key={i} format={format} shadow={shadow} {...item} />
+            );
+          })}
+        </Grid>
+      </StyledCardGrid>
+    )
+  );
+};
+
+/**
+ * Interface for props used in the AsideCardGrid component.
+ * Extends CardGridProps.
+ */
+export interface AsideCardGridProps extends CardGridProps {}
+
+/**
+ * AsideCardGrid component specifically designed for use within aside containers.
+ * It uses a single column layout with appropriate styling.
+ *
+ * @param {AsideCardGridProps} props - The props for the AsideCardGrid component.
+ * @returns {JSX.Element} The rendered AsideCardGrid component.
+ */
+export const AsideCardGrid = ({
+  items = [{}, {}],
+  format = "content",
+  shadow,
+  ...gridProps
+}: AsideCardGridProps): JSX.Element => {
+  // Create a ref to access the DOM element
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  // Always use single column for aside layouts
+  const gridColumns = gridProps.gridColumns || {
+    mobile: "repeat(1, 1fr)",
+    tablet: "repeat(1, 1fr)",
+    desktop: "repeat(1, 1fr)",
+    wide: "repeat(1, 1fr)",
+  };
+
+  // Set gap for aside cards
+  const gridGap = gridProps.gridGap || {
+    mobile: shadow === "raised" ? "16px" : "0",
+    tablet: shadow === "raised" ? "16px" : "0",
+    desktop: shadow === "raised" ? "16px" : "0",
+    wide: shadow === "raised" ? "16px" : "0",
+  };
+
+  gridProps = {
+    ...gridProps,
+    gridColumns,
+    gridGap,
+  };
+
+  return (
+    items && (
+      <StyledCardGrid
+        shadow={shadow}
+        className={`${
+          shadow === "raised" ? "raised-cards" : "flat-cards"
+        } in-aside`}
         ref={gridRef}
       >
         <Grid className="bd-grid" {...gridProps}>

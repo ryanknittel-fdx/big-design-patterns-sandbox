@@ -9,7 +9,6 @@ interface StyledCardGridProps {
 }
 
 export const StyledCardGridItem = styled(Box)`
-  /* Ensure content doesn't overflow the card */
   max-width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -42,7 +41,6 @@ export const StyledCardGridItem = styled(Box)`
   }
 `;
 
-// New styled component for wrapping the CardGrid
 export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
   ({ shadow, ...props }) => ({
     visualAppearance: shadow,
@@ -50,7 +48,6 @@ export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
     shadow: undefined,
   })
 )<StyledCardGridProps>`
-  /* Ensure the grid doesn't exceed the window width */
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -65,7 +62,6 @@ export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
   & .flex-row-mobile {
     align-items: center;
 
-    /* Icon container specific styling */
     & .icon-container {
       display: flex;
       align-items: center;
@@ -73,18 +69,15 @@ export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
       flex-shrink: 0;
     }
 
-    /* Ensure heading text is vertically centered with icon */
     & .heading-container {
       display: flex;
       align-items: center;
-      min-height: 45px; /* Match the typical icon height */
+      min-height: 45px;
     }
   }
 
-  /* Desktop and larger adjustments */
   @media (min-width: ${({ theme }) => theme.breakpointValues.desktop}) {
     & .card-grid-item-mobile {
-      /* Ensure consistent card heights in multi-column layout */
       height: 100%;
       display: flex;
       flex-direction: column;

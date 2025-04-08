@@ -2,7 +2,8 @@ import { Box } from "@bigcommerce/big-design";
 import styled from "styled-components";
 import { theme as defaultTheme } from "@bigcommerce/big-design-theme";
 
-const ASIDE_WIDTH = "300px";
+const ASIDE_WIDTH = "250px";
+const ASIDE_WIDTH_DESKTOP = "300px";
 
 export const StyledPageWrapper = styled(Box)`
   display: flex;
@@ -25,6 +26,20 @@ export const StyledPageWrapper = styled(Box)`
       z-index: 0;
     }
   }
+
+  @media (min-width: ${({ theme }) => theme.breakpointValues.desktop}) {
+    min-height: 100vh;
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(100% - ${ASIDE_WIDTH_DESKTOP});
+      width: 1px;
+      background-color: ${({ theme }) => theme.colors.secondary30};
+      z-index: 0;
+    }
+  }
 `;
 
 export const StyledContentContainer = styled(Box)`
@@ -39,6 +54,11 @@ export const StyledContentContainer = styled(Box)`
 
   @media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
     grid-template-columns: 1fr ${ASIDE_WIDTH};
+    grid-template-areas: "main aside";
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpointValues.desktop}) {
+    grid-template-columns: 1fr ${ASIDE_WIDTH_DESKTOP};
     grid-template-areas: "main aside";
   }
 `;
