@@ -11,7 +11,7 @@ import {
 import { GridProps, GridItemProps, ButtonProps } from "@bigcommerce/big-design";
 import { ChevronRightIcon } from "@bigcommerce/big-design-icons";
 import { StyledCardGridItem, StyledCardGrid } from "./styled";
-import React, { useRef } from "react";
+import React from "react";
 import { HeadingTag } from "@bigcommerce/big-design/dist/components/Typography/types";
 
 /**
@@ -266,8 +266,6 @@ export const CardGrid = ({
   shadow,
   ...gridProps
 }: CardGridProps): JSX.Element => {
-  const gridRef = useRef<HTMLDivElement>(null);
-
   const gridColumns = gridProps.gridColumns || {
     mobile: "repeat(1, 1fr)",
     tablet: "repeat(2, 1fr)",
@@ -294,7 +292,6 @@ export const CardGrid = ({
       <StyledCardGrid
         shadow={shadow}
         className={`${shadow === "raised" ? "raised-cards" : "flat-cards"}`}
-        ref={gridRef}
       >
         <Grid className="bd-grid" {...gridProps}>
           {items.map((item, i) => {
@@ -327,9 +324,6 @@ export const AsideCardGrid = ({
   shadow,
   ...gridProps
 }: AsideCardGridProps): JSX.Element => {
-  // Create a ref to access the DOM element
-  const gridRef = useRef<HTMLDivElement>(null);
-
   // Always use single column for aside layouts
   const gridColumns = gridProps.gridColumns || {
     mobile: "repeat(1, 1fr)",
@@ -359,7 +353,6 @@ export const AsideCardGrid = ({
         className={`${
           shadow === "raised" ? "raised-cards" : "flat-cards"
         } in-aside`}
-        ref={gridRef}
       >
         <Grid className="bd-grid" {...gridProps}>
           {items.map((item, i) => {
