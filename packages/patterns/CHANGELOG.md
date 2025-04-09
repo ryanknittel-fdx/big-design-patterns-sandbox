@@ -1,5 +1,23 @@
 # bigcommerce-design-patterns
 
+## 0.12.4
+
+### Patch Changes
+
+- 19b67d1: For InstallScreen component, add showBackButton and isLoading props, fix bug with Form submitting and reloading page on clicking the Install button, and export the InstallationCopy & AppType interfaces.
+
+## 0.12.3
+
+### Patch Changes
+
+- 35f1e83: Adds missing React imports to components
+
+## 0.12.2
+
+### Patch Changes
+
+- 9b79a3a: Fix package.json so patterns work in dev environment
+
 ## 0.12.1
 
 ### Patch Changes
