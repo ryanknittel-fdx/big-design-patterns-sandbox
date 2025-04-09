@@ -5,7 +5,6 @@ import { Box } from "@bigcommerce/big-design";
 interface StyledCardGridProps {
   shadow?: "raised";
   visualAppearance?: "raised";
-  theme?: any;
 }
 
 export const StyledCardGridItem = styled(Box)`
@@ -119,7 +118,7 @@ export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
 
     /* Adjust spacing for icon and heading */
     & .flex-row-mobile {
-      flex-wrap: wrap; /* Allow wrapping on very small screens */
+      flex-wrap: wrap;
     }
   }
 `;

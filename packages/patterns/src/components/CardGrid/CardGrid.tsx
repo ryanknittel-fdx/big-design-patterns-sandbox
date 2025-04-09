@@ -298,8 +298,9 @@ export const CardGrid = ({
       >
         <Grid className="bd-grid" {...gridProps}>
           {items.map((item, i) => {
-            const newItem = { ...item };
-            return <CardGridItem key={i} shadow={shadow} {...newItem} />;
+            return (
+              <CardGridItem key={i} shadow={shadow} format={format} {...item} />
+            );
           })}
         </Grid>
       </StyledCardGrid>
@@ -362,9 +363,8 @@ export const AsideCardGrid = ({
       >
         <Grid className="bd-grid" {...gridProps}>
           {items.map((item, i) => {
-            item.format = format;
             return (
-              <CardGridItem key={i} format={format} shadow={shadow} {...item} />
+              <CardGridItem key={i} shadow={shadow} format={format} {...item} />
             );
           })}
         </Grid>

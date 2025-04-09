@@ -1,13 +1,5 @@
 import React, { FunctionComponent } from "react";
-import {
-  Flex,
-  FlexItem,
-  Text,
-  HR,
-  Table,
-  H4,
-  H3,
-} from "@bigcommerce/big-design";
+import { Flex, FlexItem, HR, Table, H4, H3 } from "@bigcommerce/big-design";
 import {
   CardGrid,
   AsideCardGrid,
@@ -16,7 +8,6 @@ import {
 import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
-import { ChevronRightIcon } from "@bigcommerce/big-design-icons";
 
 import { CopyBlock, nord as codecolor } from "react-code-blocks";
 
@@ -56,13 +47,13 @@ const CardGridPage: FunctionComponent = () => {
               <CardGrid
                 items={[
                   {
-                    heading: <H4>Helpful resource one</H4>,
+                    heading: "Helpful resource one",
                     description:
                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
                     href: "https://developer.bigcommerce.com",
                   },
                   {
-                    heading: <H4>Helpful resource two</H4>,
+                    heading: "Helpful resource two",
                     description:
                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
                     href: "https://developer.bigcommerce.com",
@@ -80,13 +71,13 @@ const CardGridPage: FunctionComponent = () => {
 
 <CardGrid items={[
   {
-    heading: <H4>Helpful resource one</H4>,
+    heading: "Helpful resource one",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
     href: "https://developer.bigcommerce.com",
   },
   {
-    heading: <H4>>Helpful resource two<H4>,
+    heading: "Helpful resource two",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. ",
     href: "https://developer.bigcommerce.com",
@@ -104,7 +95,7 @@ const CardGridPage: FunctionComponent = () => {
                 format="action"
                 items={[
                   {
-                    heading: <H4>Grid Item 1</H4>,
+                    heading: "Grid Item 1",
                     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.`,
                     button: {
                       text: "Connect",
@@ -119,7 +110,7 @@ const CardGridPage: FunctionComponent = () => {
                     ),
                   },
                   {
-                    heading: <H4>Grid Item 2</H4>,
+                    heading: "Grid Item 2",
                     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.`,
                     button: {
                       text: "Connect",
@@ -148,7 +139,7 @@ const CardGridPage: FunctionComponent = () => {
   format="action"
   items={[
     {
-      heading: <H4>Grid Item 1</H4>,
+      heading: "Grid Item 1",
       description: \`Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
         Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.\`,
       button: {
@@ -165,7 +156,7 @@ const CardGridPage: FunctionComponent = () => {
       ),
     },
     {
-      heading: <H4>Grid Item 2</H4>,
+      heading: "Grid Item 2",
       description: \`Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
         Aenean euismod bibendum laoreet. Proin gravida dolor sit amet.\`,
       button: {
