@@ -1,42 +1,42 @@
-import React, {
-  FunctionComponent,
-  ReactNode,
-  useState,
-  useEffect,
-  MouseEvent,
-  useCallback,
-  FormEvent,
-} from "react";
 import {
   Box,
+  Button,
+  Checkbox,
   Flex,
   FlexItem,
-  Grid,
-  GridItem,
-  Link,
-  HR,
   Form,
   FormGroup,
-  Button,
-  Text,
+  Grid,
+  GridItem,
   H1,
   H2,
-  Checkbox,
+  HR,
+  Link,
+  Text,
 } from "@bigcommerce/big-design";
-import { Page } from "@bigcommerce/big-design-patterns";
-import { FeatureTag, FeatureTagProps } from "../featureTag/FeatureTag";
-import { HTMLParser } from "../htmlParser/htmlParser";
-import EmblaCarousel from "./Carousel";
-import { theme } from "@bigcommerce/big-design-theme";
 import {
   ArrowBackIcon,
+  ArrowDropDownIcon,
   CheckIcon,
   CloseIcon,
   StarBorderIcon,
   StarHalfIcon,
   StarIcon,
-  ArrowDropDownIcon,
 } from "@bigcommerce/big-design-icons";
+import { Page } from "@bigcommerce/big-design-patterns";
+import { theme } from "@bigcommerce/big-design-theme";
+import React, {
+  FormEvent,
+  FunctionComponent,
+  MouseEvent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import { FeatureTag, FeatureTagProps } from "../featureTag/FeatureTag";
+import { HTMLParser } from "../htmlParser/htmlParser";
+import EmblaCarousel from "./Carousel";
 import {
   StyledAsideForm,
   StyledBackLink,
@@ -207,7 +207,7 @@ const partnerTier = (tier: string, headingText: string): ReactNode => {
  */
 export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
   isLoading,
-  showBackButton,
+  showBackButton = true,
   onBackButtonClick,
   onInstallButtonClick,
   customForm,
