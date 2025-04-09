@@ -223,12 +223,11 @@ export const CardGridItem = ({
     );
   }
 
-  // Only apply the card-grid__item--link class if there's an href and no button
-  const linkClass = (href || onClick) && !button ? "--link" : "";
-
   return (
     <StyledCardGridItem
-      className={`card-grid__item${linkClass} card-grid-item-mobile`}
+      className={`card-grid__item${
+        (href || onClick) && !button ? "--link" : ""
+      } card-grid-item-mobile`}
       border={gridItemProps.border || "box"}
       borderRadius={gridItemProps.borderRadius || "normal"}
       padding={gridItemProps.padding || "medium"}
@@ -266,25 +265,20 @@ export const CardGrid = ({
   shadow,
   ...gridProps
 }: CardGridProps): JSX.Element => {
-  const gridColumns = gridProps.gridColumns || {
+  const gridColumns = {
     mobile: "repeat(1, 1fr)",
     tablet: "repeat(2, 1fr)",
     desktop: "repeat(3, 1fr)",
     wide: "repeat(4, 1fr)",
+    ...(gridProps.gridColumns as Record<string, string>),
   };
 
-  // Set gap for all cards when in grid view
-  const gridGap = gridProps.gridGap || {
+  const gridGap = {
     mobile: shadow === "raised" ? "16px" : "0",
     tablet: "16px",
     desktop: "16px",
     wide: "16px",
-  };
-
-  gridProps = {
-    ...gridProps,
-    gridColumns,
-    gridGap,
+    ...(gridProps.gridGap as Record<string, string>),
   };
 
   return (
@@ -293,12 +287,15 @@ export const CardGrid = ({
         shadow={shadow}
         className={`${shadow === "raised" ? "raised-cards" : "flat-cards"}`}
       >
-        <Grid className="bd-grid" {...gridProps}>
-          {items.map((item, i) => {
-            return (
-              <CardGridItem key={i} shadow={shadow} format={format} {...item} />
-            );
-          })}
+        <Grid
+          className="bd-grid"
+          {...gridProps}
+          gridColumns={gridColumns}
+          gridGap={gridGap}
+        >
+          {items.map((item, i) => (
+            <CardGridItem key={i} shadow={shadow} format={format} {...item} />
+          ))}
         </Grid>
       </StyledCardGrid>
     )
@@ -324,26 +321,20 @@ export const AsideCardGrid = ({
   shadow,
   ...gridProps
 }: AsideCardGridProps): JSX.Element => {
-  // Always use single column for aside layouts
-  const gridColumns = gridProps.gridColumns || {
+  const gridColumns = {
     mobile: "repeat(1, 1fr)",
     tablet: "repeat(1, 1fr)",
     desktop: "repeat(1, 1fr)",
     wide: "repeat(1, 1fr)",
+    ...(gridProps.gridColumns as Record<string, string>),
   };
 
-  // Set gap for aside cards
-  const gridGap = gridProps.gridGap || {
+  const gridGap = {
     mobile: shadow === "raised" ? "16px" : "0",
     tablet: shadow === "raised" ? "16px" : "0",
     desktop: shadow === "raised" ? "16px" : "0",
     wide: shadow === "raised" ? "16px" : "0",
-  };
-
-  gridProps = {
-    ...gridProps,
-    gridColumns,
-    gridGap,
+    ...(gridProps.gridGap as Record<string, string>),
   };
 
   return (
@@ -354,12 +345,15 @@ export const AsideCardGrid = ({
           shadow === "raised" ? "raised-cards" : "flat-cards"
         } in-aside`}
       >
-        <Grid className="bd-grid" {...gridProps}>
-          {items.map((item, i) => {
-            return (
-              <CardGridItem key={i} shadow={shadow} format={format} {...item} />
-            );
-          })}
+        <Grid
+          className="bd-grid"
+          {...gridProps}
+          gridColumns={gridColumns}
+          gridGap={gridGap}
+        >
+          {items.map((item, i) => (
+            <CardGridItem key={i} shadow={shadow} format={format} {...item} />
+          ))}
         </Grid>
       </StyledCardGrid>
     )
