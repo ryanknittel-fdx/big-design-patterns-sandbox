@@ -144,7 +144,7 @@ export const CardGridItem = ({
     <Skeleton width={16} height={16} />
   ) : (
     // Only show chevron if there's a link (href) and no button
-    href &&
+    (href || onClick) &&
     !button && (
       <FlexItem
         flexShrink={0}
@@ -278,9 +278,9 @@ export const CardGrid = ({
   // Set gap for all cards when in grid view
   const gridGap = gridProps.gridGap || {
     mobile: shadow === "raised" ? "16px" : "0",
-    tablet: shadow === "raised" ? "16px" : "0",
-    desktop: shadow === "raised" ? "16px" : "0",
-    wide: shadow === "raised" ? "16px" : "0",
+    tablet: "16px",
+    desktop: "16px",
+    wide: "16px",
   };
 
   gridProps = {
@@ -298,10 +298,8 @@ export const CardGrid = ({
       >
         <Grid className="bd-grid" {...gridProps}>
           {items.map((item, i) => {
-            const newItem = { ...item, format };
-            return (
-              <CardGridItem key={i} format={format} shadow={shadow} {...newItem} />
-            );
+            const newItem = { ...item };
+            return <CardGridItem key={i} shadow={shadow} {...newItem} />;
           })}
         </Grid>
       </StyledCardGrid>

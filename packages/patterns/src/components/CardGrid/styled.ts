@@ -103,7 +103,6 @@ export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
       }
     }
 
-    /* Border styles for mobile view only */
     & .bd-grid > .card-grid-item-mobile:first-child {
       border-top: ${({ visualAppearance, theme }) =>
         visualAppearance === "raised"

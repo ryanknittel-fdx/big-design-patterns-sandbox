@@ -6,11 +6,11 @@ import { useNavigate } from "react-router-dom";
 
 const PageHome: FunctionComponent = () => {
   const navigate = useNavigate();
-  
+
   // Helper function to navigate and scroll to top
   const navigateAndScrollToTop = (path: string) => {
     navigate(path);
-    document?.getElementById('contentArea')?.scrollTo(0, 0);
+    document?.getElementById("contentArea")?.scrollTo(0, 0);
   };
 
   return (
@@ -41,22 +41,23 @@ const PageHome: FunctionComponent = () => {
           <CardGrid
             items={[
               {
-                heading: <H4 margin="none">List Page</H4>,
-                description: "Display collections of items in a structured list",
+                heading: "List Page",
+                description:
+                  "Display collections of items in a structured list",
                 onClick: () => navigateAndScrollToTop("/page-list"),
               },
               {
-                heading: <H4 margin="none">Featured Content Page</H4>,
+                heading: "Featured Content Page",
                 description: "Highlight important content with visual emphasis",
                 onClick: () => navigateAndScrollToTop("/page-featured-content"),
               },
               {
-                heading: <H4 margin="none">Form Page</H4>,
+                heading: "Form Page",
                 description: "Structured data collection with validation",
                 onClick: () => navigateAndScrollToTop("/page-form"),
               },
               {
-                heading: <H4 margin="none">Anchor Navigation Page</H4>,
+                heading: "Anchor Navigation Page",
                 description: "Navigate between sections within a long page",
                 onClick: () => navigateAndScrollToTop("/page-anchor-nav"),
               },
@@ -71,24 +72,26 @@ const PageHome: FunctionComponent = () => {
           <CardGrid
             items={[
               {
-                heading: <H4 margin="none">Simple Search</H4>,
+                heading: "Simple Search",
                 description: "Basic search functionality for filtering data",
                 onClick: () => navigateAndScrollToTop("/filters-search"),
               },
               {
-                heading: <H4 margin="none">Dropdown Filtering</H4>,
+                heading: "Dropdown Filtering",
                 description: "Filter data using dropdown selectors",
                 onClick: () => navigateAndScrollToTop("/filters-dropdowns"),
               },
               {
-                heading: <H4 margin="none">Advanced Filtering</H4>,
-                description: "Complex filtering options for detailed data analysis",
+                heading: "Advanced Filtering",
+                description:
+                  "Complex filtering options for detailed data analysis",
                 onClick: () => navigateAndScrollToTop("/filters-advanced"),
               },
               {
-                heading: <H4 margin="none">Advanced Additive Filtering</H4>,
+                heading: "Advanced Additive Filtering",
                 description: "Multi-layered filtering with saved views",
-                onClick: () => navigateAndScrollToTop("/filters-advanced-additive"),
+                onClick: () =>
+                  navigateAndScrollToTop("/filters-advanced-additive"),
               },
             ]}
             gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
@@ -101,22 +104,22 @@ const PageHome: FunctionComponent = () => {
           <CardGrid
             items={[
               {
-                heading: <H4 margin="none">Feature Tags</H4>,
+                heading: "Feature Tags",
                 description: "Highlight features and their status",
                 onClick: () => navigateAndScrollToTop("/feature-tag"),
               },
               {
-                heading: <H4 margin="none">Card Grid</H4>,
+                heading: "Card Grid",
                 description: "Display content in a responsive grid layout",
                 onClick: () => navigateAndScrollToTop("/card-grid"),
               },
               {
-                heading: <H4 margin="none">Info Illustrations</H4>,
+                heading: "Info Illustrations",
                 description: "Visual elements to convey status information",
                 onClick: () => navigateAndScrollToTop("/info-illustration"),
               },
               {
-                heading: <H4 margin="none">Dashboard Layout</H4>,
+                heading: "Dashboard Layout",
                 description: "Structured layout for admin interfaces",
                 onClick: () => navigateAndScrollToTop("/dashboard-layout"),
               },
@@ -125,20 +128,23 @@ const PageHome: FunctionComponent = () => {
           />
         </Panel>
       </Box>
-      
+
       <Box marginBottom="xxLarge">
         <Panel header="Install Screen">
           <CardGrid
             items={[
               {
-                heading: <H4 margin="none">Install Apps</H4>,
-                description: "App installation interface for third-party integrations",
+                heading: "Install Apps",
+                description:
+                  "App installation interface for third-party integrations",
                 onClick: () => navigateAndScrollToTop("/install-screen-app"),
               },
               {
-                heading: <H4 margin="none">Install Channels</H4>,
-                description: "Channel installation interface for multi-platform selling",
-                onClick: () => navigateAndScrollToTop("/install-screen-channel"),
+                heading: "Install Channels",
+                description:
+                  "Channel installation interface for multi-platform selling",
+                onClick: () =>
+                  navigateAndScrollToTop("/install-screen-channel"),
               },
             ]}
             gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
