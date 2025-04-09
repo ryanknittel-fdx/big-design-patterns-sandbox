@@ -298,9 +298,9 @@ export const CardGrid = ({
       >
         <Grid className="bd-grid" {...gridProps}>
           {items.map((item, i) => {
-            item.format = format;
+            const newItem = { ...item, format };
             return (
-              <CardGridItem key={i} format={format} shadow={shadow} {...item} />
+              <CardGridItem key={i} format={format} shadow={shadow} {...newItem} />
             );
           })}
         </Grid>
