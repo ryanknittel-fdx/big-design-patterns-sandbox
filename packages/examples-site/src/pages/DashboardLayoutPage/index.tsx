@@ -33,6 +33,7 @@ const DashboardLayoutPage: FunctionComponent = () => {
           heading: "Quick Links",
           description: "Access frequently used resources and documentation.",
           href: "https://developer.bigcommerce.com",
+          hrefTarget: "_blank",
           icon: (
             <img
               src="https://storage.googleapis.com/bigcommerce-developers/images/bigc-dev/bigc-inverted-black.svg"
@@ -46,6 +47,7 @@ const DashboardLayoutPage: FunctionComponent = () => {
           description:
             "Get help with your integration or development questions.",
           href: "https://support.bigcommerce.com",
+          hrefTarget: "_blank",
           icon: (
             <img
               src="https://storage.googleapis.com/bigcommerce-developers/images/bigc-dev/bigc-inverted-black.svg"
@@ -150,6 +152,7 @@ import { Header } from "@bigcommerce/big-design-patterns";
           heading: "Quick Links",
           description: "Access frequently used resources and documentation.",
           href: "https://developer.bigcommerce.com",
+          hrefTarget: "_blank",
           icon: (
             <img
               src="https://storage.googleapis.com/bigcommerce-developers/images/bigc-dev/bigc-inverted-black.svg"
@@ -163,6 +166,7 @@ import { Header } from "@bigcommerce/big-design-patterns";
           description:
             "Get help with your integration or development questions.",
           href: "https://support.bigcommerce.com",
+          hrefTarget: "_blank",
           icon: (
             <img
               src="https://storage.googleapis.com/bigcommerce-developers/images/bigc-dev/bigc-inverted-black.svg"

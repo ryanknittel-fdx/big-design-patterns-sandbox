@@ -156,7 +156,7 @@ export const CardGridItem = ({
   );
 
   if (format === "action") {
-    contents = (
+    const actionContent = (
       <>
         <Flex
           flexGap="8px"
@@ -188,6 +188,24 @@ export const CardGridItem = ({
         {theDescription}
       </>
     );
+
+    contents = href ? (
+      <a
+        className="card-grid__item-link"
+        target={hrefTarget}
+        href={href}
+        onClick={onClick}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        {actionContent}
+      </a>
+    ) : onClick ? (
+      <div className="card-grid__item--link" onClick={onClick}>
+        {actionContent}
+      </div>
+    ) : (
+      actionContent
+    );
   } else {
     const itemContent = (
       <>
@@ -211,6 +229,7 @@ export const CardGridItem = ({
         target={hrefTarget}
         href={href}
         onClick={onClick}
+        style={{ textDecoration: "none", color: "inherit" }}
       >
         {itemContent}
       </a>
