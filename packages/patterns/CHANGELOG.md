@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.12.5
+
+### Patch Changes
+
+- 3b207dd: Add AsideCardGrid and AsidePanel for DashboardLayout
+
 ## 0.12.4
 
 ### Patch Changes

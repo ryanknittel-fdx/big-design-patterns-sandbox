@@ -10,28 +10,43 @@ import {
   StyledAside,
 } from "./styled";
 
-// Define Background interface based on the original in big-design-patterns
-interface Background {
+/**
+ * Background configuration for Page and Dashboard components
+ */
+export interface Background {
+  /** Image source URL */
   src: string;
+  /** CSS background-size property */
   backgroundSize?: CSSProperties["backgroundSize"];
+  /** CSS background-position property */
   backgroundPosition?: CSSProperties["backgroundPosition"];
+  /** CSS background-repeat property */
   backgroundRepeat?: CSSProperties["backgroundRepeat"];
 }
 
-// Define PageProps interface based on documentation
+/**
+ * Props for the Page component
+ */
 export interface PageProps extends PropsWithChildren {
+  /** Header component to display at the top of the page */
   header?: ReactNode;
+  /** Message to display on the page */
   message?: MessageProps;
+  /** Background configuration */
   background?: Background;
 }
 
-export interface DashboardProps extends PropsWithChildren {
+/**
+ * Props for the DashboardLayout component
+ */
+export interface DashboardProps extends PageProps {
+  /** Content to display in the aside panel */
   aside?: ReactNode;
-  header?: ReactNode;
-  message?: MessageProps;
-  background?: Background;
 }
 
+/**
+ * A layout component that displays content in a dashboard format with an optional aside panel
+ */
 export const DashboardLayout = ({
   aside,
   children,
