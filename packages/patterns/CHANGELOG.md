@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.12.7
+
+### Patch Changes
+
+- 098f678: Reduce margins on CardGridItems
+
 ## 0.12.6
 
 ### Patch Changes
