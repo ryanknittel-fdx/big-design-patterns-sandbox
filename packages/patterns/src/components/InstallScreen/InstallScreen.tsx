@@ -103,6 +103,7 @@ export interface AppType {
  * Props structure for the InstallScreen component.
  */
 interface InstallScreenProps {
+  backgroundSrc?: string;
   isLoading?: boolean;
   showBackButton?: boolean;
   onBackButtonClick?: () => void;
@@ -206,6 +207,7 @@ const partnerTier = (tier: string, headingText: string): ReactNode => {
  * @returns {JSX.Element} The rendered InstallScreen component.
  */
 export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
+  backgroundSrc,
   isLoading,
   showBackButton = true,
   onBackButtonClick,
@@ -277,12 +279,12 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
 
   return (
     <Page
-      background={{
-        src: "./assets/images/hero-bg.svg",
+      background={backgroundSrc ? {
+        src: backgroundSrc,
         backgroundPosition: "top right",
         backgroundSize: "100%",
         backgroundRepeat: "no-repeat",
-      }}
+      } : undefined}
     >
       <Grid
         gridColumns={{ mobile: "1fr", desktop: "minmax(0px, 4fr) 425px" }}
