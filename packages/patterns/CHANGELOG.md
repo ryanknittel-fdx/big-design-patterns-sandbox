@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.12.6
+
+### Patch Changes
+
+- b58633b: Added backgroundSrc property to InstallScreen
+
 ## 0.12.5
 
 ### Patch Changes
