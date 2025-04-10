@@ -132,7 +132,7 @@ export const CardGridItem = ({
   ) : (
     description && (
       <Text
-        marginTop="medium"
+        marginTop="xSmall"
         style={{ overflowWrap: "break-word", wordWrap: "break-word" }}
       >
         {description}
