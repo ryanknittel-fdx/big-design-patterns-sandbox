@@ -121,7 +121,7 @@ interface InstallScreenProps {
  * @param {number} props.rating - Rating value for the app.
  * @returns {JSX.Element} The rendered AppRating component.
  */
-const AppRating: FunctionComponent<{ rating: number; }> = ({ rating }) => {
+const AppRating: FunctionComponent<{ rating: number }> = ({ rating }) => {
   const stars = [1, 2, 3, 4, 5].map((star) => {
     if (rating >= star) {
       return <StarIcon key={star} color="warning60" />;
@@ -230,7 +230,9 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
   const [formOpen, setFormOpen] = useState(false);
   const [acknowledged, setAcknowledged] = useState(true);
 
-  const descriptionAsHTML = app.description ? textToHTML(app.description) : null;
+  const descriptionAsHTML = app.description
+    ? textToHTML(app.description)
+    : null;
 
   /**
    * Handles the click event for the cancel button.
@@ -257,13 +259,15 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
    *
    * @param {React.ChangeEvent<HTMLInputElement>} event - The change event object.
    */
-  const handleAcknowledgmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAcknowledgmentChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setAcknowledged(!acknowledged);
   };
 
   /**
    * Prevents the form default submission behavior.
-   * 
+   *
    * @param {FormEvent<HTMLFormElement>} e - The form event object.
    */
   const onSubmit = useCallback(
@@ -279,34 +283,47 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
 
   return (
     <Page
-      background={backgroundSrc ? {
-        src: backgroundSrc,
-        backgroundPosition: "top right",
-        backgroundSize: "100%",
-        backgroundRepeat: "no-repeat",
-      } : undefined}
+      background={
+        backgroundSrc
+          ? {
+              src: backgroundSrc,
+              backgroundPosition: "top right",
+              backgroundSize: "100%",
+              backgroundRepeat: "no-repeat",
+            }
+          : undefined
+      }
     >
       <Grid
         gridColumns={{ mobile: "1fr", desktop: "minmax(0px, 4fr) 425px" }}
         gridGap="2rem"
+        marginBottom={{mobile: "xxxLarge", desktop: "none"}}
+        paddingBottom={{mobile: "xxxLarge", desktop: "none"}}
       >
         <GridItem>
           <Grid gridColumns={"102px 1fr"} gridColumnGap={theme.spacing.large}>
             {/* Back Button */}
-            {showBackButton &&
+            {showBackButton && (
               <GridItem gridColumnStart={"1"} gridColumnEnd={"3"}>
                 <StyledBackLink href="#" onClick={onBackButtonClick}>
                   <ArrowBackIcon size="large" /> {copy.backButton}
                 </StyledBackLink>
               </GridItem>
-            }
+            )}
             {/* App Details */}
-            <GridItem
-              backgroundColor="white"
-              borderRadius="normal"
-              padding={`large`}
-            >
-              <img src={app.logoURL} width={"60"} height={"60"} alt="App Logo" />
+            <GridItem>
+              <Box
+                backgroundColor="white"
+                borderRadius="normal"
+                padding={`large`}
+              >
+                <img
+                  src={app.logoURL}
+                  width={"60"}
+                  height={"60"}
+                  alt="App Logo"
+                />
+              </Box>
             </GridItem>
             <GridItem>
               <H1 marginBottom={"small"}>{app.name}</H1>
@@ -414,10 +431,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                     ) : null}
                     <Text>{copy.policiesAndTerms}</Text>
                   </Flex>
-                  <Form 
-                    fullWidth
-                    onSubmit={onSubmit}
-                  >
+                  <Form fullWidth onSubmit={onSubmit}>
                     <FormGroup>
                       <Grid
                         gridColumns={{ mobile: "1fr 1fr", desktop: "1fr" }}
@@ -425,7 +439,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                       >
                         <GridItem display={{ mobile: "grid", desktop: "none" }}>
                           <Button
-                            type='button'
+                            type="button"
                             variant="secondary"
                             onClick={cancelButtonHandler}
                           >
@@ -433,7 +447,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                           </Button>
                         </GridItem>
                         <Button
-                          type='button'
+                          type="button"
                           variant="primary"
                           marginBottom={{ mobile: "none", desktop: "medium" }}
                           onClick={onInstallButtonClick}
@@ -497,7 +511,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
             <Grid className="mobile-toggle" display={{ desktop: "none" }}>
               <Flex justifyContent="end" padding="large">
                 <Button
-                  type='button'
+                  type="button"
                   variant="primary"
                   onClick={toggleForm}
                   iconRight={<ArrowDropDownIcon />}

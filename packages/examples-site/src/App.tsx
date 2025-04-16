@@ -43,11 +43,14 @@ const MainContent = styled.main`
   display: grid;
   height: 100%;
   grid-template-columns: max-content 1fr;
+  width: 100%;
 `;
 
 const ContentArea = styled.div`
   height: calc(100vh - 3.5rem);
   overflow: auto;
+  max-width: 100vw;
+  width: 100%;
 `;
 
 const HeaderContainer = styled(Box)`

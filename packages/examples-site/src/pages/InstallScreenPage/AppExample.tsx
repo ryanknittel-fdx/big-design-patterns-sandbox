@@ -22,8 +22,18 @@ const InstallScreenApp: FunctionComponent = () => {
     },
     summary: "Sell on other websites with the power of your BigCommerce store",
     features: [
-      { label: "Multi-storefront support", icon: <MagicIcon />, href:"#", target:"_self" },
-      { label: "Built by BigCommerce", icon: <MagicIcon />, href:"#", target:"_self" },
+      {
+        label: "Multi-storefront support",
+        icon: <MagicIcon />,
+        href: "#",
+        target: "_self",
+      },
+      {
+        label: "Built by BigCommerce",
+        icon: <MagicIcon />,
+        href: "#",
+        target: "_self",
+      },
     ],
     screenshots: [
       {
@@ -101,18 +111,19 @@ const InstallScreenApp: FunctionComponent = () => {
   };
 
   return (
-      <InstallScreen
-        backButtonLabel="Apps"
-        onBackButtonClick={() => {
-          navigate("/");
-        }}
-        app={app}
-        onInstallButtonClick={(e:MouseEvent) => {
-          e.preventDefault();
-          window.alert("Install button clicked");
-        }}
-        copy={copy}
-      />
+    <InstallScreen
+      backButtonLabel="Apps"
+      onBackButtonClick={() => {
+        navigate("/");
+      }}
+      app={app}
+      onInstallButtonClick={(e: MouseEvent) => {
+        e.preventDefault();
+        window.alert("Install button clicked");
+      }}
+      copy={copy}
+      backgroundSrc="./assets/images/hero-bg.svg"
+    />
   );
 };
 
