@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.13.0
+
+### Minor Changes
+
+- 75805c2: Updated home screen with new design, added PanelSectionHeader and IntroPanel components
+
 ## 0.12.7
 
 ### Patch Changes
