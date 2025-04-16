@@ -5,7 +5,7 @@ import { Box, Flex, H3, Text } from "@bigcommerce/big-design";
 interface PanelSectionHeaderProps {
   title: string;
   description?: string;
-  icon: ReactElement;
+  icon?: ReactElement;
   iconBgColor?: keyof Colors;
 }
 
