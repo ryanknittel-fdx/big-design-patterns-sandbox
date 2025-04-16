@@ -248,7 +248,7 @@ export const CardGridItem = ({
   return (
     <StyledCardGridItem
       className={`card-grid__item${linkClass} card-grid-item-mobile`}
-      border={gridItemProps.border || "box"}
+      border={shadow ? "none" : gridItemProps.border || "box"}
       borderRadius={gridItemProps.borderRadius || "normal"}
       padding={gridItemProps.padding || "medium"}
       shadow={shadow}
