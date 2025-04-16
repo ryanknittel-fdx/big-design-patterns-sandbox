@@ -24,7 +24,7 @@ import Sidebar from "../../patterns/src/components/sidebar/sidebar";
 import { SidebarProvider } from "../../patterns/src/components/sidebar/sidebar-context";
 import { ReactRouterProviderAdapter } from "./adapters/react-router-adapter";
 import { menuItems } from "./config/menu-items";
-import { BiLogoGithub } from "react-icons/bi";
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 export const alertsManager = createAlertsManager();
 
@@ -47,7 +47,19 @@ const MainContent = styled.main`
 
 const ContentArea = styled.div`
   height: calc(100vh - 3.5rem);
+  max-width: 100vw;
   overflow: auto;
+
+  /* These styles keep the children containers from bleeding past the browser viewport */ 
+  & > div > div {
+    max-width: calc(-60px + 100vw);
+  }
+  
+  @media screen and (max-width: 719px) {
+    & > div > div {
+      max-width: 100vw;
+    }
+  }
 `;
 
 const HeaderContainer = styled(Box)`
@@ -89,7 +101,7 @@ const DesktopMenu = () => (
     <Flex alignItems="center" flexGap="0.5rem">
       <FlexItem>
         <GitHubLink href="https://github.com/bigcommerce/big-design-patterns-sandbox" target="_blank">
-          <BiLogoGithub size={"24px"}/>
+          <GitHubIcon sx={{ fontSize: 24 }} />
         </GitHubLink>
       </FlexItem>
     </Flex>
