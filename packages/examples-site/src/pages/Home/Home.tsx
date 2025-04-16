@@ -27,7 +27,7 @@ const PageHome: FunctionComponent = () => {
   return (
     <Box style={{ maxWidth: "1200px", margin: "0 auto" }}>
       <Page>
-        <H1 marginBottom="medium">Welcome to the BigDesign Pattern Library</H1>
+        <H1 marginBottom="xxLarge">Welcome to the BigDesign Pattern Library</H1>
         <IntroPanel
           backgroundImage="https://storage.googleapis.com/bigcommerce-developers/images/pattern%20graphic.png"
           title="Speed up development with BigDesign patterns"
