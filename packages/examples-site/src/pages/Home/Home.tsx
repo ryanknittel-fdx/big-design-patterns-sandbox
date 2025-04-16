@@ -1,8 +1,19 @@
 import React, { FunctionComponent } from "react";
-import { H2, H4, Box, Panel } from "@bigcommerce/big-design";
-import { Header, Page } from "@bigcommerce/big-design-patterns";
-import { CardGrid } from "bigcommerce-design-patterns";
+import {
+  Button,
+  Box,
+  H4,
+  H1
+} from "@bigcommerce/big-design";
+import { CardGrid, IntroPanel, PanelSectionHeader } from "bigcommerce-design-patterns";
+import { Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router-dom";
+import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
+import WebAssetIcon from '@mui/icons-material/WebAsset';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { BigDesignIcon } from "../../components/BigDesignIcon";
 
 const PageHome: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -14,144 +25,159 @@ const PageHome: FunctionComponent = () => {
   };
 
   return (
-    <Page
-      header={
-        <Header
-          description="Code samples for our commonly used patterns."
-          title="BigDesign pattern library"
-        ></Header>
-      }
-    >
-      <Box marginBottom="xxLarge">
-        <Panel header="Sample Flows">
-          <CardGrid
-            items={[
-              {
-                heading: <H4 margin="none">CRUD flow (Page)</H4>,
-                description: "Create, read, update, and delete pattern",
-                onClick: () => navigateAndScrollToTop("/page-crud-list"),
-              },
-            ]}
-          />
-        </Panel>
-      </Box>
+    <Box style={{ maxWidth: "1200px", margin: "0 auto" }}>
+      <Page>
+        <H1 marginBottom="medium">Welcome to the BigDesign Pattern Library</H1>
+        <IntroPanel
+          backgroundImage="https://storage.googleapis.com/bigcommerce-developers/images/pattern%20graphic.png"
+          title="Speed up development with BigDesign patterns"
+          description="Explore code samples and patterns to build consistent and user-friendly interfaces using BigDesign and BigCommerce design patterns."
+          marginBottom="xxLarge"
+        >
+          <Button variant="subtle" marginRight="medium" iconLeft={<BigDesignIcon size={18} />} onClick={() => window.open('https://developer.bigcommerce.com/big-design/', '_blank')}>Read full component guidelines</Button>
+          <Button variant="subtle" iconLeft={<GitHubIcon sx={{ fontSize: 20 }} />} onClick={() => window.open('https://github.com/bigcommerce/big-design', '_blank')}>Go to GitHub repo</Button>
+        </IntroPanel>
 
-      <Box marginBottom="xxLarge">
-        <Panel header="Single Page Patterns">
-          <CardGrid
-            items={[
-              {
-                heading: "List Page",
-                description:
-                  "Display collections of items in a structured list",
-                onClick: () => navigateAndScrollToTop("/page-list"),
-              },
-              {
-                heading: "Featured Content Page",
-                description: "Highlight important content with visual emphasis",
-                onClick: () => navigateAndScrollToTop("/page-featured-content"),
-              },
-              {
-                heading: "Form Page",
-                description: "Structured data collection with validation",
-                onClick: () => navigateAndScrollToTop("/page-form"),
-              },
-              {
-                heading: "Anchor Navigation Page",
-                description: "Navigate between sections within a long page",
-                onClick: () => navigateAndScrollToTop("/page-anchor-nav"),
-              },
-            ]}
-            gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
-          />
-        </Panel>
-      </Box>
+        <PanelSectionHeader
+          title="Sample flows"
+          description="Complete user journey patterns that guide users through multi-step processes and complex interactions."
+          icon={<AutoAwesomeMotionIcon sx={{ color: "#4D6FFF", fontSize: 20 }} />}
+        />
 
-      <Box marginBottom="xxLarge">
-        <Panel header="Data Filtering">
-          <CardGrid
-            items={[
-              {
-                heading: "Simple Search",
-                description: "Basic search functionality for filtering data",
-                onClick: () => navigateAndScrollToTop("/filters-search"),
-              },
-              {
-                heading: "Dropdown Filtering",
-                description: "Filter data using dropdown selectors",
-                onClick: () => navigateAndScrollToTop("/filters-dropdowns"),
-              },
-              {
-                heading: "Advanced Filtering",
-                description:
-                  "Complex filtering options for detailed data analysis",
-                onClick: () => navigateAndScrollToTop("/filters-advanced"),
-              },
-              {
-                heading: "Advanced Additive Filtering",
-                description: "Multi-layered filtering with saved views",
-                onClick: () =>
-                  navigateAndScrollToTop("/filters-advanced-additive"),
-              },
-            ]}
-            gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
-          />
-        </Panel>
-      </Box>
+        <CardGrid
+          marginBottom="xxLarge"
+          shadow="raised"
+          items={[
+            {
+              heading: <H4 margin="none">CRUD flow (Page)</H4>,
+              description: "Create, read, update, and delete pattern",
+              onClick: () => navigateAndScrollToTop("/page-crud-list"),
+            },
+          ]}
+        />
 
-      <Box marginBottom="xxLarge">
-        <Panel header="Pattern Components">
-          <CardGrid
-            items={[
-              {
-                heading: "Feature Tags",
-                description: "Highlight features and their status",
-                onClick: () => navigateAndScrollToTop("/feature-tag"),
-              },
-              {
-                heading: "Card Grid",
-                description: "Display content in a responsive grid layout",
-                onClick: () => navigateAndScrollToTop("/card-grid"),
-              },
-              {
-                heading: "Info Illustrations",
-                description: "Visual elements to convey status information",
-                onClick: () => navigateAndScrollToTop("/info-illustration"),
-              },
-              {
-                heading: "Dashboard Layout",
-                description: "Structured layout for admin interfaces",
-                onClick: () => navigateAndScrollToTop("/dashboard-layout"),
-              },
-            ]}
-            gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
-          />
-        </Panel>
-      </Box>
+        <PanelSectionHeader
+          title="Single Page Patterns"
+          description="Standalone page layouts designed for specific purposes like displaying lists, forms, or featured content."
+          icon={<WebAssetIcon sx={{ color: "#2AAB3F", fontSize: 20 }} />}
+          iconBgColor="success20"
+        />
 
-      <Box marginBottom="xxLarge">
-        <Panel header="Install Screen">
-          <CardGrid
-            items={[
-              {
-                heading: "Install Apps",
-                description:
-                  "App installation interface for third-party integrations",
-                onClick: () => navigateAndScrollToTop("/install-screen-app"),
-              },
-              {
-                heading: "Install Channels",
-                description:
-                  "Channel installation interface for multi-platform selling",
-                onClick: () =>
-                  navigateAndScrollToTop("/install-screen-channel"),
-              },
-            ]}
-            gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
-          />
-        </Panel>
-      </Box>
-    </Page>
+        <CardGrid
+          marginBottom="xxLarge"
+          shadow="raised"
+          items={[
+            {
+              heading: "List Page",
+              description:
+                "Display collections of items in a structured list",
+              onClick: () => navigateAndScrollToTop("/page-list"),
+            },
+            {
+              heading: "Featured Content Page",
+              description: "Highlight important content with visual emphasis",
+              onClick: () => navigateAndScrollToTop("/page-featured-content"),
+            },
+            {
+              heading: "Form Page",
+              description: "Structured data collection with validation",
+              onClick: () => navigateAndScrollToTop("/page-form"),
+            },
+            {
+              heading: "Anchor Navigation Page",
+              description: "Navigate between sections within a long page",
+              onClick: () => navigateAndScrollToTop("/page-anchor-nav"),
+            },
+          ]}
+          gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
+        />
+
+        <PanelSectionHeader
+          title="List View Patterns"
+          description="Various search and filter implementations for use across different list views."
+          icon={<FilterAltOutlinedIcon sx={{ color: "#FFAE00", fontSize: 20 }} />}
+          iconBgColor="warning20"
+        />
+
+        <CardGrid
+          marginBottom="xxLarge"
+          shadow="raised"
+          items={[
+            {
+              heading: "Simple Search",
+              description: "Basic search functionality for filtering data",
+              onClick: () => navigateAndScrollToTop("/filters-search"),
+            },
+            {
+              heading: "Dropdown Filtering",
+              description: "Filter data using dropdown selectors",
+              onClick: () => navigateAndScrollToTop("/filters-dropdowns"),
+            },
+            {
+              heading: "Advanced Filtering",
+              description:
+                "Complex filtering options for detailed data analysis",
+              onClick: () => navigateAndScrollToTop("/filters-advanced"),
+            },
+            {
+              heading: "Advanced Additive Filtering",
+              description: "Multi-layered filtering with saved views",
+              onClick: () =>
+                navigateAndScrollToTop("/filters-advanced-additive"),
+            },
+          ]}
+          gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
+        />
+
+        <PanelSectionHeader
+          title="Pattern Components"
+          description="Pre-made components and layouts that can be used via the `bigcommerce-design-patterns` package to fast track development."
+          icon={<DashboardOutlinedIcon sx={{ color: "#DB3643", fontSize: 20 }} />}
+          iconBgColor="danger20"
+        />
+
+        <CardGrid
+          marginBottom="xxLarge"
+          shadow="raised"
+          items={[
+            {
+              heading: "Feature Tags",
+              description: "Highlight features and their status",
+              onClick: () => navigateAndScrollToTop("/feature-tag"),
+            },
+            {
+              heading: "Card Grid",
+              description: "Display content in a responsive grid layout",
+              onClick: () => navigateAndScrollToTop("/card-grid"),
+            },
+            {
+              heading: "Info Illustrations",
+              description: "Visual elements to convey status information",
+              onClick: () => navigateAndScrollToTop("/info-illustration"),
+            },
+            {
+              heading: "Dashboard Layout",
+              description: "Structured layout for admin interfaces",
+              onClick: () => navigateAndScrollToTop("/dashboard-layout"),
+            },
+            {
+              heading: "Install Apps",
+              description:
+                "App installation interface for third-party integrations",
+              onClick: () => navigateAndScrollToTop("/install-screen-app"),
+            },
+            {
+              heading: "Install Channels",
+              description:
+                "Channel installation interface for multi-platform selling",
+              onClick: () =>
+                navigateAndScrollToTop("/install-screen-channel"),
+            }
+          ]}
+          gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
+        />
+      </Page>
+    </Box>
   );
 };
 

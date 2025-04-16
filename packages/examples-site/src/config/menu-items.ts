@@ -1,17 +1,23 @@
 import type { MenuItem } from "bigcommerce-design-patterns";
-import { BiBookContent, BiChip, BiGrid, BiGridAlt, BiExtension, BiFoodMenu,BiJoystickButton } from "react-icons/bi";
+
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
+import WebAssetIcon from '@mui/icons-material/WebAsset';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import MemoryIcon from '@mui/icons-material/Memory';
 
 export const menuItems: MenuItem[] = [
   {
     hash: "sidebar-home",
     label: "Home",
     href: "/",
-    icon: BiBookContent,
+    icon: HomeOutlinedIcon,
   },
   {
     hash: "sidebar-sample-flows",
     label: "Sample Flows",
-    icon: BiGrid,
+    icon: AutoAwesomeMotionIcon,
     items: [
       {
         hash: "sidebar-page-crud-list",
@@ -28,7 +34,7 @@ export const menuItems: MenuItem[] = [
   {
     hash: "sidebar-single-page-patterns",
     label: "Single Page Patterns",
-    icon: BiGridAlt,
+    icon: WebAssetIcon,
     items: [
       {
         hash: "sidebar-page-list",
@@ -54,8 +60,8 @@ export const menuItems: MenuItem[] = [
   },
   {
     hash: "sidebar-data-filtering",
-    label: "Data filtering",
-    icon: BiFoodMenu,
+    label: "List View Patterns",
+    icon: FilterAltOutlinedIcon,
     items: [
       {
         hash: "sidebar-filters-search",
@@ -82,7 +88,7 @@ export const menuItems: MenuItem[] = [
   {
     hash: "sidebar-pattern-components",
     label: "Pattern Components",
-    icon: BiExtension,
+    icon: DashboardOutlinedIcon,
     items: [
       {
         hash: "sidebar-feature-tag",
@@ -104,13 +110,6 @@ export const menuItems: MenuItem[] = [
         label: "Dashboard Layout",
         href: "/dashboard-layout",
       },
-    ]
-  },
-  {
-    hash: "sidebar-install-screen",
-    label: "Install Screens",
-    icon: BiJoystickButton,
-    items: [
       {
         hash: "sidebar-install-screen-app",
         label: "Install Apps",
@@ -127,7 +126,7 @@ export const menuItems: MenuItem[] = [
     hash: "ai-prompt",
     label: "BigDesign AI Prompt",
     href: "https://github.com/bigcommerce/big-design-patterns-sandbox/tree/main/.github/prompts/BigDesignPatterns.prompt.md",
-    icon: BiChip,
+    icon: MemoryIcon,
     target: "_blank", // Open in a new tab
   },
 ];
