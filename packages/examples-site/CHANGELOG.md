@@ -1,5 +1,16 @@
 # bigcommerce-examples-site
 
+## 0.8.0
+
+### Minor Changes
+
+- 75805c2: Updated home screen with new design, added PanelSectionHeader and IntroPanel components
+
+### Patch Changes
+
+- Updated dependencies [75805c2]
+  - bigcommerce-design-patterns@0.13.0
+
 ## 0.7.8
 
 ### Patch Changes

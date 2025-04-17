@@ -1,7 +1,7 @@
 {
   "name": "examples-site",
   "private": true,
-  "version": "0.7.8",
+  "version": "0.8.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -13,11 +13,12 @@
     "@bigcommerce/big-design-icons": "^1.1.0",
     "@bigcommerce/big-design-patterns": "^2.0.0",
     "@bigcommerce/big-design-theme": "^1.1.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.0.2",
     "bigcommerce-design-patterns": "workspace:*",
     "react": "^18.0.0",
     "react-code-blocks": "^0.1.6",
     "react-dom": "^18.0.0",
-    "react-icons": "^5.5.0",
     "react-is": "^18.3.1",
     "react-router": "^6.15.0",
     "react-router-dom": "^6.15.0",

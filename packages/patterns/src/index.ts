@@ -13,3 +13,5 @@ export * from "./components/scroller/Scroller";
 export * from "./components/dashboardLayout";
 export * from "./components/sidebar";
 export { AsidePanel } from "./components/AsidePanel/AsidePanel";
+export * from "./components/PanelSectionHeader";
+export * from "./components/IntroPanel";
