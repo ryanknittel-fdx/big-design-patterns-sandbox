@@ -16,7 +16,7 @@ import {
   ProgressCircle,
 } from "@bigcommerce/big-design";
 import { InfoIllustration } from "bigcommerce-design-patterns";
-import { AddIcon, MoreHorizIcon } from "@bigcommerce/big-design-icons";
+import { AddIcon, MoreHorizIcon, OpenInNewIcon } from "@bigcommerce/big-design-icons";
 import { Header, Page } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
@@ -163,7 +163,11 @@ const PageCRUDList: FunctionComponent = () => {
   // DATA HANDLING
   const [currentItems, setCurrentItems] = useState<Item[]>([]);
 
-  const setTableItems = (themItems: any, pageCurrent = currentPage, pageItemsNum = itemsPerPage) => {
+  const setTableItems = (
+    themItems: any,
+    pageCurrent = currentPage,
+    pageItemsNum = itemsPerPage
+  ) => {
     const maxItems = pageCurrent * pageItemsNum;
     const lastItem = Math.min(maxItems, themItems.length);
     const firstItem = Math.max(0, maxItems - pageItemsNum);
@@ -367,7 +371,18 @@ const PageCRUDList: FunctionComponent = () => {
       <Page
         header={
           <Header
-            description="List pages are the bread and butter of an application, where you present a number of items to act upon"
+            description={
+              <Text>
+                List pages are the bread and butter of an application, where you
+                present a number of items to act upon.{" "}
+                <a
+                  href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/CRUDListPage/CRUDListPage.tsx"
+                  target="_blank"
+                >
+                  View source <OpenInNewIcon size="small" />
+                </a>
+              </Text>
+            }
             title="List Page"
             actions={PageHeaderCTAs}
             backLink={{

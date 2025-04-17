@@ -1,10 +1,11 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import { Box, Search, TableItem } from "@bigcommerce/big-design";
+import { Box, Search, Text } from "@bigcommerce/big-design";
+import { OpenInNewIcon } from "@bigcommerce/big-design-icons";
 
 import { getCategories, getProducts } from "../../../data/services";
 import { Category } from "../../../data/dummyCategories";
 
-import ProductsTable, { Item }  from "../../../common/ProductsTable";
+import ProductsTable, { Item } from "../../../common/ProductsTable";
 import ProductsPage from "../../../common/ProductsPage";
 
 /**
@@ -68,7 +69,17 @@ const PageFiltersSearch: FunctionComponent = () => {
   return (
     <ProductsPage
       filters={filters}
-      headerDescription="Filtering data using simple search"
+      headerDescription={
+        <Text>
+          Filtering data using simple search.{" "}
+          <a
+            href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/Filters/FiltersSearchPage/FiltersSearchPage.tsx"
+            target="_blank"
+          >
+            View source <OpenInNewIcon size="small" />
+          </a>
+        </Text>
+      }
       headerTitle="Simple search"
       products={
         <ProductsTable

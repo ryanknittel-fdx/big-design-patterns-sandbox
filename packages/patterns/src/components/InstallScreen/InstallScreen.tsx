@@ -106,8 +106,8 @@ interface InstallScreenProps {
   backgroundSrc?: string;
   isLoading?: boolean;
   showBackButton?: boolean;
-  onBackButtonClick?: () => void;
-  onInstallButtonClick?: () => void;
+  onBackButtonClick?: (event: React.MouseEvent) => void;
+  onInstallButtonClick?: (event: React.MouseEvent) => void;
   customForm?: ReactNode;
   app: AppType;
   copy: InstallationCopy;
@@ -297,8 +297,8 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
       <Grid
         gridColumns={{ mobile: "1fr", desktop: "minmax(0px, 4fr) 425px" }}
         gridGap="2rem"
-        marginBottom={{mobile: "xxxLarge", desktop: "none"}}
-        paddingBottom={{mobile: "xxxLarge", desktop: "none"}}
+        marginBottom={{ mobile: "xxxLarge", desktop: "none" }}
+        paddingBottom={{ mobile: "xxxLarge", desktop: "none" }}
       >
         <GridItem>
           <Grid gridColumns={"102px 1fr"} gridColumnGap={theme.spacing.large}>

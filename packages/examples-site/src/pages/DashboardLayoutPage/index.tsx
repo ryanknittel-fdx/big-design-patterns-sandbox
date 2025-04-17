@@ -4,11 +4,12 @@ import {
   AsideCardGrid,
   AsidePanel,
 } from "bigcommerce-design-patterns";
-import { Panel, Text, Flex, Table, FlexItem } from "@bigcommerce/big-design";
+import { Panel, Text, Flex } from "@bigcommerce/big-design";
 import { Header } from "@bigcommerce/big-design-patterns";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
 import { CopyBlock, nord as codecolor } from "react-code-blocks";
+import { OpenInNewIcon } from "@bigcommerce/big-design-icons";
 
 const DashboardLayoutPage: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -102,7 +103,18 @@ const DashboardLayoutPage: FunctionComponent = () => {
         header={
           <Header
             title="Dashboard Layout"
-            description="Dashboard layout is used to create a responsive two-column layout for dashboard interfaces."
+            description={
+              <Text>
+                Dashboard layout is used to create a responsive two-column
+                layout for dashboard interfaces.{" "}
+                <a
+                  href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/DashboardLayoutPage/index.tsx"
+                  target="_blank"
+                >
+                  View source <OpenInNewIcon size="small" />
+                </a>
+              </Text>
+            }
             backLink={{
               text: "Back to patterns",
               onClick: () => navigate("/"),
@@ -130,8 +142,14 @@ const DashboardLayoutPage: FunctionComponent = () => {
           </Text>
         </Panel>
       </DashboardLayout>
+    </Flex>
+  );
+};
 
-      <Panel header="Example: Dashboard Layout with AsidePanel and AsideCardGrid">
+export default DashboardLayoutPage;
+
+/*
+<Panel header="Example: Dashboard Layout with AsidePanel and AsideCardGrid">
         <Flex flexDirection="column" flexGap={theme.spacing.medium}>
           <FlexItem>
             <CopyBlock
@@ -363,8 +381,5 @@ return (
           stickyHeader
         />
       </Panel>
-    </Flex>
-  );
-};
 
-export default DashboardLayoutPage;
+*/

@@ -24,6 +24,7 @@ import {
   Header,
   Page,
 } from "@bigcommerce/big-design-patterns";
+import { OpenInNewIcon } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { theme } from "@bigcommerce/big-design-theme";
@@ -356,7 +357,17 @@ const CRUDAddEditPage: FunctionComponent = () => {
       header={
         <Header
           title={isEditPage ? name : "Add item"}
-          description={`Description of what's going to be added.`}
+          description={
+                        <Text>
+                          Description of what's going to be added.{" "}
+                          <a
+                            href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/CRUDListPage/CRUDListPage.tsx"
+                            target="_blank"
+                          >
+                            View source <OpenInNewIcon size="small" />
+                          </a>
+                        </Text>
+                      }
           backLink={{
             text: "Back to items list",
             onClick: () => backToListingHandler(),

@@ -48,6 +48,7 @@ export const HTMLParser: FunctionComponent<HTMLParserProps> = ({ html }) => {
 
   const cleanHtmlString = DOMPurify.sanitize(html, {
     USE_PROFILES: { html: true },
+    ADD_ATTR: ['target'],
   });
 
   return <Box> {parse(cleanHtmlString, options)}</Box>;

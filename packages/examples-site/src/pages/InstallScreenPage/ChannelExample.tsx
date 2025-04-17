@@ -120,7 +120,7 @@ const ChannelCard: FunctionComponent<ChannelCardProps> = ({
           label="Language"
           maxHeight={300}
           onOptionChange={(value) =>
-            handleDataChange("storefrontLanguage", value)
+            handleDataChange("storefrontLanguage", value || "")
           }
           options={[
             { value: "en-US", content: "English (en-US)" },
@@ -214,7 +214,9 @@ const InstallScreenChannel: FunctionComponent = () => {
       <h3>Benefits</h3>
       <p><strong>Modern tech-stack</strong> A developer-first approach includes a fully customizable UI kit & comprehensive GraphQL Storefront API client, all optimized for Next.js and React Server Components.</p>
       <p><strong>Page building with Makeswift</strong> Enhance your marketing efforts with Catalyst's integrated Makeswift visual editor, allowing you to create engaging content effortlessly & without touching code.</p>
-    `,
+      <p><a href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/InstallScreenPage/ChannelExample.tsx" target="_blank">View source code of this pattern</a></p>
+      `,
+    scopesDenied: ["write_customers"],
   };
 
   // Copy texts used in the InstallScreen component
@@ -244,6 +246,11 @@ const InstallScreenChannel: FunctionComponent = () => {
     ),
     install: "Create Storefront",
     cancel: "Cancel",
+    price: "$0.00",
+    rating: "4.5",
+    partnerTier: "Elite",
+    scopesAllowed: ["read_products", "write_orders"],
+    scopesDenied: ["write_customers"],
   };
 
   // State to track form data changes
@@ -270,7 +277,6 @@ const InstallScreenChannel: FunctionComponent = () => {
 
   return (
     <InstallScreen
-      backButtonLabel="Apps"
       onBackButtonClick={() => {
         navigate("/");
       }}

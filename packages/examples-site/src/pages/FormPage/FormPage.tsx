@@ -3,16 +3,17 @@ import {
   AlertProps,
   Flex,
   FlexItem,
-  Button,
   Panel,
   Form,
   FormGroup,
   Input,
+  Text,
   Textarea,
   Message,
   Checkbox,
 } from "@bigcommerce/big-design";
 import { Header, Page, ActionBar } from "@bigcommerce/big-design-patterns";
+import { OpenInNewIcon } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
 import { alertsManager } from "../../App";
@@ -184,7 +185,17 @@ const PageForm: FunctionComponent = () => {
       header={
         <Header
           title="Form Page"
-          description="Description of the overall form."
+          description={
+            <Text>
+              Description of the overall form.{" "}
+              <a
+                href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/FormPage/FormPage.tsx"
+                target="_blank"
+              >
+                View source <OpenInNewIcon size="small" />
+              </a>
+            </Text>
+          }
           backLink={{
             text: "Back to patterns",
             onClick: () => navigate("/"),
