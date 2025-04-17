@@ -17,6 +17,7 @@ import {
   AddIcon,
   SettingsIcon,
   MoreHorizIcon,
+  OpenInNewIcon
 } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
 import { theme } from "@bigcommerce/big-design-theme";
@@ -250,7 +251,17 @@ const PageList: FunctionComponent = () => {
       header={
         <Header
           actions={PageHeaderCTAs}
-          description="List pages are the bread and butter of an application, where you present a number of items to act upon."
+          description={
+                  <Text>
+                    List pages are the bread and butter of an application, where you present a number of items to act upon.{" "}
+                    <a
+                      href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/ListPage/ListPage.tsx"
+                      target="_blank"
+                    >
+                      View source <OpenInNewIcon size="small" />
+                    </a>
+                  </Text>
+                }
           title="List Page"
           backLink={{
             text: "Back to patterns",
