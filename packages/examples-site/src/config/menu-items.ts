@@ -6,6 +6,7 @@ import WebAssetIcon from '@mui/icons-material/WebAsset';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import MemoryIcon from '@mui/icons-material/Memory';
+import { BigDesignIcon } from "../components/BigDesignIcon";
 
 export const menuItems: MenuItem[] = [
   {
@@ -21,46 +22,56 @@ export const menuItems: MenuItem[] = [
     items: [
       {
         hash: "sidebar-page-crud-list",
-        label: "CRUD flow (Page)",
+        label: "Create, Read, Update, Delete",
         href: "/page-crud-list",
-      },
-      {
-        hash: "sidebar-page-crud-add",
-        label: "CRUD Add",
-        href: "/page-crud-add",
-      },
+      }
     ]
   },
   {
     hash: "sidebar-single-page-patterns",
-    label: "Single Page Patterns",
+    label: "Single Pages",
     icon: WebAssetIcon,
     items: [
       {
+        hash: "sidebar-dashboard-layout",
+        label: "Dashboards",
+        href: "/dashboard-layout",
+      },
+      {
         hash: "sidebar-page-list",
-        label: "List Page",
+        label: "Lists",
         href: "/page-list",
       },
       {
         hash: "sidebar-page-featured-content",
-        label: "Featured Content Page",
+        label: "Featured Content",
         href: "/page-featured-content",
       },
       {
         hash: "sidebar-page-form",
-        label: "Form Page",
+        label: "Forms",
         href: "/page-form",
       },
       {
         hash: "sidebar-page-anchor-nav",
-        label: "Anchor Navigation Page",
+        label: "Anchor Navigation",
         href: "/page-anchor-nav",
+      },
+      {
+        hash: "sidebar-install-screen-app",
+        label: "App Installation",
+        href: "/install-screen-app",
+      },
+      {
+        hash: "sidebar-install-screen-channel",
+        label: "Channel Installation",
+        href: "/install-screen-channel",
       },
     ]
   },
   {
     hash: "sidebar-data-filtering",
-    label: "List View Patterns",
+    label: "Data Filtering",
     icon: FilterAltOutlinedIcon,
     items: [
       {
@@ -91,11 +102,6 @@ export const menuItems: MenuItem[] = [
     icon: DashboardOutlinedIcon,
     items: [
       {
-        hash: "sidebar-feature-tag",
-        label: "Feature Tags",
-        href: "/feature-tag",
-      },
-      {
         hash: "sidebar-card-grid",
         label: "Card Grid",
         href: "/card-grid",
@@ -105,22 +111,15 @@ export const menuItems: MenuItem[] = [
         label: "Info Illustrations",
         href: "/info-illustration",
       },
-      {
-        hash: "sidebar-dashboard-layout",
-        label: "Dashboard Layout",
-        href: "/dashboard-layout",
-      },
-      {
-        hash: "sidebar-install-screen-app",
-        label: "Install Apps",
-        href: "/install-screen-app",
-      },
-      {
-        hash: "sidebar-install-screen-channel",
-        label: "Install Channels",
-        href: "/install-screen-channel",
-      },
     ]
+  },
+  {
+    hash: "component-library",
+    label: "BigDesign Component Library",
+    href: "https://developer.bigcommerce.com/big-design/",
+    icon: BigDesignIcon,
+    target: "_blank", // Open in a new tab
+    hasDivider: true, // Add a divider before this item
   },
   {
     hash: "ai-prompt",

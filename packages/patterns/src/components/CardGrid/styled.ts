@@ -80,7 +80,6 @@ export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
     & .heading-container {
       display: flex;
       align-items: center;
-      min-height: 45px;
     }
   }
 

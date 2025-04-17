@@ -49,7 +49,7 @@ const PageHome: FunctionComponent = () => {
           shadow="raised"
           items={[
             {
-              heading: <H4 margin="none">CRUD flow (Page)</H4>,
+              heading: <H4 margin="none">CRUD</H4>,
               description: "Create, read, update, and delete pattern",
               onClick: () => navigateAndScrollToTop("/page-crud-list"),
             },
@@ -57,7 +57,7 @@ const PageHome: FunctionComponent = () => {
         />
 
         <PanelSectionHeader
-          title="Single Page Patterns"
+          title="Single Pages"
           description="Standalone page layouts designed for specific purposes like displaying lists, forms, or featured content."
           icon={<WebAssetIcon sx={{ color: "#2AAB3F", fontSize: 20 }} />}
           iconBgColor="success20"
@@ -68,32 +68,50 @@ const PageHome: FunctionComponent = () => {
           shadow="raised"
           items={[
             {
-              heading: "List Page",
+              heading: "Dashboards",
+              description: "Structured layout for admin interfaces",
+              onClick: () => navigateAndScrollToTop("/dashboard-layout"),
+            },
+            {
+              heading: "Lists",
               description:
                 "Display collections of items in a structured list",
               onClick: () => navigateAndScrollToTop("/page-list"),
             },
             {
-              heading: "Featured Content Page",
+              heading: "Featured Content",
               description: "Highlight important content with visual emphasis",
               onClick: () => navigateAndScrollToTop("/page-featured-content"),
             },
             {
-              heading: "Form Page",
+              heading: "Forms",
               description: "Structured data collection with validation",
               onClick: () => navigateAndScrollToTop("/page-form"),
             },
             {
-              heading: "Anchor Navigation Page",
+              heading: "Anchor Navigation",
               description: "Navigate between sections within a long page",
               onClick: () => navigateAndScrollToTop("/page-anchor-nav"),
             },
+            {
+              heading: "App Installation",
+              description:
+                "App install interface for third-party integrations",
+              onClick: () => navigateAndScrollToTop("/install-screen-app"),
+            },
+            {
+              heading: "Channel Installation",
+              description:
+                "Channel install interface for multi-platform selling",
+              onClick: () =>
+                navigateAndScrollToTop("/install-screen-channel"),
+            }
           ]}
           gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
         />
 
         <PanelSectionHeader
-          title="List View Patterns"
+          title="Data Filtering"
           description="Various search and filter implementations for use across different list views."
           icon={<FilterAltOutlinedIcon sx={{ color: "#FFAE00", fontSize: 20 }} />}
           iconBgColor="warning20"
@@ -141,11 +159,6 @@ const PageHome: FunctionComponent = () => {
           shadow="raised"
           items={[
             {
-              heading: "Feature Tags",
-              description: "Highlight features and their status",
-              onClick: () => navigateAndScrollToTop("/feature-tag"),
-            },
-            {
               heading: "Card Grid",
               description: "Display content in a responsive grid layout",
               onClick: () => navigateAndScrollToTop("/card-grid"),
@@ -155,24 +168,6 @@ const PageHome: FunctionComponent = () => {
               description: "Visual elements to convey status information",
               onClick: () => navigateAndScrollToTop("/info-illustration"),
             },
-            {
-              heading: "Dashboard Layout",
-              description: "Structured layout for admin interfaces",
-              onClick: () => navigateAndScrollToTop("/dashboard-layout"),
-            },
-            {
-              heading: "Install Apps",
-              description:
-                "App installation interface for third-party integrations",
-              onClick: () => navigateAndScrollToTop("/install-screen-app"),
-            },
-            {
-              heading: "Install Channels",
-              description:
-                "Channel installation interface for multi-platform selling",
-              onClick: () =>
-                navigateAndScrollToTop("/install-screen-channel"),
-            }
           ]}
           gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
         />

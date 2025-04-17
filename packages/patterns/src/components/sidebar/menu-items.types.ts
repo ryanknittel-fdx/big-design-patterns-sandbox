@@ -7,6 +7,7 @@ export type MenuItem = Readonly<{
   href?: string;
   items?: SubMenuItem[];
   target?: string; // e.g., "_blank" for external links
+  hasDivider?: boolean;
 }>;
 
 /**

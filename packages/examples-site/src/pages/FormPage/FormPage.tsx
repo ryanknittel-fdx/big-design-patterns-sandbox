@@ -117,7 +117,11 @@ const PageForm: FunctionComponent = () => {
     // let's set the form as submitted
     setFormSubmitted(true);
     // scroll window to top
-    window.scrollTo(0, 0);
+    //window.scrollTo(0, 0);
+    document.querySelector("#contentArea")?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
 
     // let's check for form validity first
     if (validateForm()) {
