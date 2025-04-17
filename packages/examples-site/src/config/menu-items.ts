@@ -115,7 +115,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     hash: "component-library",
-    label: "BigDesign Component Library",
+    label: "BigDesign Components",
     href: "https://developer.bigcommerce.com/big-design/",
     icon: BigDesignIcon,
     target: "_blank", // Open in a new tab

@@ -25,6 +25,7 @@ import { SidebarProvider } from "../../patterns/src/components/sidebar/sidebar-c
 import { ReactRouterProviderAdapter } from "./adapters/react-router-adapter";
 import { menuItems } from "./config/menu-items";
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { BigDesignIcon } from "./components/BigDesignIcon";
 
 export const alertsManager = createAlertsManager();
 
@@ -126,13 +127,7 @@ function Header() {
             e.preventDefault();
             navigate('/');
           }}>
-            <img src="./assets/images/icons/bigc-inverted-black.svg" alt="BigDesign Pattern Sandbox"
-              style={{
-                width: "24px",
-                height: "24px",
-                fill: "currentColor",
-              }}
-            />
+            <BigDesignIcon />
           </LogoContainer>
           <NavTitleContainer
             borderLeft="box"
