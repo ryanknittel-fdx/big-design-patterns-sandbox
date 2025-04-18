@@ -34,8 +34,8 @@ const PageHome: FunctionComponent = () => {
           description="Explore code samples and patterns to build consistent and user-friendly interfaces using BigDesign and BigCommerce design patterns."
           marginBottom="xxLarge"
         >
-          <Button variant="subtle" marginRight="medium" iconLeft={<BigDesignIcon size={18} />} onClick={() => window.open('https://developer.bigcommerce.com/big-design/', '_blank')}>Read full component guidelines</Button>
-          <Button variant="subtle" iconLeft={<GitHubIcon sx={{ fontSize: 20 }} />} onClick={() => window.open('https://github.com/bigcommerce/big-design', '_blank')}>Go to GitHub repo</Button>
+          <Button variant="subtle" iconLeft={<GitHubIcon sx={{ fontSize: 20 }} />} onClick={() => window.open('https://github.com/bigcommerce/big-design', '_blank')}>Patterns GitHub repo</Button>
+          <Button variant="subtle" marginRight="medium" iconLeft={<BigDesignIcon size={18} />} onClick={() => window.open('https://developer.bigcommerce.com/big-design/', '_blank')}>BigDesign components docs</Button>
         </IntroPanel>
 
         <PanelSectionHeader
