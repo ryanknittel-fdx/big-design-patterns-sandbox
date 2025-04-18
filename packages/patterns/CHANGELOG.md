@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.14.0
+
+### Minor Changes
+
+- 5f6f3f6: Fixed layout issues on main site and HTML parser props
+
 ## 0.13.0
 
 ### Minor Changes
