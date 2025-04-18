@@ -1,5 +1,11 @@
 # bigcommerce-examples-site
 
+## 0.10.0
+
+### Minor Changes
+
+- 33de1f1: Corrected information architecture on main pages
+
 ## 0.9.0
 
 ### Minor Changes
