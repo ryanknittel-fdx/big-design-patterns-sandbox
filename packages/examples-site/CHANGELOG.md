@@ -1,5 +1,16 @@
 # bigcommerce-examples-site
 
+## 0.9.0
+
+### Minor Changes
+
+- 5f6f3f6: Fixed layout issues on main site and HTML parser props
+
+### Patch Changes
+
+- Updated dependencies [5f6f3f6]
+  - bigcommerce-design-patterns@0.14.0
+
 ## 0.8.0
 
 ### Minor Changes
