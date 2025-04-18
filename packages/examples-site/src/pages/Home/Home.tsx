@@ -34,27 +34,9 @@ const PageHome: FunctionComponent = () => {
           description="Explore code samples and patterns to build consistent and user-friendly interfaces using BigDesign and BigCommerce design patterns."
           marginBottom="xxLarge"
         >
-          <Button variant="subtle" marginRight="medium" iconLeft={<BigDesignIcon size={18} />} onClick={() => window.open('https://developer.bigcommerce.com/big-design/', '_blank')}>Read full component guidelines</Button>
-          <Button variant="subtle" iconLeft={<GitHubIcon sx={{ fontSize: 20 }} />} onClick={() => window.open('https://github.com/bigcommerce/big-design', '_blank')}>Go to GitHub repo</Button>
+          <Button variant="subtle" iconLeft={<GitHubIcon sx={{ fontSize: 20 }} />} onClick={() => window.open('https://github.com/bigcommerce/big-design', '_blank')}>Patterns GitHub repo</Button>
+          <Button variant="subtle" marginRight="medium" iconLeft={<BigDesignIcon size={18} />} onClick={() => window.open('https://developer.bigcommerce.com/big-design/', '_blank')}>BigDesign components docs</Button>
         </IntroPanel>
-
-        <PanelSectionHeader
-          title="Sample flows"
-          description="Complete user journey patterns that guide users through multi-step processes and complex interactions."
-          icon={<AutoAwesomeMotionIcon sx={{ color: "#4D6FFF", fontSize: 20 }} />}
-        />
-
-        <CardGrid
-          marginBottom="xxLarge"
-          shadow="raised"
-          items={[
-            {
-              heading: <H4 margin="none">CRUD</H4>,
-              description: "Create, read, update, and delete pattern",
-              onClick: () => navigateAndScrollToTop("/page-crud-list"),
-            },
-          ]}
-        />
 
         <PanelSectionHeader
           title="Single Pages"
@@ -145,6 +127,24 @@ const PageHome: FunctionComponent = () => {
             },
           ]}
           gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
+        />
+
+        <PanelSectionHeader
+          title="Sample flows"
+          description="Complete user journey patterns that guide users through multi-step processes and complex interactions."
+          icon={<AutoAwesomeMotionIcon sx={{ color: "#4D6FFF", fontSize: 20 }} />}
+        />
+
+        <CardGrid
+          marginBottom="xxLarge"
+          shadow="raised"
+          items={[
+            {
+              heading: <H4 margin="none">CRUD</H4>,
+              description: "Create, read, update, and delete pattern",
+              onClick: () => navigateAndScrollToTop("/page-crud-list"),
+            },
+          ]}
         />
 
         <PanelSectionHeader

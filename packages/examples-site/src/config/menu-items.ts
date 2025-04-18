@@ -16,18 +16,6 @@ export const menuItems: MenuItem[] = [
     icon: HomeOutlinedIcon,
   },
   {
-    hash: "sidebar-sample-flows",
-    label: "Sample Flows",
-    icon: AutoAwesomeMotionIcon,
-    items: [
-      {
-        hash: "sidebar-page-crud-list",
-        label: "Create, Read, Update, Delete",
-        href: "/page-crud-list",
-      }
-    ]
-  },
-  {
     hash: "sidebar-single-page-patterns",
     label: "Single Pages",
     icon: WebAssetIcon,
@@ -94,6 +82,18 @@ export const menuItems: MenuItem[] = [
         label: "Advanced additive filtering with views",
         href: "/filters-advanced-additive",
       },
+    ]
+  },
+  {
+    hash: "sidebar-sample-flows",
+    label: "Sample Flows",
+    icon: AutoAwesomeMotionIcon,
+    items: [
+      {
+        hash: "sidebar-page-crud-list",
+        label: "Create, Read, Update, Delete",
+        href: "/page-crud-list",
+      }
     ]
   },
   {
