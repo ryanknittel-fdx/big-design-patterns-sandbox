@@ -1,21 +1,17 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import {
-  TableItem,
-  Select,
-  Grid,
-} from "@bigcommerce/big-design";
+import { Text, Select, Grid } from "@bigcommerce/big-design";
+import { OpenInNewIcon } from "@bigcommerce/big-design-icons";
 
 import { getCategories, getProducts } from "../../../data/services";
 import { Category } from "../../../data/dummyCategories";
 
-import ProductsTable, { Item }  from "../../../common/ProductsTable";
+import ProductsTable, { Item } from "../../../common/ProductsTable";
 import ProductsPage from "../../../common/ProductsPage";
 
 /**
  * PageList component - Displays a page with a list of items in a table.
  */
 const PageFiltersDropdowns: FunctionComponent = () => {
-
   // DATA HANDLING
   const [itemsLoaded, setItemsLoaded] = useState(false);
 
@@ -150,7 +146,17 @@ const PageFiltersDropdowns: FunctionComponent = () => {
   return (
     <ProductsPage
       headerTitle="Dropdown Filtering"
-      headerDescription="Filtering data using dropdowns"
+      headerDescription={
+        <Text>
+          Filtering data using dropdowns.{" "}
+          <a
+            href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/Filters/FiltersDropdownsPage/FiltersDropdownsPage.tsx"
+            target="_blank"
+          >
+            View source <OpenInNewIcon size="small" />
+          </a>
+        </Text>
+      }
       filters={filters}
       products={
         <ProductsTable

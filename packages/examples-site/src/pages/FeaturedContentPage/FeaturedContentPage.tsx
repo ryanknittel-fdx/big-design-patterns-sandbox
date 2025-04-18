@@ -14,6 +14,7 @@ import { useNavigate } from "react-router";
 
 import { theme } from "@bigcommerce/big-design-theme";
 import { Link } from "react-router-dom";
+import { OpenInNewIcon } from "@bigcommerce/big-design-icons";
 
 const PageFeaturedContent: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -35,7 +36,13 @@ const PageFeaturedContent: FunctionComponent = () => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Pellentesque a sapien elit. Nullam vel leo enim. Fusce molestie vel
             ex quis aliquam. Quisque bibendum lorem id neque tempus pretium in
-            quis metus.
+            quis metus.{" "}
+            <a
+              href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/FeaturedContentPage/FeaturedContentPage.tsx"
+              target="_blank"
+            >
+              View source <OpenInNewIcon size="small" />
+            </a>
             <ul>
               <li>Proin in tempor nulla. </li>
               <li>Nam commodo at lorem sed vestibulum.</li>

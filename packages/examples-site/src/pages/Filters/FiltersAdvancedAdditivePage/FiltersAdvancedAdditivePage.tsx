@@ -8,12 +8,14 @@ import {
   Form,
   FormGroup,
   Grid,
+  Text,
   Modal,
 } from "@bigcommerce/big-design";
 import {
   AddIcon,
   CloseIcon,
   FilterListIcon,
+  OpenInNewIcon,
   RemoveCircleOutlineIcon,
   SearchIcon,
 } from "@bigcommerce/big-design-icons";
@@ -41,7 +43,6 @@ interface Filter {
  * PageList component - Displays a page with a list of items in a table.
  */
 const PageFiltersAdvancedAdditive: FunctionComponent = () => {
-
   // DATA HANDLING
   const [itemsLoaded, setItemsLoaded] = useState(false);
 
@@ -65,7 +66,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
     // let's reset the items to the original data if the search value is empty
-    console.log(!event.target.value)
+    console.log(!event.target.value);
     if (!event.target.value) {
       const newFilterArray = [...filterArray];
       setFilterArray(newFilterArray);
@@ -89,7 +90,7 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
     let filteredItems = [...allItems];
 
     // lets include search
-    console.log(searchValue)
+    console.log(searchValue);
     if (searchValue) {
       filteredItems = filteredItems.filter((item) =>
         item.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -340,7 +341,18 @@ const PageFiltersAdvancedAdditive: FunctionComponent = () => {
   return (
     <>
       <ProductsPage
-        headerDescription="To be used wen you want to configure filters very precisely in additive mode and save teh views for later use."
+        headerDescription={
+          <Text>
+            To be used wen you want to configure filters very precisely in
+            additive mode and save teh views for later use.{" "}
+            <a
+              href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/Filters/FiltersAdvancedAdditivePage/FiltersAdvancedAdditivePage.tsx"
+              target="_blank"
+            >
+              View source <OpenInNewIcon size="small" />
+            </a>
+          </Text>
+        }
         headerTitle="Advanced additive filters with views"
         filters={filters}
         products={

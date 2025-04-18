@@ -10,7 +10,7 @@ import { theme } from "@bigcommerce/big-design-theme";
 
 export interface ProductPageProps {
   headerTitle: string;
-  headerDescription: string;
+  headerDescription: React.ReactNode;
   filters: React.ReactNode;
   products: React.ReactNode;
 }

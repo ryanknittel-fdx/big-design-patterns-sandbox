@@ -50,6 +50,15 @@ export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  margin-inline: -16px;
+  width: calc(100% + 32px);
+  max-width: calc(100% + 32px);
+
+  @media (min-width: ${({ theme }) => theme.breakpointValues.tablet}) {
+    margin-inline: 0;
+    width: 100%;
+    max-width: 100%;
+  }
 
   /* Ensure Grid children don't overflow */
   & > .bd-grid {
@@ -71,7 +80,6 @@ export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
     & .heading-container {
       display: flex;
       align-items: center;
-      min-height: 45px;
     }
   }
 
@@ -83,7 +91,7 @@ export const StyledCardGrid = styled(Box).attrs<StyledCardGridProps>(
     }
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpointValues.tablet}) {
+  @media (max-width: 719px) {
     & .card-grid-item-mobile {
       border: none; /* Reset all borders first */
       border-bottom: ${({ visualAppearance, theme }) =>

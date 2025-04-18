@@ -9,7 +9,7 @@ type SidebarNavLinkProps = {
   isCollapsed?: boolean;
 } & Omit<MenuItem, "items">;
 
-const StyledLink = styled.a<{ isActive?: boolean }>`
+const StyledLink = styled.a<{ isActive?: boolean; hasDivider?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -19,6 +19,25 @@ const StyledLink = styled.a<{ isActive?: boolean }>`
   padding: 0.5rem;
   color: #313440;
   text-decoration: none;
+
+  ${(props) =>
+    props.hasDivider &&
+    `
+  margin-top: 1rem;
+  position: relative;
+  overflow:visible;
+
+  &::before {
+    content: "";
+    display: block;
+    width: calc(100% - 1rem);
+    height: 1px;
+    background-color: #d9dce9;
+    position: absolute;
+    top: 0;
+    margin-top: -0.5rem;
+  }
+  `}
 
   ${(props) =>
     !props.isActive &&
@@ -73,6 +92,7 @@ export const SidebarNavLink = memo(
           isActive={props.isActive}
           className={className}
           target={props.target}
+          hasDivider={props.hasDivider}
         >
           {Icon ? (
             <IconWrapper>

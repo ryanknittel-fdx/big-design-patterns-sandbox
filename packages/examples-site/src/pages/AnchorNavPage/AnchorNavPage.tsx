@@ -3,6 +3,7 @@ import { Panel, Text, Box } from "@bigcommerce/big-design";
 import { AnchorNav } from "bigcommerce-design-patterns";
 import { useNavigate } from "react-router";
 import { Header, Page } from "@bigcommerce/big-design-patterns";
+import { OpenInNewIcon } from "@bigcommerce/big-design-icons";
 
 const PageAnchorNav: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -11,7 +12,18 @@ const PageAnchorNav: FunctionComponent = () => {
     <Page
       header={
         <Header
-          description="When a page has a lot of content, it can be helpful to provide an anchor navigation to help users quickly"
+          description={
+            <Text>
+              When a page has a lot of content, it can be helpful to provide an
+              anchor navigation to help users quickly{" "}
+              <a
+                href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/AnchorNavPage/AnchorNavPage.tsx"
+                target="_blank"
+              >
+                View source <OpenInNewIcon size="small" />
+              </a>
+            </Text>
+          }
           title="Anchor Navigation Page"
           backLink={{
             text: "Back to patterns",

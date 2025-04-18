@@ -4,7 +4,7 @@ import {
   Box,
   Button,
   Chip,
-  TableItem,
+  Text,
   Input,
   Form,
   FormGroup,
@@ -16,6 +16,7 @@ import {
 import {
   CloseIcon,
   FilterListIcon,
+  OpenInNewIcon,
   SearchIcon,
 } from "@bigcommerce/big-design-icons";
 import { useNavigate } from "react-router";
@@ -293,7 +294,20 @@ const PageFiltersAdvanced: FunctionComponent = () => {
     <>
       <ProductsPage
         headerTitle="Advanced filters"
-        headerDescription="There are instances where numerous filterable dimensions are not necessarily exposed in the displayed dataset. In such cases, we need to offer users the capability to obtain a subset of the data and easily view and modify the filtering parameters."
+        headerDescription={
+          <Text>
+            There are instances where numerous filterable dimensions are not
+            necessarily exposed in the displayed dataset. In such cases, we need
+            to offer users the capability to obtain a subset of the data and
+            easily view and modify the filtering parameters.{" "}
+            <a
+              href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/Filters/FiltersAdvPage/FiltersAdvancedPage.tsx"
+              target="_blank"
+            >
+              View source <OpenInNewIcon size="small" />
+            </a>
+          </Text>
+        }
         filters={themFilters}
         products={
           <ProductsTable

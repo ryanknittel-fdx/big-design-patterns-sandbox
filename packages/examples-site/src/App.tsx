@@ -25,6 +25,7 @@ import { SidebarProvider } from "../../patterns/src/components/sidebar/sidebar-c
 import { ReactRouterProviderAdapter } from "./adapters/react-router-adapter";
 import { menuItems } from "./config/menu-items";
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { BigDesignIcon } from "./components/BigDesignIcon";
 
 export const alertsManager = createAlertsManager();
 
@@ -43,17 +44,17 @@ const MainContent = styled.main`
   display: grid;
   height: 100%;
   grid-template-columns: max-content 1fr;
+  width: 100%;
 `;
 
 const ContentArea = styled.div`
   height: calc(100vh - 3.5rem);
   max-width: 100vw;
   overflow: auto;
+  max-width: 100vw;
+  width: 100%;
 
   /* These styles keep the children containers from bleeding past the browser viewport */ 
-  & > div > div {
-    max-width: calc(-60px + 100vw);
-  }
   
   @media screen and (max-width: 719px) {
     & > div > div {
@@ -126,13 +127,7 @@ function Header() {
             e.preventDefault();
             navigate('/');
           }}>
-            <img src="./assets/images/icons/bigc-inverted-black.svg" alt="BigDesign Pattern Sandbox"
-              style={{
-                width: "24px",
-                height: "24px",
-                fill: "currentColor",
-              }}
-            />
+            <BigDesignIcon />
           </LogoContainer>
           <NavTitleContainer
             borderLeft="box"
