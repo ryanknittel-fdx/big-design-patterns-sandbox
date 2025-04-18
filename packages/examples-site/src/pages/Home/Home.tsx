@@ -39,24 +39,6 @@ const PageHome: FunctionComponent = () => {
         </IntroPanel>
 
         <PanelSectionHeader
-          title="Sample flows"
-          description="Complete user journey patterns that guide users through multi-step processes and complex interactions."
-          icon={<AutoAwesomeMotionIcon sx={{ color: "#4D6FFF", fontSize: 20 }} />}
-        />
-
-        <CardGrid
-          marginBottom="xxLarge"
-          shadow="raised"
-          items={[
-            {
-              heading: <H4 margin="none">CRUD</H4>,
-              description: "Create, read, update, and delete pattern",
-              onClick: () => navigateAndScrollToTop("/page-crud-list"),
-            },
-          ]}
-        />
-
-        <PanelSectionHeader
           title="Single Pages"
           description="Standalone page layouts designed for specific purposes like displaying lists, forms, or featured content."
           icon={<WebAssetIcon sx={{ color: "#2AAB3F", fontSize: 20 }} />}
@@ -145,6 +127,24 @@ const PageHome: FunctionComponent = () => {
             },
           ]}
           gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
+        />
+
+        <PanelSectionHeader
+          title="Sample flows"
+          description="Complete user journey patterns that guide users through multi-step processes and complex interactions."
+          icon={<AutoAwesomeMotionIcon sx={{ color: "#4D6FFF", fontSize: 20 }} />}
+        />
+
+        <CardGrid
+          marginBottom="xxLarge"
+          shadow="raised"
+          items={[
+            {
+              heading: <H4 margin="none">CRUD</H4>,
+              description: "Create, read, update, and delete pattern",
+              onClick: () => navigateAndScrollToTop("/page-crud-list"),
+            },
+          ]}
         />
 
         <PanelSectionHeader
