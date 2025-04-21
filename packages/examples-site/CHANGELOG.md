@@ -1,5 +1,11 @@
 # bigcommerce-examples-site
 
+## 0.11.0
+
+### Minor Changes
+
+- 5f30c36: Added source code link on dashboard pattern
+
 ## 0.10.0
 
 ### Minor Changes
