@@ -51,7 +51,11 @@ const DashboardLayoutPage: FunctionComponent = () => {
             description:
               "Find answers to your most common development issues with our community of 400+ developers.",
             icon: (
-              <img src="https://storage.googleapis.com/bigcommerce-production-dev-center/images/slack-icon.svg" />
+              <img
+                src="https://storage.googleapis.com/bigcommerce-production-dev-center/images/slack-icon.svg"
+                height="20"
+                width="20"
+              />
             ),
             href: "https://developer.bigcommerce.com/slack",
             hrefTarget: "_blank",
@@ -61,7 +65,11 @@ const DashboardLayoutPage: FunctionComponent = () => {
             description:
               "Gadget provides everything you need to build and run web apps with ease, stitched together from the start.",
             icon: (
-              <img src="https://storage.googleapis.com/bigcommerce-production-dev-center/images/gadget.svg" />
+              <img
+                src="https://storage.googleapis.com/bigcommerce-production-dev-center/images/gadget.svg"
+                height="20"
+                width="20"
+              />
             ),
             href: "https://gadget.dev/use-cases/big-commerce",
             hrefTarget: "_blank",
