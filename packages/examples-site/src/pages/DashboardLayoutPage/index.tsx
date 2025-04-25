@@ -26,65 +26,53 @@ const DashboardLayoutPage: FunctionComponent = () => {
     },
   };
 
-  const quickLinksContent = (
-    <AsideCardGrid
-      format="action"
-      items={[
-        {
-          heading: "Quick Links",
-          description: "Access frequently used resources and documentation.",
-          href: "https://developer.bigcommerce.com",
-          hrefTarget: "_blank",
-          icon: (
-            <img
-              src="https://storage.googleapis.com/bigcommerce-developers/images/bigc-dev/bigc-inverted-black.svg"
-              height="45"
-              width="45"
-            />
-          ),
-        },
-        {
-          heading: "Support",
-          description:
-            "Get help with your integration or development questions.",
-          href: "https://support.bigcommerce.com",
-          hrefTarget: "_blank",
-          icon: (
-            <img
-              src="https://storage.googleapis.com/bigcommerce-developers/images/bigc-dev/bigc-inverted-black.svg"
-              height="45"
-              width="45"
-            />
-          ),
-        },
-      ]}
-    />
-  );
-
   const resourcesContent = (
     <AsidePanel title="Resources" padding="medium" headerPadding="medium">
       <AsideCardGrid
         format="action"
         items={[
           {
-            heading: "Documentation",
+            heading: "Developer Docs",
+            headingTag: "h4",
             description:
-              "Access our comprehensive API documentation and guides.",
-            button: {
-              text: "View Docs",
-              onClick: () =>
-                window.open("https://developer.bigcommerce.com", "_blank"),
-            },
+              "Visit our developer hub to browse guides, follow tutorials and find API endpoints.",
+            icon: (
+              <img
+                src="/assets/images/icons/bigc-inverted-black.svg"
+                height="20"
+                width="20"
+              />
+            ),
+            href: "https://developer.bigcommerce.com/docs/build",
+            hrefTarget: "_blank",
           },
           {
-            heading: "Support",
+            heading: "Community Slack",
             description:
-              "Get help with your integration or development questions.",
-            button: {
-              text: "Contact Support",
-              onClick: () =>
-                window.open("https://support.bigcommerce.com", "_blank"),
-            },
+              "Find answers to your most common development issues with our community of 400+ developers.",
+            icon: (
+              <img
+                src="https://storage.googleapis.com/bigcommerce-production-dev-center/images/slack-icon.svg"
+                height="20"
+                width="20"
+              />
+            ),
+            href: "https://developer.bigcommerce.com/slack",
+            hrefTarget: "_blank",
+          },
+          {
+            heading: "Gadget",
+            description:
+              "Gadget provides everything you need to build and run web apps with ease, stitched together from the start.",
+            icon: (
+              <img
+                src="https://storage.googleapis.com/bigcommerce-production-dev-center/images/gadget.svg"
+                height="20"
+                width="20"
+              />
+            ),
+            href: "https://gadget.dev/use-cases/big-commerce",
+            hrefTarget: "_blank",
           },
         ]}
       />
@@ -97,7 +85,6 @@ const DashboardLayoutPage: FunctionComponent = () => {
         aside={
           <Flex flexDirection="column" flexGap={theme.spacing.medium}>
             {resourcesContent}
-            {quickLinksContent}
           </Flex>
         }
         header={
