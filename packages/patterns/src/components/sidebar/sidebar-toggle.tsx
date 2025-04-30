@@ -9,7 +9,7 @@ import { SidebarContext } from "./sidebar-context";
 const ToggleButton = styled.button`
   position: absolute;
   right: -0.875rem;
-  bottom: 25%;
+  bottom: 70px;
   display: none;
   border-radius: 9999px;
   border: 1px solid #d9dce9;

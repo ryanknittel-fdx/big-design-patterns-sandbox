@@ -168,6 +168,11 @@ const PageHome: FunctionComponent = () => {
               description: "Visual elements to convey status information",
               onClick: () => navigateAndScrollToTop("/info-illustration"),
             },
+            {
+              heading: "Stateless Table",
+              description: "Tables without built-in state management",
+              onClick: () => navigateAndScrollToTop("/stateless-table"),
+            },
           ]}
           gridColumns="repeat(auto-fill, minmax(250px, 1fr))"
         />

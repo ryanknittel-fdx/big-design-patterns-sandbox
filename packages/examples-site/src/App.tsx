@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import React, { FunctionComponent } from "react";
 import { BrowserRouter as Router, useRoutes, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -19,7 +20,9 @@ import PageFiltersSearch from "./pages/Filters/FiltersSearchPage/FiltersSearchPa
 import PageFiltersDropdowns from "./pages/Filters/FiltersDropdownsPage/FiltersDropdownsPage";
 import PageFiltersAdvanced from "./pages/Filters/FiltersAdvPage/FiltersAdvancedPage";
 import PageFiltersAdvancedAdditive from "./pages/Filters/FiltersAdvancedAdditivePage/FiltersAdvancedAdditivePage";
+import PageStatelessTable from "./pages/StatelessTablePage/StatelessTablePage";
 import DashboardLayout from "./pages/DashboardLayoutPage";
+import PagePanelContents from "./pages/PanelContentsPage/PanelContentsPage";
 import Sidebar from "../../patterns/src/components/sidebar/sidebar";
 import { SidebarProvider } from "../../patterns/src/components/sidebar/sidebar-context";
 import { ReactRouterProviderAdapter } from "./adapters/react-router-adapter";
@@ -42,7 +45,7 @@ const InnerContainer = styled.div`
 
 const MainContent = styled.main`
   display: grid;
-  height: 100%;
+  height: calc(100vh - 56px);
   grid-template-columns: max-content 1fr;
   width: 100%;
 `;
@@ -67,6 +70,7 @@ const HeaderContainer = styled(Box)`
   width: 100%;
   grid-column: 1 / -1;
   background-color: white;
+  height: 56px;
 `;
 
 const NavTitleContainer = styled(FlexItem)`
@@ -185,6 +189,14 @@ const RouteFC = () => {
     {
       path: "/filters-advanced-additive",
       element: <PageFiltersAdvancedAdditive />,
+    },
+    {
+      path: "/stateless-table",
+      element: <PageStatelessTable />,
+    },
+    {
+      path: "/panel-contents",
+      element: <PagePanelContents />,
     },
   ]);
   

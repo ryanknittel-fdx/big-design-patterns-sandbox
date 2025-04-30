@@ -111,6 +111,16 @@ export const menuItems: MenuItem[] = [
         label: "Info Illustrations",
         href: "/info-illustration",
       },
+      {
+        hash: "panel-contents",
+        label: "Panel Contents",
+        href: "/panel-contents",
+      },
+      {
+        hash: "stateless-table",
+        label: "Stateless Table",
+        href: "/stateless-table",
+      },
     ]
   },
   {

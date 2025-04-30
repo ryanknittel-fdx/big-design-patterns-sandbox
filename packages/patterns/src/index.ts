@@ -15,3 +15,4 @@ export * from "./components/sidebar";
 export { AsidePanel } from "./components/AsidePanel/AsidePanel";
 export * from "./components/PanelSectionHeader";
 export * from "./components/IntroPanel";
+export * from './components/StatelessTable/StatelessTable';

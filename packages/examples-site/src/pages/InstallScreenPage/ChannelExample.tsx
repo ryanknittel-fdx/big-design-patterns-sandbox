@@ -216,7 +216,7 @@ const InstallScreenChannel: FunctionComponent = () => {
       <p><strong>Page building with Makeswift</strong> Enhance your marketing efforts with Catalyst's integrated Makeswift visual editor, allowing you to create engaging content effortlessly & without touching code.</p>
       <p><a href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/InstallScreenPage/ChannelExample.tsx" target="_blank">View source code of this pattern</a></p>
       `,
-    scopesDenied: ["write_customers"],
+    scopesDenied: [],
   };
 
   // Copy texts used in the InstallScreen component
