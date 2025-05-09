@@ -1,5 +1,15 @@
 # bigcommerce-design-patterns
 
+## 0.15.0
+
+### Minor Changes
+
+- 5ed47de: Added table pattern component and sample
+
+### Patch Changes
+
+- bcc5376: Added disableInstallButton property to InstallScreen component
+
 ## 0.14.0
 
 ### Minor Changes

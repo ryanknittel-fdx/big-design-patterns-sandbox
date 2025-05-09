@@ -1,5 +1,17 @@
 # bigcommerce-examples-site
 
+## 0.12.0
+
+### Minor Changes
+
+- 5ed47de: Added table pattern component and sample
+
+### Patch Changes
+
+- Updated dependencies [5ed47de]
+- Updated dependencies [bcc5376]
+  - bigcommerce-design-patterns@0.15.0
+
 ## 0.11.0
 
 ### Minor Changes
