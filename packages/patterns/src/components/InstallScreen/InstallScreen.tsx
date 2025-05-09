@@ -105,6 +105,7 @@ export interface AppType {
 interface InstallScreenProps {
   backgroundSrc?: string;
   isLoading?: boolean;
+  disableInstallButton?: boolean;
   showBackButton?: boolean;
   onBackButtonClick?: (event: React.MouseEvent) => void;
   onInstallButtonClick?: (event: React.MouseEvent) => void;
@@ -210,6 +211,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
   backgroundSrc,
   isLoading,
   showBackButton = true,
+  disableInstallButton = false,
   onBackButtonClick,
   onInstallButtonClick,
   customForm,
@@ -452,7 +454,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
                           marginBottom={{ mobile: "none", desktop: "medium" }}
                           onClick={onInstallButtonClick}
                           isLoading={isLoading}
-                          disabled={app.requireAcknowledgment && !acknowledged}
+                          disabled={disableInstallButton || (app.requireAcknowledgment && !acknowledged)}
                         >
                           {copy.install}
                         </Button>
