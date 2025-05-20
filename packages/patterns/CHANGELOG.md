@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.15.1
+
+### Patch Changes
+
+- 3d4a031: InstallScreen design updates
+
 ## 0.15.0
 
 ### Minor Changes
