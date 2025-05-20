@@ -22,6 +22,7 @@ import {
   H1,
   H2,
   Checkbox,
+  Small,
 } from "@bigcommerce/big-design";
 import { Page } from "@bigcommerce/big-design-patterns";
 import { FeatureTag, FeatureTagProps } from "../featureTag/FeatureTag";
@@ -303,7 +304,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
         paddingBottom={{ mobile: "xxxLarge", desktop: "none" }}
       >
         <GridItem>
-          <Grid gridColumns={"102px 1fr"} gridColumnGap={theme.spacing.large}>
+          <Grid gridColumns={"102px 1fr"} gridColumnGap={theme.spacing.large} style={{ alignItems: 'flex-end' }}>
             {/* Back Button */}
             {showBackButton && (
               <GridItem gridColumnStart={"1"} gridColumnEnd={"3"}>
@@ -328,11 +329,11 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
               </Box>
             </GridItem>
             <GridItem>
-              <H1 marginBottom={"small"}>{app.name}</H1>
+              <H1 marginBottom={"xSmall"}>{app.name}</H1>
               <Link href={app.developer.url} target="_blank">
                 {app.developer.name}
               </Link>{" "}
-              | {app.summary}
+              <Small as='span'>| {app.summary}</Small>
             </GridItem>
             {/* App features */}
             <GridItem gridColumnStart={"1"} gridColumnEnd={"3"}>
@@ -356,7 +357,7 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
             {app.screenshots && app.screenshots.length > 0 ? (
               <FlexItem>
                 <Box>
-                  <HR />
+                  <HR marginTop='large' marginBottom='large' />
                 </Box>
                 <Box>
                   <EmblaCarousel
