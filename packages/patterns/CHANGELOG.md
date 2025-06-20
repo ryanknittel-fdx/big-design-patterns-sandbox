@@ -1,5 +1,11 @@
 # bigcommerce-design-patterns
 
+## 0.15.2
+
+### Patch Changes
+
+- 77fa876: Added support for showing a Lozenge in the InstallScreen App name via 2 new props: status & statusText
+
 ## 0.15.1
 
 ### Patch Changes
