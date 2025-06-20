@@ -178,6 +178,8 @@ const InstallScreenChannel: FunctionComponent = () => {
   // Configuration object for the app details
   const app = {
     name: "Catalyst",
+    status: "beta",
+    statusText: "Beta",
     termsOfServiceURL: "https://www.bigcommerce.com/legal/terms/",
     privacyPolicyURL: "https://www.bigcommerce.com/legal/privacy/",
     logoURL: "./assets/images/icons/bigc-inverted-black.svg",
@@ -217,7 +219,7 @@ const InstallScreenChannel: FunctionComponent = () => {
       <p><a href="https://github.com/bigcommerce/big-design-patterns-sandbox/blob/main/packages/examples-site/src/pages/InstallScreenPage/ChannelExample.tsx" target="_blank">View source code of this pattern</a></p>
       `,
     scopesDenied: [],
-  };
+  } satisfies React.ComponentProps<typeof InstallScreen>["app"];
 
   // Copy texts used in the InstallScreen component
   const copy = {
@@ -251,7 +253,7 @@ const InstallScreenChannel: FunctionComponent = () => {
     partnerTier: "Elite",
     scopesAllowed: ["read_products", "write_orders"],
     scopesDenied: ["write_customers"],
-  };
+  } satisfies React.ComponentProps<typeof InstallScreen>["copy"];
 
   // State to track form data changes
   const [formData, setFormData] = useState<FormDataType>();

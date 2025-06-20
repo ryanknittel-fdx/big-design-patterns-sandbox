@@ -23,6 +23,7 @@ import {
   H2,
   Checkbox,
   Small,
+  Lozenge
 } from "@bigcommerce/big-design";
 import { Page } from "@bigcommerce/big-design-patterns";
 import { FeatureTag, FeatureTagProps } from "../featureTag/FeatureTag";
@@ -86,6 +87,8 @@ export interface InstallationCopy {
 export interface AppType {
   logoURL: string;
   name: string;
+  status?:  React.ComponentProps<typeof Lozenge>["variant"];
+  statusText?: string;
   developer: DeveloperType;
   description?: string;
   summary: string;
@@ -329,7 +332,20 @@ export const InstallScreen: FunctionComponent<InstallScreenProps> = ({
               </Box>
             </GridItem>
             <GridItem>
-              <H1 marginBottom={"xSmall"}>{app.name}</H1>
+              <H1 marginBottom={"xSmall"}>
+                <Flex
+                  flexDirection={{ mobile: "row" }}
+                  flexGap={theme.spacing.xSmall}
+                  flexWrap="wrap"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                >
+                  <span>{app.name}</span>
+                  {app.status && app.statusText && (
+                    <Lozenge label={app.statusText} variant={app.status} />
+                  )}
+                </Flex>
+              </H1>
               <Link href={app.developer.url} target="_blank">
                 {app.developer.name}
               </Link>{" "}
